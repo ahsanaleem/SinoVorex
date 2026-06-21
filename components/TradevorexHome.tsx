@@ -393,6 +393,154 @@ function NetworkMap() {
   );
 }
 
+/* ── Sino Vorex Logo Mark ──────────────────────────────────── */
+function LogoMark({ size = 40, pulse = false }: { size?: number; pulse?: boolean }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
+      {/* ambient glow */}
+      <circle cx="32" cy="32" r="30" fill="rgba(255,107,43,0.06)" />
+      {/* outer thin ring */}
+      <circle cx="32" cy="32" r="27" stroke="rgba(255,255,255,0.07)" strokeWidth="0.8" />
+      {/* hexagonal trade-route frame */}
+      <polygon
+        points="32,5 54.5,18.5 54.5,45.5 32,59 9.5,45.5 9.5,18.5"
+        fill="none" stroke="rgba(255,107,43,0.22)" strokeWidth="0.7"
+      />
+      {/* orbit ring */}
+      <circle cx="32" cy="32" r="18" fill="none" stroke="rgba(255,107,43,0.28)" strokeWidth="0.7" strokeDasharray="5 2.5" />
+      {/* vortex arm 1 — top, brightest */}
+      <path d="M32,32 C32,24 39,16 32,6" stroke="#FF6B2B" strokeWidth="2.2" strokeLinecap="round" />
+      {/* vortex arm 2 — bottom-right */}
+      <path d="M32,32 C40,33 49,42 55,46" stroke="#FF6B2B" strokeWidth="1.5" strokeLinecap="round" opacity="0.65" />
+      {/* vortex arm 3 — bottom-left */}
+      <path d="M32,32 C24,41 15,43 9,46" stroke="#FF6B2B" strokeWidth="1.0" strokeLinecap="round" opacity="0.38" />
+      {/* orbital trade nodes */}
+      <circle cx="32" cy="6"  r="2.5" fill="white"                  opacity="0.9" />
+      <circle cx="53" cy="45" r="1.8" fill="#FF6B2B"                 opacity="0.8" />
+      <circle cx="11" cy="45" r="1.8" fill="rgba(255,107,43,0.5)" />
+      {/* center HQ */}
+      <circle cx="32" cy="32" r="6"   fill="#FF6B2B" />
+      <circle cx="32" cy="32" r="3.2" fill="rgba(255,220,190,0.45)" />
+      <circle cx="32" cy="32" r="1.4" fill="rgba(255,245,230,0.8)" />
+      {/* pulsing ring — loader only */}
+      {pulse && (
+        <circle cx="32" cy="32" r="8" fill="none" stroke="rgba(255,107,43,0.55)" strokeWidth="0.8">
+          <animate attributeName="r"       values="8;18;8"   dur="2.2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.7;0;0.7" dur="2.2s" repeatCount="indefinite" />
+        </circle>
+      )}
+    </svg>
+  );
+}
+
+/* ── Page Loader ───────────────────────────────────────────── */
+function PageLoader({ onDone }: { onDone: () => void }) {
+  const [phase, setPhase] = useState<"mount" | "visible" | "exit">("mount");
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("visible"), 60);
+    const t2 = setTimeout(() => setPhase("exit"), 2200);
+    const t3 = setTimeout(() => onDoneRef.current(), 2900);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const vis  = phase === "visible";
+  const exit = phase === "exit";
+
+  const corner = (top: boolean, right: boolean): React.CSSProperties => ({
+    position: "absolute",
+    top:    top    ? 0 : undefined,
+    bottom: !top   ? 0 : undefined,
+    left:   !right ? 0 : undefined,
+    right:  right  ? 0 : undefined,
+    width: 40, height: 40,
+    borderTop:    top    ? "1px solid rgba(255,107,43,0.35)" : undefined,
+    borderBottom: !top   ? "1px solid rgba(255,107,43,0.35)" : undefined,
+    borderLeft:   !right ? "1px solid rgba(255,107,43,0.35)" : undefined,
+    borderRight:  right  ? "1px solid rgba(255,107,43,0.35)" : undefined,
+    opacity: vis ? 1 : 0,
+    transition: "opacity 0.4s ease",
+  });
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0, background: "#050914",
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      zIndex: 999999,
+      opacity: exit ? 0 : 1,
+      transform: exit ? "scale(1.04)" : "scale(1)",
+      transition: "opacity 0.7s ease, transform 0.7s ease",
+      pointerEvents: exit ? "none" : "all",
+    }}>
+
+      {/* radial ambient */}
+      <div style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(255,107,43,0.07) 0%, transparent 70%)",
+      }} />
+
+      {/* Corner accent lines */}
+      <div style={corner(true,  false)} />
+      <div style={corner(true,  true)}  />
+      <div style={corner(false, false)} />
+      <div style={corner(false, true)}  />
+
+      {/* Logo mark */}
+      <div style={{
+        opacity: vis ? 1 : 0,
+        transform: vis ? "scale(1) translateY(0)" : "scale(0.75) translateY(20px)",
+        transition: "opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.34,1.56,0.64,1)",
+        marginBottom: 26,
+      }}>
+        <LogoMark size={108} pulse />
+      </div>
+
+      {/* Brand wordmark */}
+      <div style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: 40, fontWeight: 900, letterSpacing: "0.2em", textTransform: "uppercase", lineHeight: 1,
+        opacity: vis ? 1 : 0,
+        transform: vis ? "translateY(0)" : "translateY(18px)",
+        transition: "opacity 0.5s ease 0.22s, transform 0.5s ease 0.22s",
+        marginBottom: 10,
+      }}>
+        SINO<span style={{ color: "#FF6B2B" }}>VOREX</span>
+      </div>
+
+      {/* Tagline */}
+      <div style={{
+        fontSize: 10, fontWeight: 600, letterSpacing: "0.35em", textTransform: "uppercase",
+        color: "rgba(245,245,245,0.3)",
+        opacity: vis ? 1 : 0,
+        transform: vis ? "translateY(0)" : "translateY(10px)",
+        transition: "opacity 0.5s ease 0.42s, transform 0.5s ease 0.42s",
+      }}>
+        Suzhou · China · Global Trade
+      </div>
+
+      {/* Bottom progress bar */}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0, height: 2,
+        background: "rgba(255,255,255,0.04)", overflow: "hidden",
+      }}>
+        <div style={{
+          height: "100%",
+          background: "linear-gradient(90deg, transparent, #FF6B2B, rgba(255,107,43,0.4))",
+          width: exit ? "100%" : vis ? "82%" : "0%",
+          transition: exit
+            ? "width 0.5s ease"
+            : vis
+            ? "width 2s cubic-bezier(0.4,0,0.2,1)"
+            : "none",
+        }} />
+      </div>
+    </div>
+  );
+}
+
 /* ── Contact Modal ─────────────────────────────────────────── */
 function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
@@ -432,14 +580,14 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
   };
 
   const inputStyle: React.CSSProperties = {
-    width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,107,43,0.2)",
-    borderRadius: 8, padding: "14px 16px", color: "#F5F5F5",
-    fontSize: 14, fontFamily: "inherit", outline: "none",
+    width: "100%", background: "#F9F8F5", border: "1px solid rgba(17,17,32,0.12)",
+    borderRadius: 8, padding: "14px 16px", color: "#111120",
+    fontSize: 15, fontFamily: "inherit", outline: "none",
     transition: "border-color 0.2s",
   };
   const labelStyle: React.CSSProperties = {
-    fontSize: 10, fontWeight: 700, letterSpacing: "0.22em",
-    textTransform: "uppercase", color: "rgba(245,245,245,0.4)", marginBottom: 8, display: "block",
+    fontSize: 12, fontWeight: 700, letterSpacing: "0.18em",
+    textTransform: "uppercase", color: "rgba(17,17,32,0.45)", marginBottom: 8, display: "block",
   };
 
   return (
@@ -453,16 +601,16 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
       <div style={{
         position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
         zIndex: 9001, width: "min(520px, 94vw)",
-        background: "rgba(5,9,20,0.98)", border: "1px solid rgba(255,107,43,0.3)",
+        background: "#FFFFFF", border: "1px solid rgba(17,17,32,0.08)",
         borderRadius: 20, padding: "44px 40px 40px",
-        boxShadow: "0 40px 100px rgba(0,0,0,0.7), 0 0 40px rgba(255,107,43,0.08)",
+        boxShadow: "0 24px 80px rgba(0,0,0,0.14), 0 0 0 1px rgba(17,17,32,0.05)",
       }}>
         {/* Close */}
         <button
           onClick={onClose}
-          style={{ position: "absolute", top: 18, right: 20, background: "none", border: "none", color: "rgba(245,245,245,0.4)", fontSize: 22, cursor: "pointer", lineHeight: 1, fontFamily: "inherit", transition: "color 0.2s" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F5F5")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,245,245,0.4)")}
+          style={{ position: "absolute", top: 18, right: 20, background: "none", border: "none", color: "rgba(17,17,32,0.3)", fontSize: 22, cursor: "pointer", lineHeight: 1, fontFamily: "inherit", transition: "color 0.2s" }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#111120")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(17,17,32,0.3)")}
         >×</button>
 
         {/* Orange top accent */}
@@ -471,9 +619,9 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
         {!sent ? (
           <>
             <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 10 }}>// Get In Touch</div>
-            <h2 style={{ fontSize: "clamp(22px, 3vw, 30px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.01em", margin: "0 0 28px", lineHeight: 1.1 }}>
+            <h2 style={{ fontSize: "clamp(22px, 3vw, 30px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.01em", margin: "0 0 28px", lineHeight: 1.1, color: "#111120" }}>
               Book a Free<br />
-              <span style={{ background: "linear-gradient(135deg, #FF6B2B, #FFB347)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Consultation</span>
+              <span style={{ background: "linear-gradient(135deg, #FF6B2B, #e8501a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Consultation</span>
             </h2>
 
             <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -543,7 +691,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
                 {sending ? "Sending…" : "Send Message →"}
               </button>
 
-              <p style={{ fontSize: 11, color: "rgba(245,245,245,0.25)", textAlign: "center", margin: 0, letterSpacing: "0.04em" }}>
+              <p style={{ fontSize: 13, color: "rgba(17,17,32,0.32)", textAlign: "center", margin: 0, letterSpacing: "0.03em" }}>
                 We typically respond within 24 hours.
               </p>
             </form>
@@ -552,8 +700,8 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
           <div style={{ textAlign: "center", padding: "24px 0" }}>
             <div style={{ fontSize: 48, marginBottom: 20 }}>✓</div>
             <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 12 }}>Message Sent</div>
-            <h3 style={{ fontSize: 24, fontWeight: 900, textTransform: "uppercase", margin: "0 0 16px" }}>Thank You, {form.name || "there"}!</h3>
-            <p style={{ fontSize: 14, color: "rgba(245,245,245,0.5)", lineHeight: 1.7, maxWidth: 320, margin: "0 auto 32px" }}>
+            <h3 style={{ fontSize: 24, fontWeight: 900, textTransform: "uppercase", margin: "0 0 16px", color: "#111120" }}>Thank You, {form.name || "there"}!</h3>
+            <p style={{ fontSize: 14, color: "rgba(17,17,32,0.5)", lineHeight: 1.7, maxWidth: 320, margin: "0 auto 32px" }}>
               We&apos;ve received your enquiry and will be in touch within 24 hours.
             </p>
             <button
@@ -571,6 +719,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
 
 /* ── Main Component ────────────────────────────────────────── */
 export default function TradevorexHome() {
+  const [loaded, setLoaded]         = useState(false);
   const [scrolled, setScrolled]     = useState(false);
   const [visibleStats, setVisibleStats] = useState(false);
   const [modalOpen, setModalOpen]   = useState(false);
@@ -619,12 +768,13 @@ export default function TradevorexHome() {
 
   return (
     <>
+      {!loaded && <PageLoader onDone={() => setLoaded(true)} />}
       <CustomCursor />
       <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
       <style suppressHydrationWarning>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { background: #050914; }
+        body { background: #F9F8F5; }
 
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(28px); }
@@ -646,22 +796,23 @@ export default function TradevorexHome() {
           100% { background-position: 0% 50%; }
         }
         @keyframes borderPulse {
-          0%,100% { opacity: 0.4; }
+          0%,100% { opacity: 0.5; }
           50%      { opacity: 1; }
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .nav-link:hover { color: #FF6B2B !important; }
-        .cta-btn:hover  { background: rgba(255,107,43,0.18) !important; color: #FF6B2B !important; }
+        .cta-btn:hover  { background: rgba(255,107,43,0.1) !important; color: #FF6B2B !important; border-color: #FF6B2B !important; }
 
         .service-card {
           position: relative;
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,107,43,0.1);
+          background: #FFFFFF;
+          border: 1px solid rgba(17,17,32,0.08);
           border-radius: 16px;
           padding: 36px 32px 32px;
           overflow: hidden;
-          transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+          transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
           cursor: default;
         }
         .service-card::before {
@@ -669,25 +820,24 @@ export default function TradevorexHome() {
           position: absolute;
           inset: 0;
           border-radius: 16px;
-          background: linear-gradient(135deg, rgba(255,107,43,0.08) 0%, transparent 60%);
+          background: linear-gradient(135deg, rgba(255,107,43,0.06) 0%, transparent 55%);
           opacity: 0;
           transition: opacity 0.35s ease;
         }
         .service-card:hover {
-          transform: translateY(-6px);
-          border-color: rgba(255,107,43,0.45);
-          background: rgba(255,107,43,0.04);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(255,107,43,0.08);
+          transform: translateY(-5px);
+          border-color: rgba(255,107,43,0.4);
+          box-shadow: 0 16px 48px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,107,43,0.15);
         }
         .service-card:hover::before { opacity: 1; }
-        .service-card:hover .svc-num { color: rgba(255,107,43,0.25); }
+        .service-card:hover .svc-num { color: rgba(255,107,43,0.12); }
         .service-card:hover .svc-bar { transform: scaleX(1); }
         .service-card:hover .svc-detail { opacity: 1; transform: translateY(0); }
 
         .svc-num {
           position: absolute; top: 20px; right: 24px;
           font-size: 64px; font-weight: 900;
-          color: rgba(255,255,255,0.04);
+          color: rgba(17,17,32,0.04);
           letter-spacing: -0.04em;
           transition: color 0.35s ease;
           line-height: 1;
@@ -703,7 +853,7 @@ export default function TradevorexHome() {
           border-radius: 16px 16px 0 0;
         }
         .svc-detail {
-          font-size: 10px; font-weight: 600;
+          font-size: 12px; font-weight: 600;
           letter-spacing: 0.2em; text-transform: uppercase;
           color: #FF6B2B;
           margin-top: 20px;
@@ -713,26 +863,26 @@ export default function TradevorexHome() {
         }
 
         .btn-primary {
-          background: #FF6B2B; color: #050914;
+          background: #FF6B2B; color: #FFFFFF;
           border: none; padding: 16px 40px;
-          font-size: 13px; font-weight: 700;
+          font-size: 14px; font-weight: 700;
           letter-spacing: 0.15em; text-transform: uppercase;
           cursor: pointer; font-family: inherit;
           clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
           transition: background 0.2s, transform 0.2s;
         }
-        .btn-primary:hover { background: #ff8a55; transform: translateY(-2px); }
+        .btn-primary:hover { background: #e85a1e; transform: translateY(-2px); }
 
         .btn-outline {
-          background: transparent; color: rgba(245,245,245,0.8);
-          border: 1px solid rgba(245,245,245,0.2); padding: 16px 40px;
-          font-size: 13px; font-weight: 600;
+          background: transparent; color: rgba(17,17,32,0.75);
+          border: 1.5px solid rgba(17,17,32,0.2); padding: 16px 40px;
+          font-size: 14px; font-weight: 600;
           letter-spacing: 0.15em; text-transform: uppercase;
           cursor: pointer; font-family: inherit;
           border-radius: 4px;
           transition: border-color 0.2s, color 0.2s, transform 0.2s;
         }
-        .btn-outline:hover { border-color: rgba(255,107,43,0.5); color: #FF6B2B; transform: translateY(-2px); }
+        .btn-outline:hover { border-color: #FF6B2B; color: #FF6B2B; transform: translateY(-2px); }
 
         .stat-item { transition: transform 0.3s ease; }
         .stat-item:hover { transform: scale(1.04); }
@@ -740,7 +890,7 @@ export default function TradevorexHome() {
         .why-item {
           display: flex; gap: 18px; align-items: flex-start;
           padding: 20px 0;
-          border-bottom: 1px solid rgba(255,107,43,0.07);
+          border-bottom: 1px solid rgba(17,17,32,0.06);
           transition: background 0.2s;
         }
         .why-item:last-child { border-bottom: none; }
@@ -757,75 +907,80 @@ export default function TradevorexHome() {
         }
       `}</style>
 
-      <div style={{ fontFamily: "'Barlow Condensed', 'Barlow', sans-serif", background: "#050914", color: "#F5F5F5", minHeight: "100vh", overflowX: "hidden" }}>
+      <div style={{ fontFamily: "'Barlow Condensed', 'Barlow', sans-serif", background: "#F9F8F5", color: "#111120", minHeight: "100vh", overflowX: "hidden" }}>
 
         {/* ── NAV ── */}
         <nav style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "0 5vw", height: 66,
-          background: scrolled ? "rgba(5,9,20,0.92)" : "transparent",
-          backdropFilter: scrolled ? "blur(16px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(255,107,43,0.12)" : "none",
+          background: scrolled ? "rgba(255,255,255,0.95)" : "rgba(249,248,245,0.7)",
+          backdropFilter: "blur(16px)",
+          borderBottom: "1px solid rgba(17,17,32,0.07)",
+          boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.06)" : "none",
           transition: "all 0.4s ease",
         }}>
-          <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase" }}>
-            TRADE<span style={{ color: "#FF6B2B" }}>VOREX</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+            <LogoMark size={30} />
+            <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", lineHeight: 1, color: "#111120" }}>
+              SINO<span style={{ color: "#FF6B2B" }}>VOREX</span>
+            </span>
           </div>
           <ul className="nav-links" style={{ display: "flex", gap: 40, listStyle: "none", margin: 0, padding: 0 }}>
             {NAV_LINKS.map((l) => (
               <li key={l}>
-                <a className="nav-link" style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(245,245,245,0.6)", cursor: "pointer", transition: "color 0.2s", textDecoration: "none" }}
+                <a className="nav-link" style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(17,17,32,0.55)", cursor: "pointer", transition: "color 0.2s", textDecoration: "none" }}
                   href={`#${l.toLowerCase().replace(/\s+/g, "-")}`}>{l}</a>
               </li>
             ))}
           </ul>
           <button className="cta-btn" onClick={() => setModalOpen(true)} style={{
-            background: "transparent", border: "1px solid rgba(255,107,43,0.5)",
-            color: "rgba(245,245,245,0.85)", padding: "9px 22px",
-            fontSize: 11, fontWeight: 700, letterSpacing: "0.18em",
+            background: "transparent", border: "1.5px solid rgba(255,107,43,0.6)",
+            color: "#FF6B2B", padding: "9px 22px",
+            fontSize: 12, fontWeight: 700, letterSpacing: "0.15em",
             textTransform: "uppercase", cursor: "pointer", fontFamily: "inherit",
             borderRadius: 4, transition: "all 0.2s",
           }}>Get Started</button>
         </nav>
 
         {/* ── HERO ── */}
-        <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", padding: "120px 5vw 80px", textAlign: "center", overflow: "hidden" }}>
+        <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", padding: "120px 5vw 80px", textAlign: "center", overflow: "hidden", background: "#F9F8F5" }}>
           {/* Blob gradients */}
           <div style={{ position: "absolute", inset: 0, overflow: "hidden", zIndex: 0 }}>
-            <div style={{ position: "absolute", width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,107,43,0.12) 0%, transparent 70%)", top: "10%", left: "20%", animation: "blob1 14s ease-in-out infinite" }} />
-            <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,107,43,0.07) 0%, transparent 70%)", bottom: "15%", right: "15%", animation: "blob2 18s ease-in-out infinite" }} />
+            <div style={{ position: "absolute", width: 700, height: 700, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,107,43,0.09) 0%, transparent 65%)", top: "5%", left: "15%", animation: "blob1 14s ease-in-out infinite" }} />
+            <div style={{ position: "absolute", width: 550, height: 550, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,107,43,0.06) 0%, transparent 65%)", bottom: "10%", right: "10%", animation: "blob2 18s ease-in-out infinite" }} />
           </div>
 
-          {/* VortexCanvas */}
-          <div style={{ position: "absolute", inset: 0, zIndex: 1 }}>
+          {/* VortexCanvas — light mode: subtle opacity */}
+          <div style={{ position: "absolute", inset: 0, zIndex: 1, opacity: 0.35 }}>
             <VortexCanvas />
           </div>
 
           {/* Dot grid overlay */}
           <div style={{
             position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none",
-            backgroundImage: "radial-gradient(circle, rgba(255,107,43,0.15) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, rgba(255,107,43,0.18) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
-            maskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%)",
-            WebkitMaskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%)",
+            maskImage: "radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)",
+            opacity: 0.6,
           }} />
 
           <div style={{ position: "relative", zIndex: 3, maxWidth: 960 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#FF6B2B", border: "1px solid rgba(255,107,43,0.35)", padding: "7px 20px", marginBottom: 36, borderRadius: 40, background: "rgba(255,107,43,0.06)", backdropFilter: "blur(8px)", animation: "fadeUp 0.8s ease forwards" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#FF6B2B", border: "1px solid rgba(255,107,43,0.3)", padding: "7px 20px", marginBottom: 36, borderRadius: 40, background: "rgba(255,107,43,0.07)", animation: "fadeUp 0.8s ease forwards" }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#FF6B2B", display: "inline-block", animation: "borderPulse 2s ease infinite" }} />
               Suzhou · China · Global Trade Consulting
             </div>
 
-            <h1 style={{ fontSize: "clamp(48px, 10vw, 104px)", fontWeight: 900, lineHeight: 0.92, letterSpacing: "-0.02em", textTransform: "uppercase", margin: "0 0 28px", animation: "fadeUp 0.9s ease 0.1s both" }}>
+            <h1 style={{ fontSize: "clamp(48px, 10vw, 104px)", fontWeight: 900, lineHeight: 0.92, letterSpacing: "-0.02em", textTransform: "uppercase", margin: "0 0 28px", color: "#111120", animation: "fadeUp 0.9s ease 0.1s both" }}>
               The Force Behind
-              <span style={{ display: "block", background: "linear-gradient(135deg, #FF6B2B 0%, #FFB347 50%, #FF6B2B 100%)", backgroundSize: "200% 200%", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", animation: "gradShift 4s ease infinite" }}>
+              <span style={{ display: "block", background: "linear-gradient(135deg, #FF6B2B 0%, #e8501a 50%, #FF6B2B 100%)", backgroundSize: "200% 200%", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", animation: "gradShift 4s ease infinite" }}>
                 Global Trade
               </span>
             </h1>
 
-            <p style={{ fontSize: "clamp(15px, 2.2vw, 19px)", color: "rgba(245,245,245,0.55)", maxWidth: 580, margin: "0 auto 48px", lineHeight: 1.65, letterSpacing: "0.02em", fontWeight: 400, animation: "fadeUp 1s ease 0.2s both" }}>
-              Suzhou Tradevorex connects Chinese enterprises with global markets — and the world with China. Precision consulting. Measurable results.
+            <p style={{ fontSize: "clamp(17px, 2.4vw, 21px)", color: "rgba(17,17,32,0.58)", maxWidth: 580, margin: "0 auto 48px", lineHeight: 1.7, letterSpacing: "0.01em", fontWeight: 400, animation: "fadeUp 1s ease 0.2s both" }}>
+              Sino Vorex connects Chinese enterprises with global markets — and the world with China. Precision consulting. Measurable results.
             </p>
 
             <div className="hero-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", animation: "fadeUp 1s ease 0.3s both" }}>
@@ -836,7 +991,7 @@ export default function TradevorexHome() {
             {/* Floating stat chips */}
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 48, animation: "fadeUp 1s ease 0.45s both" }}>
               {["200+ Clients", "40+ Countries", "12+ Years"].map((t) => (
-                <div key={t} style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(245,245,245,0.45)", border: "1px solid rgba(255,255,255,0.08)", padding: "6px 16px", borderRadius: 40, background: "rgba(255,255,255,0.03)", backdropFilter: "blur(8px)" }}>
+                <div key={t} style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(17,17,32,0.5)", border: "1px solid rgba(17,17,32,0.1)", padding: "6px 16px", borderRadius: 40, background: "rgba(255,255,255,0.7)", backdropFilter: "blur(8px)" }}>
                   {t}
                 </div>
               ))}
@@ -845,21 +1000,21 @@ export default function TradevorexHome() {
 
           {/* Scroll indicator */}
           <div style={{ position: "absolute", bottom: 40, left: "50%", transform: "translateX(-50%)", zIndex: 4, display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 1, height: 52, background: "linear-gradient(180deg, rgba(255,107,43,0.8), transparent)" }} />
-            <span style={{ fontSize: 9, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(245,245,245,0.28)" }}>Scroll</span>
+            <div style={{ width: 1, height: 52, background: "linear-gradient(180deg, #FF6B2B, transparent)" }} />
+            <span style={{ fontSize: 9, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(17,17,32,0.35)" }}>Scroll</span>
           </div>
         </section>
 
         {/* ── STATS ── */}
-        <div ref={statsRef} style={{ background: "rgba(255,107,43,0.04)", borderTop: "1px solid rgba(255,107,43,0.1)", borderBottom: "1px solid rgba(255,107,43,0.1)" }}>
+        <div ref={statsRef} style={{ background: "#FFFFFF", borderTop: "1px solid rgba(17,17,32,0.07)", borderBottom: "1px solid rgba(17,17,32,0.07)" }}>
           <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: "100%" }}>
             {STATS.map((s, i) => (
-              <div key={i} className="stat-item" style={{ padding: "52px 32px", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,107,43,0.08)" : "none", position: "relative", overflow: "hidden" }}>
+              <div key={i} className="stat-item" style={{ padding: "52px 32px", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(17,17,32,0.06)" : "none", position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: visibleStats ? "60%" : "0%", height: 2, background: "linear-gradient(90deg, transparent, #FF6B2B, transparent)", transition: `width 1.2s ease ${i * 0.15}s` }} />
                 <div style={{ fontSize: "clamp(38px, 5vw, 64px)", fontWeight: 900, color: "#FF6B2B", letterSpacing: "-0.03em", lineHeight: 1, marginBottom: 10 }}>
                   <AnimatedNumber target={s.value} suffix={s.suffix} active={visibleStats} />
                 </div>
-                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(245,245,245,0.4)" }}>{s.label}</div>
+                <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(17,17,32,0.45)" }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -868,13 +1023,13 @@ export default function TradevorexHome() {
         {/* ── SERVICES ── */}
         <div id="services" style={{ padding: "120px 5vw", maxWidth: 1280, margin: "0 auto" }}>
           <div ref={revealRef(0) as any} style={revealStyle(0)}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 14 }}>// What We Do</div>
+            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 14 }}>// What We Do</div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 900, letterSpacing: "-0.01em", textTransform: "uppercase", lineHeight: 1.05, margin: 0 }}>
+              <h2 style={{ fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 900, letterSpacing: "-0.01em", textTransform: "uppercase", lineHeight: 1.05, margin: 0, color: "#111120" }}>
                 Trade Consulting<br />
-                <span style={{ background: "linear-gradient(135deg, #FF6B2B, #FFB347)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>At Every Level</span>
+                <span style={{ background: "linear-gradient(135deg, #FF6B2B, #e8501a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>At Every Level</span>
               </h2>
-              <p style={{ color: "rgba(245,245,245,0.45)", fontSize: 15, lineHeight: 1.7, maxWidth: 440, fontWeight: 400 }}>
+              <p style={{ color: "rgba(17,17,32,0.58)", fontSize: 17, lineHeight: 1.7, maxWidth: 480, fontWeight: 400 }}>
                 From market entry to full-scale international expansion — we provide the intelligence and execution your trade strategy demands.
               </p>
             </div>
@@ -885,51 +1040,51 @@ export default function TradevorexHome() {
               <div key={i} className="service-card" ref={revealRef(10 + i) as any} style={{ ...revealStyle(10 + i, i * 80) }}>
                 <div className="svc-bar" />
                 <div className="svc-num">{s.num}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 16 }}>Service {s.num}</div>
-                <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: "0.03em", textTransform: "uppercase", marginBottom: 14, lineHeight: 1.2 }}>{s.title}</div>
-                <div style={{ fontSize: 14, color: "rgba(245,245,245,0.5)", lineHeight: 1.75, fontWeight: 400 }}>{s.desc}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 16 }}>Service {s.num}</div>
+                <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: "0.03em", textTransform: "uppercase", marginBottom: 14, lineHeight: 1.2, color: "#111120" }}>{s.title}</div>
+                <div style={{ fontSize: 16, color: "rgba(17,17,32,0.58)", lineHeight: 1.75, fontWeight: 400 }}>{s.desc}</div>
                 <div className="svc-detail">{s.detail}</div>
               </div>
             ))}
           </div>
         </div>
 
-        <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(255,107,43,0.25), transparent)", margin: "0 5vw" }} />
+        <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(17,17,32,0.1), transparent)", margin: "0 5vw" }} />
 
         {/* ── ABOUT ── */}
-        <div id="about" style={{ padding: "120px 5vw", maxWidth: 1280, margin: "0 auto" }}>
+        <div id="about" style={{ padding: "120px 5vw", maxWidth: 1280, margin: "0 auto", background: "#FFFFFF" }}>
           <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
             <div ref={revealRef(20) as any} style={revealStyle(20)}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 14 }}>// Who We Are</div>
-              <h2 style={{ fontSize: "clamp(30px, 4.5vw, 56px)", fontWeight: 900, letterSpacing: "-0.01em", textTransform: "uppercase", margin: "0 0 28px", lineHeight: 1.05 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 14 }}>// Who We Are</div>
+              <h2 style={{ fontSize: "clamp(30px, 4.5vw, 56px)", fontWeight: 900, letterSpacing: "-0.01em", textTransform: "uppercase", margin: "0 0 28px", lineHeight: 1.05, color: "#111120" }}>
                 Rooted in Suzhou.<br />
-                <span style={{ background: "linear-gradient(135deg, #FF6B2B, #FFB347)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Reaching the World.</span>
+                <span style={{ background: "linear-gradient(135deg, #FF6B2B, #e8501a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Reaching the World.</span>
               </h2>
-              <p style={{ fontSize: 16, color: "rgba(245,245,245,0.55)", lineHeight: 1.8, marginBottom: 20, fontWeight: 400 }}>
-                Suzhou Tradevorex is a specialist trade consulting firm based in Suzhou, Jiangsu — the heart of China's manufacturing and export economy.
+              <p style={{ fontSize: 18, color: "rgba(17,17,32,0.62)", lineHeight: 1.8, marginBottom: 20, fontWeight: 400 }}>
+                Sino Vorex is a specialist trade consulting firm based in Suzhou, Jiangsu — the heart of China&apos;s manufacturing and export economy.
               </p>
-              <p style={{ fontSize: 14, color: "rgba(245,245,245,0.38)", lineHeight: 1.85, marginBottom: 36, fontWeight: 400 }}>
+              <p style={{ fontSize: 16, color: "rgba(17,17,32,0.52)", lineHeight: 1.85, marginBottom: 36, fontWeight: 400 }}>
                 We serve both Chinese enterprises looking to expand overseas and foreign businesses seeking to establish or grow in China. Our team combines deep local expertise with international business acumen to deliver results that matter.
               </p>
               <div>
                 {["China Trade Law", "Customs & Tariffs", "Suzhou FTZ", "RCEP Strategy", "B2B Sourcing", "Cross-border Payments"].map((t) => (
-                  <span key={t} style={{ display: "inline-block", padding: "5px 14px", fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(255,107,43,0.08)", color: "#FF6B2B", border: "1px solid rgba(255,107,43,0.2)", marginRight: 8, marginBottom: 8, borderRadius: 4 }}>{t}</span>
+                  <span key={t} style={{ display: "inline-block", padding: "5px 14px", fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", background: "rgba(255,107,43,0.08)", color: "#FF6B2B", border: "1px solid rgba(255,107,43,0.22)", marginRight: 8, marginBottom: 8, borderRadius: 4 }}>{t}</span>
                 ))}
               </div>
             </div>
 
             <div ref={revealRef(21) as any} style={{ ...revealStyle(21, 120) }}>
-              <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,107,43,0.12)", borderRadius: 20, padding: "36px 40px", position: "relative", overflow: "hidden", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)" }}>
-                <div style={{ position: "absolute", top: 0, right: 0, width: 200, height: 200, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,107,43,0.07), transparent 70%)", pointerEvents: "none" }} />
-                <div style={{ fontSize: 11, color: "rgba(245,245,245,0.35)", letterSpacing: "0.18em", marginBottom: 28, textTransform: "uppercase", fontWeight: 700 }}>Why Tradevorex</div>
+              <div style={{ background: "#F9F8F5", border: "1px solid rgba(17,17,32,0.07)", borderRadius: 20, padding: "36px 40px", position: "relative", overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.05)" }}>
+                <div style={{ position: "absolute", top: 0, right: 0, width: 200, height: 200, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,107,43,0.06), transparent 70%)", pointerEvents: "none" }} />
+                <div style={{ fontSize: 13, color: "rgba(17,17,32,0.4)", letterSpacing: "0.15em", marginBottom: 28, textTransform: "uppercase", fontWeight: 700 }}>Why Sino Vorex</div>
                 {WHY_US.map(({ title, desc }, i) => (
                   <div key={i} className="why-item">
-                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(255,107,43,0.1)", border: "1px solid rgba(255,107,43,0.25)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 13, fontWeight: 700, color: "#FF6B2B" }}>
+                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(255,107,43,0.1)", border: "1px solid rgba(255,107,43,0.22)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 13, fontWeight: 700, color: "#FF6B2B" }}>
                       {String(i + 1).padStart(2, "0")}
                     </div>
                     <div>
-                      <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 5 }}>{title}</div>
-                      <div style={{ fontSize: 13, color: "rgba(245,245,245,0.45)", lineHeight: 1.65 }}>{desc}</div>
+                      <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 5, color: "#111120" }}>{title}</div>
+                      <div style={{ fontSize: 15, color: "rgba(17,17,32,0.55)", lineHeight: 1.65 }}>{desc}</div>
                     </div>
                   </div>
                 ))}
@@ -938,18 +1093,18 @@ export default function TradevorexHome() {
           </div>
         </div>
 
-        <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(255,107,43,0.25), transparent)", margin: "0 5vw" }} />
+        <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(17,17,32,0.1), transparent)", margin: "0 5vw" }} />
 
         {/* ── GLOBAL REACH ── */}
         <div id="global-reach" style={{ padding: "120px 5vw", maxWidth: 1280, margin: "0 auto" }}>
           <div ref={revealRef(30) as any} style={{ ...revealStyle(30), marginBottom: 52 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 14 }}>// Global Reach</div>
+            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 14 }}>// Global Reach</div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4.5vw, 56px)", fontWeight: 900, letterSpacing: "-0.01em", textTransform: "uppercase", lineHeight: 1.05, margin: 0 }}>
+              <h2 style={{ fontSize: "clamp(30px, 4.5vw, 56px)", fontWeight: 900, letterSpacing: "-0.01em", textTransform: "uppercase", lineHeight: 1.05, margin: 0, color: "#111120" }}>
                 Connected Across<br />
-                <span style={{ background: "linear-gradient(135deg, #FF6B2B, #FFB347)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Every Major Market</span>
+                <span style={{ background: "linear-gradient(135deg, #FF6B2B, #e8501a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Every Major Market</span>
               </h2>
-              <p style={{ color: "rgba(245,245,245,0.45)", fontSize: 15, lineHeight: 1.7, maxWidth: 400, fontWeight: 400 }}>
+              <p style={{ color: "rgba(17,17,32,0.58)", fontSize: 17, lineHeight: 1.7, maxWidth: 440, fontWeight: 400 }}>
                 Our network spans key trade hubs across Asia, Europe, the Americas and beyond — with Suzhou at the center.
               </p>
             </div>
@@ -957,40 +1112,43 @@ export default function TradevorexHome() {
           <NetworkMap />
         </div>
 
-        <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(255,107,43,0.25), transparent)", margin: "0 5vw" }} />
+        <div style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(17,17,32,0.1), transparent)", margin: "0 5vw" }} />
 
         {/* ── CONTACT CTA ── */}
-        <div id="contact" style={{ padding: "140px 5vw", maxWidth: 1280, margin: "0 auto", textAlign: "center", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "120%", height: "120%", background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,107,43,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div id="contact" style={{ padding: "140px 5vw", maxWidth: 1280, margin: "0 auto", textAlign: "center", position: "relative", overflow: "hidden", background: "#FFFFFF" }}>
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "120%", height: "120%", background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,107,43,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
           <div ref={revealRef(40) as any} style={{ ...revealStyle(40), position: "relative" }}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 20 }}>// Get In Touch</div>
-            <h2 style={{ fontSize: "clamp(36px, 6vw, 80px)", fontWeight: 900, letterSpacing: "-0.02em", textTransform: "uppercase", margin: "0 0 24px", lineHeight: 0.95 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: "#FF6B2B", marginBottom: 20 }}>// Get In Touch</div>
+            <h2 style={{ fontSize: "clamp(36px, 6vw, 80px)", fontWeight: 900, letterSpacing: "-0.02em", textTransform: "uppercase", margin: "0 0 24px", lineHeight: 0.95, color: "#111120" }}>
               Ready to Move<br />
-              <span style={{ background: "linear-gradient(135deg, #FF6B2B, #FFB347)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Your Trade Forward?</span>
+              <span style={{ background: "linear-gradient(135deg, #FF6B2B, #e8501a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Your Trade Forward?</span>
             </h2>
-            <p style={{ color: "rgba(245,245,245,0.45)", fontSize: 16, lineHeight: 1.7, maxWidth: 500, margin: "0 auto 56px", fontWeight: 400 }}>
+            <p style={{ color: "rgba(17,17,32,0.58)", fontSize: 18, lineHeight: 1.7, maxWidth: 540, margin: "0 auto 56px", fontWeight: 400 }}>
               Whether you&apos;re entering China or expanding globally, our team is ready to build your strategy.
             </p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 48 }}>
-              <button className="btn-primary" style={{ padding: "18px 52px", fontSize: 14 }} onClick={() => setModalOpen(true)}>Book a Free Consultation</button>
-              <button className="btn-outline" style={{ padding: "18px 52px", fontSize: 14 }} onClick={() => setModalOpen(true)}>info@tradevorex.com</button>
+              <button className="btn-primary" style={{ padding: "18px 52px", fontSize: 15 }} onClick={() => setModalOpen(true)}>Book a Free Consultation</button>
+              <button className="btn-outline" style={{ padding: "18px 52px", fontSize: 15 }} onClick={() => setModalOpen(true)}>info@sinovorex.com</button>
             </div>
-            <div style={{ fontSize: 12, color: "rgba(245,245,245,0.28)", letterSpacing: "0.1em" }}>
+            <div style={{ fontSize: 14, color: "rgba(17,17,32,0.38)", letterSpacing: "0.08em" }}>
               Suzhou Industrial Park · Jiangsu, China · +86 512 XXXX XXXX
             </div>
           </div>
         </div>
 
         {/* ── FOOTER ── */}
-        <footer style={{ borderTop: "1px solid rgba(255,107,43,0.1)", padding: "48px 5vw", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
-          <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase" }}>
-            TRADE<span style={{ color: "#FF6B2B" }}>VOREX</span>
+        <footer style={{ background: "#111120", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "48px 5vw", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+            <LogoMark size={28} />
+            <span style={{ fontSize: 18, fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase", lineHeight: 1, color: "#F5F5F5" }}>
+              SINO<span style={{ color: "#FF6B2B" }}>VOREX</span>
+            </span>
           </div>
-          <div style={{ fontSize: 12, color: "rgba(245,245,245,0.3)", letterSpacing: "0.05em" }}>
-            苏州智贸通贸易咨询服务有限公司 &nbsp;·&nbsp; Suzhou Tradevorex Consulting Co., Ltd.
+          <div style={{ fontSize: 14, color: "rgba(245,245,245,0.32)", letterSpacing: "0.05em" }}>
+            苏州思诺贸易咨询服务有限公司 &nbsp;·&nbsp; Suzhou Sino Vorex Consulting Co., Ltd.
           </div>
-          <div style={{ fontSize: 12, color: "rgba(245,245,245,0.28)", letterSpacing: "0.05em" }}>
-            © 2026 Tradevorex. All rights reserved.
+          <div style={{ fontSize: 14, color: "rgba(245,245,245,0.28)", letterSpacing: "0.05em" }}>
+            © 2026 Sino Vorex. All rights reserved.
           </div>
         </footer>
       </div>

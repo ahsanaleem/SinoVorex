@@ -10,22 +10,24 @@ export async function POST(req: NextRequest) {
     }
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.hostinger.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
     });
 
     await transporter.sendMail({
-      from: `"Tradevorex Website" <${process.env.GMAIL_USER}>`,
-      to: "ahsanaleem244@gmail.com",
+      from: `"Sino Vorex Website" <${process.env.SMTP_USER}>`,
+      to: "contact@sinovorex.com",
       replyTo: email,
       subject: `New Consultation Request — ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 0;">
           <div style="background: #0A0F1E; padding: 32px 40px; border-bottom: 3px solid #FF6B2B;">
-            <h1 style="color: #FF6B2B; font-size: 22px; margin: 0; letter-spacing: 2px; text-transform: uppercase;">TRADEVOREX</h1>
+            <h1 style="color: #FF6B2B; font-size: 22px; margin: 0; letter-spacing: 2px; text-transform: uppercase;">SINO VOREX</h1>
             <p style="color: rgba(255,255,255,0.5); font-size: 12px; margin: 6px 0 0; letter-spacing: 1px; text-transform: uppercase;">New Consultation Request</p>
           </div>
 
@@ -68,7 +70,7 @@ export async function POST(req: NextRequest) {
 
           <div style="background: #f5f5f5; padding: 20px 40px; text-align: center;">
             <p style="font-size: 12px; color: #aaa; margin: 0;">
-              Sent from the Tradevorex website contact form &nbsp;·&nbsp;
+              Sent from the Sino Vorex website contact form &nbsp;·&nbsp;
               <a href="mailto:${email}" style="color: #FF6B2B; text-decoration: none;">Reply to ${name}</a>
             </p>
           </div>
