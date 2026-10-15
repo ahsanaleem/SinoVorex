@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        ink: "#0E0E16",
+        paper: "#F7F5F0",
+        flame: { DEFAULT: "#FF6B2B", deep: "#E8501A" },
         brand: {
           cyan: "var(--brand-cyan)",
           "cyan-light": "var(--brand-cyan-light)",
@@ -24,8 +27,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "Inter", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "JetBrains Mono", "monospace"],
+        sans: ["var(--font-display)", "Inter", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Inter", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {
         "display-2xl": ["clamp(3rem,8vw,8rem)", { lineHeight: "1", letterSpacing: "-0.04em" }],
@@ -45,7 +50,11 @@ const config: Config = {
         "float-slow": "floatY 6s ease-in-out infinite",
         "float-medium": "floatY 4s ease-in-out infinite",
         "pulse-glow": "pulseGlow 2.5s ease-in-out infinite",
-        marquee: "marquee 30s linear infinite",
+        marquee: "marquee 40s linear infinite",
+        "marquee-reverse": "marquee 40s linear infinite reverse",
+        blob: "blob 16s ease-in-out infinite",
+        "blob-slow": "blob 22s ease-in-out infinite reverse",
+        "scroll-cue": "scrollCue 1.8s cubic-bezier(0.65,0,0.35,1) infinite",
         "spin-slow": "spin 20s linear infinite",
         "dash-offset": "dashOffset 3s linear infinite",
       },
@@ -65,6 +74,16 @@ const config: Config = {
         marquee: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
+        },
+        blob: {
+          "0%, 100%": { transform: "translate(0,0) scale(1)" },
+          "33%": { transform: "translate(6%,-8%) scale(1.1)" },
+          "66%": { transform: "translate(-6%,5%) scale(0.92)" },
+        },
+        scrollCue: {
+          "0%": { transform: "translateY(0)", opacity: "0" },
+          "30%": { opacity: "1" },
+          "100%": { transform: "translateY(18px)", opacity: "0" },
         },
         dashOffset: {
           "0%": { strokeDashoffset: "100" },

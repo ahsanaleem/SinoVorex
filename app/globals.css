@@ -32,35 +32,52 @@ html {
   scroll-behavior: auto; /* Lenis handles this */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Hard-coded fallback so page stays dark before JS/CSS fully hydrates */
-  background-color: #020617;
-  color: #f1f5f9;
+  background-color: #F7F5F0;
+  color: #0E0E16;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), "Inter", system-ui, sans-serif;
+  margin: 0;
+  background: #F7F5F0;
+  color: #0E0E16;
+  font-family: var(--font-display), "Inter", system-ui, sans-serif;
   overflow-x: hidden;
-  cursor: none; /* custom cursor takes over */
 }
 
-@media (hover: none) {
-  body { cursor: auto; }
-}
+/* Custom cursor takes over on fine pointers (class set by CustomCursor) */
+html.has-custom-cursor,
+html.has-custom-cursor * { cursor: none !important; }
+html.has-custom-cursor input,
+html.has-custom-cursor textarea { cursor: text !important; }
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+
+@keyframes sv-spin { to { transform: rotate(360deg); } }
 
 /* ── Scrollbar ────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--brand-navy); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #F7F5F0; }
 ::-webkit-scrollbar-thumb {
-  background: var(--brand-cyan-dim);
-  border-radius: 2px;
+  background: rgba(14, 14, 22, 0.2);
+  border-radius: 8px;
+  border: 2px solid #F7F5F0;
 }
+::-webkit-scrollbar-thumb:hover { background: #FF6B2B; }
 
 /* ── Selection ────────────────────────────────────────────── */
 ::selection {
-  background: var(--brand-cyan-dim);
-  color: var(--brand-cyan);
+  background: #FF6B2B;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
 /* ── Noise Texture Overlay ────────────────────────────────── */
