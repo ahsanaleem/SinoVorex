@@ -60,7 +60,7 @@ export function CTA({ onContact }: { onContact: () => void }) {
           </Reveal>
           <Reveal delay={0.4}>
             <div className="mt-12 font-mono text-[12px] uppercase tracking-[0.2em] text-white/70">
-              {COMPANY.address} · <a href={COMPANY.phoneHref} className="underline-offset-4 hover:underline">{COMPANY.phoneDisplay}</a>
+              Gusu District, Suzhou, China · <a href={COMPANY.phoneHref} className="underline-offset-4 hover:underline">{COMPANY.phoneDisplay}</a>
             </div>
           </Reveal>
         </div>
@@ -101,7 +101,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
           <div>
             <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Contact</div>
             <ul className="space-y-4 text-[15px] text-white/70">
-              <li className="flex gap-3"><MapPin size={18} className="mt-0.5 shrink-0 text-flame" />{COMPANY.address}</li>
+              <li className="flex gap-3"><MapPin size={18} className="mt-0.5 shrink-0 text-flame" /><span>{COMPANY.address}<span className="mt-0.5 block text-white/65">{COMPANY.addressZh}</span></span></li>
               <li><a href={`mailto:${COMPANY.email}`} className="flex gap-3 transition-colors hover:text-white"><Mail size={18} className="mt-0.5 shrink-0 text-flame" />{COMPANY.email}</a></li>
               <li><a href={COMPANY.phoneHref} className="flex gap-3 transition-colors hover:text-white"><Phone size={18} className="mt-0.5 shrink-0 text-flame" />{COMPANY.phoneDisplay}</a></li>
               <li><a href={COMPANY.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex gap-3 transition-colors hover:text-white"><MessageCircle size={18} className="mt-0.5 shrink-0 text-flame" />WhatsApp</a></li>
@@ -112,7 +112,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
 
         <div className="flex flex-col gap-4 py-8 text-[13px] text-white/65 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
-            <div>{COMPANY.legalNameZh} · {COMPANY.legalNameEn}</div>
+            <div>{COMPANY.brand} is a brand of {COMPANY.legalNameZh}</div>
             <div className="flex flex-wrap gap-x-4 gap-y-1">
               {COMPANY.licenceNo && <span>统一社会信用代码 {COMPANY.licenceNo}</span>}
               {COMPANY.icp && <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" className="hover:text-white">{COMPANY.icp}</a>}

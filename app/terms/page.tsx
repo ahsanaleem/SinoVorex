@@ -12,7 +12,7 @@ export default function TermsPage() {
   return (
     <LegalPage title="Terms of Service" updated="16 October 2026">
       <p>
-        These terms apply to your use of this website, operated by {COMPANY.legalNameEn} ({COMPANY.legalNameZh}, &ldquo;Sino Vorex&rdquo;,
+        These terms apply to your use of this website, operated by {COMPANY.legalNameZh} under the brand {COMPANY.brand} (&ldquo;Sino Vorex&rdquo;,
         &ldquo;we&rdquo;). By using the website you agree to them.
       </p>
 

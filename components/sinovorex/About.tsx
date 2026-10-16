@@ -70,13 +70,13 @@ export function About() {
               </div>
               <div className="relative mt-8">
                 <div className="font-display text-[26px] font-medium leading-tight tracking-[-0.03em]">{COMPANY.legalNameZh}</div>
-                <div className="mt-1 text-[15px] text-white/70">{COMPANY.legalNameEn}</div>
+                <div className="mt-1 text-[15px] text-white/70">Operating as {COMPANY.brand}</div>
               </div>
               <dl className="relative mt-6 grid gap-3 border-t border-white/10 pt-5 text-[14px] sm:grid-cols-2">
                 {COMPANY.licenceNo && (
                   <div className="sm:col-span-2"><dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">Unified Social Credit Code</dt><dd className="mt-1 font-mono text-white/90">{COMPANY.licenceNo}</dd></div>
                 )}
-                <div><dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">Office</dt><dd className="mt-1 text-white/90">{COMPANY.address}</dd></div>
+                <div><dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">Registered address</dt><dd className="mt-1 text-white/90">{COMPANY.addressZh}<span className="mt-0.5 block text-[13px] text-white/70">{COMPANY.address}</span></dd></div>
                 <div><dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">Contact</dt><dd className="mt-1 space-y-0.5"><a href={`mailto:${COMPANY.email}`} className="block text-white/90 hover:text-flame">{COMPANY.email}</a><a href={COMPANY.phoneHref} className="block text-white/90 hover:text-flame">{COMPANY.phoneDisplay}</a></dd></div>
               </dl>
             </div>

@@ -5,14 +5,17 @@ import {
 
 /* ── Company & contact details (must match the business licence) ── */
 export const COMPANY = {
-  legalNameZh: "苏州思诺贸易咨询服务有限公司",
-  legalNameEn: "Suzhou Sino Vorex Consulting Co., Ltd.",
+  /** Exactly as on the business licence. "Sino Vorex" is the brand; there is no official English legal name. */
+  legalNameZh: "苏州智贸通贸易咨询服务有限公司",
+  brand: "Sino Vorex",
   email: "business@sinovorex.com",
   phoneDisplay: "+86 137 7050 4359",
   phoneHref: "tel:+8613770504359",
   whatsappHref: "https://wa.me/8613770504359",
   wechatId: "13770504359",
-  address: "Suzhou Industrial Park, Jiangsu, China",
+  /** Registered address, exactly as on the licence, plus an English rendering. */
+  addressZh: "苏州市姑苏区山塘街504号G239",
+  address: "G239, No. 504 Shantang Street, Gusu District, Suzhou, Jiangsu, China",
   /** 统一社会信用代码 — shown in the footer and company details once filled in. */
   licenceNo: "",
   /** ICP 备案号 — only needed if the site is hosted on a mainland-China server. */

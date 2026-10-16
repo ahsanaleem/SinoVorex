@@ -12,13 +12,13 @@ export default function PrivacyPage() {
   return (
     <LegalPage title="Privacy Policy" updated="16 October 2026">
       <p>
-        This policy explains how {COMPANY.legalNameEn} ({COMPANY.legalNameZh}, &ldquo;Sino Vorex&rdquo;, &ldquo;we&rdquo;) handles personal
+        This policy explains how {COMPANY.legalNameZh}, operating under the brand {COMPANY.brand} (&ldquo;Sino Vorex&rdquo;, &ldquo;we&rdquo;), handles personal
         information collected through this website. It is written with the Personal Information Protection Law of the People&apos;s
         Republic of China (PIPL) and, for visitors in the European Union, the General Data Protection Regulation (GDPR) in mind.
       </p>
 
       <h2>Who is responsible</h2>
-      <p>{COMPANY.legalNameEn}, {COMPANY.address}. Contact: <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>.</p>
+      <p>{COMPANY.legalNameZh}, {COMPANY.addressZh} ({COMPANY.address}). Contact: <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>.</p>
 
       <h2>What we collect</h2>
       <ul>

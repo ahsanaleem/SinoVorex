@@ -63,12 +63,12 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
               <li><a href={`mailto:${COMPANY.email}`} className="hover:text-white">{COMPANY.email}</a></li>
               <li><a href={COMPANY.phoneHref} className="hover:text-white">{COMPANY.phoneDisplay}</a></li>
               <li><a href={COMPANY.whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-white">WhatsApp</a> · WeChat: {COMPANY.wechatId}</li>
-              <li>{COMPANY.address}</li>
+              <li>{COMPANY.address}<span className="block text-white/65">{COMPANY.addressZh}</span></li>
             </ul>
           </div>
         </div>
         <div className="mx-auto mt-10 flex max-w-[1280px] flex-col gap-2 border-t border-white/10 pt-6 text-[13px] text-white/65 md:flex-row md:justify-between">
-          <span>{COMPANY.legalNameZh} · {COMPANY.legalNameEn}{COMPANY.licenceNo && ` · 统一社会信用代码 ${COMPANY.licenceNo}`}</span>
+          <span>{COMPANY.brand} is a brand of {COMPANY.legalNameZh}{COMPANY.licenceNo && ` · 统一社会信用代码 ${COMPANY.licenceNo}`}</span>
           <span className="flex flex-wrap gap-4">
             {COMPANY.icp && <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" className="hover:text-white">{COMPANY.icp}</a>}
             <Link href="/privacy" className="hover:text-white">Privacy policy</Link>
