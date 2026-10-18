@@ -181,7 +181,7 @@ export function BrandLogo({ dark = false, className }: { dark?: boolean; classNa
     <img
       src={`/brand/sinovorex-logo-horizontal-on-${dark ? "dark" : "light"}.svg`}
       alt="Sino Vorex — Sourcing & Export"
-      width={435} height={120}
+      width={434} height={120}
       draggable={false}
       className={clsx("block select-none", className)}
     />

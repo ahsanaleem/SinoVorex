@@ -58,7 +58,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
           className="relative"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/sinovorex-logo-stacked-on-dark.svg" alt="Sino Vorex — sourcing and export from China" width={367} height={300} className="h-auto w-[280px] md:w-[380px]" />
+          <img src="/brand/sinovorex-logo-stacked-on-dark.svg" alt="Sino Vorex — sourcing and export from China" width={350} height={300} className="h-auto w-[280px] md:w-[380px]" />
         </motion.div>
       </div>
 
@@ -68,7 +68,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         transition={{ delay: 0.4, duration: 0.4 }}
         className="mt-8 font-mono text-[11px] uppercase tracking-[0.35em] text-white/70"
       >
-        Sourcing &amp; Export · China
+        From factory floor to your port
       </motion.div>
 
       <div className="absolute bottom-10 left-6 right-6 flex items-end justify-between font-mono text-xs text-white/70 md:left-12 md:right-12">
