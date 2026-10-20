@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { COMPANY, PAGE_UPDATED, TEAM, WHY_US } from "@/components/sinovorex/data";
+import { COMPANY, PAGE_UPDATED, TEAM } from "@/components/sinovorex/data";
 import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { Blocks } from "@/components/sinovorex/Blocks";
 import { PageHeader, RelatedLinks } from "@/components/sinovorex/PageParts";
@@ -13,29 +13,34 @@ export const metadata: Metadata = pageMeta({ title: TITLE, description: DESCRIPT
 
 const BODY: Block[] = [
   { h2: "What we do" },
-  { p: "We work for buyers outside China who want to buy from Chinese factories with fewer surprises. We find suitable manufacturers, check them before you pay a deposit, follow production in Chinese, inspect the goods before you pay the balance, and arrange freight with partner forwarders. See [all services](/services)." },
+  { p: "We work for buyers outside China who want to buy from Chinese factories without the nasty surprises." },
+  { p: "We find the right manufacturers and check them out before you pay a deposit. We follow production in Chinese, inspect the goods before you pay the balance, and arrange freight with partner forwarders. You can see everything on our [services page](/services)." },
 
   { h2: "Where we are" },
-  { p: "Our registered office is in Gusu District, Suzhou, in Jiangsu province. Suzhou is about 100 km west of Shanghai, in the Yangtze River Delta, one of China's largest manufacturing regions, and within easy reach of the ports of Shanghai and Ningbo. Being here means we can visit factories in person rather than judge them from a website." },
+  { p: "Our registered office is in Gusu District, Suzhou, in Jiangsu province. Suzhou is about 100 km west of Shanghai, in the Yangtze River Delta. It's one of China's biggest manufacturing regions, and the ports of Shanghai and Ningbo are close by." },
+  { p: "Being here means we can go and see factories in person instead of judging them from a website." },
 
   { h2: "How we work" },
   { ul: [
-    "**Written quotes first.** Fees, timelines and what is included are confirmed in writing before any work starts.",
-    "**You know your suppliers.** Our shortlists name every supplier, so you can verify them yourself.",
-    "**Inspect before the balance.** We recommend paying the factory's balance only after an inspection report with photos.",
-    "**An honest no.** If a product, quantity or price is not realistic, we say so early.",
-    ...WHY_US.map((w) => `**${w.title}.** ${w.desc}.`),
+    "We put our fees, timelines and what's included in writing before we start any work.",
+    "Our shortlists name every supplier, so you can check them yourself.",
+    "We suggest paying the factory's balance only once you have an inspection report with photos.",
+    "If a product, quantity or price isn't realistic, we tell you early.",
+    "Our team is based in China, close to the factories, so we can visit in person.",
+    "One team looks after your order from the first quote to delivery.",
+    "We speak Chinese with the factories and English with you.",
   ] },
 
   { h2: "What we are not" },
   { ul: [
-    "**Not a manufacturer.** We work with independent factories across China.",
-    "**Not a freight forwarder.** We [arrange freight](/services/shipping-coordination) with partner forwarders, who carry the goods.",
-    "**Not a testing laboratory or certification body.** Product certification tests are done by accredited labs; we can collect samples for them.",
+    "We're not a manufacturer. We work with independent factories all over China.",
+    "We're not a freight forwarder. We [arrange freight](/services/shipping-coordination) with partner forwarders, and they carry the goods.",
+    "We're not a testing lab or certification body. Certification tests are done by accredited labs, though we can collect the samples for them.",
   ] },
 
   { h2: "How to verify us" },
-  { p: `Every Chinese company is listed on the National Enterprise Credit Information Publicity System. Search for our registered name, **${COMPANY.legalNameZh}**, on [gsxt.gov.cn](https://www.gsxt.gov.cn) to see our registration, status and registered address.${COMPANY.licenceNo ? ` Our Unified Social Credit Code is **${COMPANY.licenceNo}**.` : ""} We are happy to send a copy of our business licence on request.` },
+  { p: `Every company in China is listed on the National Enterprise Credit Information Publicity System. Search for our registered name, ${COMPANY.legalNameZh}, on [gsxt.gov.cn](https://www.gsxt.gov.cn) and you'll see our registration, status and registered address.${COMPANY.licenceNo ? ` Our Unified Social Credit Code is ${COMPANY.licenceNo}.` : ""}` },
+  { p: "We're also happy to send you a copy of our business licence. Just ask." },
 ];
 
 export default function AboutPage() {

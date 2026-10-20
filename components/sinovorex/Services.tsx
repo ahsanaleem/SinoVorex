@@ -40,7 +40,7 @@ export function HowItWorks() {
           </div>
           <Reveal delay={0.2}>
             <p className="max-w-[440px] text-[17px] leading-relaxed text-ink/70 lg:ml-auto">
-              Six steps from your first message to goods at your door. Here is what we do at each step, and the few things we need from you.
+              Six steps from your first message to goods at your door. Here's what we do at each step, and the few things we need from you.
             </p>
             <div className="mt-5 flex gap-5 text-[13px] font-medium lg:justify-end">
               <span className="flex items-center gap-2 text-ink"><span className="h-2.5 w-2.5 rounded-full bg-flame" />We do</span>

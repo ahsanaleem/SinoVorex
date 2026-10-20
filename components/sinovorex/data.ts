@@ -18,9 +18,9 @@ export const COMPANY = {
   /** Registered address, exactly as on the licence, plus an English rendering. */
   addressZh: "苏州市姑苏区山塘街504号G239",
   address: "G239, No. 504 Shantang Street, Gusu District, Suzhou, Jiangsu, China",
-  /** 统一社会信用代码 (18 characters) — shown in the footer, About and schema `taxID` once filled in. FILL THIS IN. */
+  /** 统一社会信用代码 (18 characters). Shown in the footer, About and schema `taxID` once filled in. FILL THIS IN. */
   licenceNo: "",
-  /** ICP 备案号 — only needed if the site is hosted on a mainland-China server. */
+  /** ICP 备案号. Only needed if the site is hosted on a mainland-China server. */
   icp: "",
   /** Year the company was established (from the business licence), e.g. "2024". Shown on /about once filled in. */
   foundedYear: "",
@@ -62,9 +62,9 @@ export const SERVICES: Service[] = [
     includes: ["Searching for manufacturers that make your product, not just traders", "Collecting and comparing quotes, MOQs and lead times", "Asking the right technical questions in Chinese", "Shortlisting the best options with our notes"],
     youReceive: "A shortlist of suitable factories with prices, MOQs, lead times and our recommendation." },
   { slug: "factory-vetting", num: "02", title: "Factory Vetting", detail: ["Factory visits", "Background checks"], icon: Factory,
-    desc: "Before you commit, we visit and check factories: production capacity, past work, and whether they can deliver what they promise.",
+    desc: "Before you commit, we visit the factory and check how much it can make, what it has made before, and whether it can really deliver what it promises.",
     includes: ["Checking the company's registration details", "On-site visits to see the production lines", "Reviewing capacity, equipment and past orders", "Flagging risks before you pay a deposit"],
-    youReceive: "A factory check report with photos and a clear go / no-go view." },
+    youReceive: "A factory report with photos and a clear answer on whether to go ahead." },
   { slug: "quality-inspection", num: "03", title: "Quality Inspection", detail: ["Pre-shipment", "Photo reports"], icon: ClipboardCheck,
     desc: "Goods are checked against your specifications before they leave the factory, with a photo report so problems are caught early.",
     includes: ["Checks against your approved sample and specifications", "Counting quantities and checking packaging and labels", "Photo and video evidence of what was found", "Agreeing fixes with the factory before shipment"],
@@ -83,7 +83,7 @@ export const SERVICES: Service[] = [
     youReceive: "Samples sent to you together, and one consolidated shipment instead of several." },
 ];
 
-/* How it works — replaces the old numeric stats strip; describes the service, makes no claims. */
+/* How it works: replaces the old numeric stats strip; describes the service, makes no claims. */
 export const PROCESS: { step: string; title: string; desc: string; we: string; you: string; icon: LucideIcon; href: string }[] = [
   { step: "01", title: "Inquiry",    icon: MessageSquareText, href: "/quote",                          desc: "Send us your product, quantity, target price and destination.",      we: "Reply within 24 hours",        you: "Send product details" },
   { step: "02", title: "Sourcing",   icon: Search,            href: "/services/product-sourcing",      desc: "We shortlist suitable factories across China and compare quotes.",   we: "Shortlist & compare factories", you: "Choose a factory" },
@@ -103,14 +103,14 @@ export const PRODUCTS: { title: string; desc: string; items: string[]; icon: Luc
 
 export const QC_POINTS = [
   { title: "Factory audits",         desc: "Before you order, we visit the factory and check registration, production lines, capacity and past work." },
-  { title: "Pre-shipment inspection", desc: "Before goods leave, we check them against your approved sample: quantity, workmanship, function, packaging and labels." },
+  { title: "Pre-shipment inspection", desc: "Before the goods leave, we check the quantity, workmanship, function, packaging and labels against your approved sample." },
   { title: "Photo & video reports",  desc: "You receive photos and video of what we found, so you can approve or ask for fixes before paying the balance." },
 ];
 
 export const SHIPPING_MODES = [
-  { mode: "Sea freight",  time: "approx. 15–45 days", desc: "Best value for large or heavy orders. Full container (FCL) or shared container (LCL)." },
-  { mode: "Air freight",  time: "approx. 3–10 days",  desc: "For samples, urgent or high-value goods. Faster, priced by weight." },
-  { mode: "Rail freight", time: "approx. 15–25 days to Europe", desc: "China–Europe and Central Asia rail: faster than sea, cheaper than air." },
+  { mode: "Sea freight",  time: "About 15 to 45 days", desc: "The best value for large or heavy orders, in a full container (FCL) or a shared one (LCL)." },
+  { mode: "Air freight",  time: "About 3 to 10 days",  desc: "For samples and urgent or valuable goods. Faster, and priced by weight." },
+  { mode: "Rail freight", time: "About 15 to 25 days to Europe", desc: "Rail to Europe and Central Asia is faster than sea and cheaper than air." },
 ];
 
 export const INCOTERMS = [
@@ -121,7 +121,7 @@ export const INCOTERMS = [
 
 export const FEES = {
   summary: "We charge a commission on the order value. The rate depends on the product and order size and is confirmed in writing in your quote before any work starts.",
-  /** Your published commission range, e.g. "5–8% of the order value". Shown in the fees section once filled in. FILL THIS IN. */
+  /** Your published commission range, e.g. "5 to 8% of the order value". Shown in the fees section once filled in. FILL THIS IN. */
   commissionRange: "",
   /** Your published on-site rate, e.g. "US$250 per inspector-day". Shown once filled in. */
   inspectionRate: "",
@@ -134,7 +134,7 @@ export const FAQ = [
   { q: "Can I get samples before ordering?", a: "Yes. We collect samples from shortlisted factories, check them, and send them to you for approval. Sample and courier costs are quoted upfront." },
   { q: "How do payments work?", a: "Payment terms are agreed per order and confirmed in writing. Factories usually ask for a deposit before production and the balance before shipment. We recommend paying the balance only after the inspection report." },
   { q: "How long does an order take?", a: "It depends on the product and quantity. Production commonly takes a few weeks, plus shipping time (see the shipping section). Your quote includes an estimated timeline." },
-  { q: "Who pays for shipping?", a: "It depends on the Incoterm you choose. Under FOB you pay the freight from China; under CIF and DDP it is included in the price. We help you compare options." },
+  { q: "Who pays for shipping?", a: "It depends on the Incoterm you choose. With FOB you pay for the freight from China. With CIF and DDP it's included in the price. We'll help you compare the options." },
   { q: "What happens if goods are faulty?", a: "Our pre-shipment inspection is designed to catch problems before goods leave the factory, when the factory can still fix them. If an issue is found, we share photos and agree fixes with the factory before shipment." },
   { q: "Which countries do you ship to?", a: "We arrange freight with partner forwarders to most countries. Tell us your destination port or address and we'll confirm the options and costs." },
 ];

@@ -29,7 +29,7 @@ export default function ServicesIndex() {
           <PageHeader
             crumbs={[{ name: "Home", path: "/" }, { name: "Services" }]}
             h1="Sourcing, inspection and shipping services in China"
-            summary="Six services that cover an order from the first supplier search to delivery. Use them together, as one managed order, or on their own: for example, an inspection for a supplier you already work with."
+            summary="Six services that take an order from the first supplier search all the way to delivery. Use them together, or just pick the one you need, like an inspection for a supplier you already work with."
             updated={PAGE_UPDATED.services}
           />
           <ul className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">

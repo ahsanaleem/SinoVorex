@@ -7,7 +7,7 @@ import { SERVICE_CONTENT } from "@/components/sinovorex/content/services";
 import { GUIDES } from "@/components/sinovorex/content/guides";
 import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { Blocks, FaqList } from "@/components/sinovorex/Blocks";
-import { PageHeader, RelatedLinks, Toc } from "@/components/sinovorex/PageParts";
+import { InShort, PageHeader, ReadingLayout, RelatedLinks, headsOf, readMinutes } from "@/components/sinovorex/PageParts";
 import { JsonLd, ORG_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
 export const dynamicParams = false;
@@ -32,6 +32,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
   const step = PROCESS.find((p) => p.step === c.processStep);
   const guides = GUIDES.filter((g) => g.related?.includes(path)).map((g) => `/guides/${g.slug}`);
   const crumbs = [{ name: "Home", path: "/" }, { name: "Services", path: "/services" }, { name: s.title, path }];
+  const heads = headsOf(c.body, [{ id: "faq", text: "Common questions" }]);
+  heads.unshift({ id: "included", text: "What's included" });
 
   return (
     <SubpageShell>
@@ -49,65 +51,69 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
           availableLanguage: ["English", "Chinese"],
         },
       )} />
-      <article className="px-4 pb-16 pt-14 sm:px-6 md:pt-20">
+      <article className="px-4 pb-16 pt-10 sm:px-6 md:pt-16">
         <div className="mx-auto max-w-[1280px]">
-          <div className="grid gap-8 lg:grid-cols-[auto_1fr] lg:items-start">
-            <span className="hidden h-16 w-16 place-items-center rounded-2xl bg-flame text-white lg:mt-12 lg:grid"><Icon size={28} strokeWidth={1.6} /></span>
-            <PageHeader crumbs={crumbs.map((x, i) => (i === crumbs.length - 1 ? { name: x.name } : x))} h1={c.h1} summary={s.desc} updated={c.updated} />
-          </div>
+          <PageHeader
+            crumbs={crumbs.map((x, i) => (i === crumbs.length - 1 ? { name: x.name } : x))}
+            h1={c.h1} summary={s.desc} updated={c.updated}
+            eyebrow={`Service ${s.num} of ${SERVICES.length}`}
+            icon={<Icon size={22} strokeWidth={1.7} />}
+            minutes={readMinutes(c.body, c.faqs)}
+          />
 
-          <div className="mt-14 grid gap-4 md:grid-cols-2">
-            <section className="rounded-[28px] border border-ink/[0.07] bg-white p-8">
-              <h2 className="font-display text-[26px] font-medium tracking-[-0.03em]">What&apos;s included</h2>
-              <ul className="mt-5 space-y-3">
-                {s.includes.map((it) => (
-                  <li key={it} className="flex gap-3 text-[16px] leading-relaxed text-ink/80">
-                    <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-flame/15 text-flame"><Check size={13} /></span>{it}
-                  </li>
-                ))}
-              </ul>
-            </section>
-            <section data-theme="dark" className="rounded-[28px] bg-ink p-8 text-white">
-              <h2 className="font-display text-[26px] font-medium tracking-[-0.03em]">What you receive</h2>
-              <p className="mt-5 text-[18px] leading-relaxed text-white/85">{s.youReceive}</p>
-              <div className="mt-8 flex flex-wrap gap-2">
-                {s.detail.map((d) => <span key={d} className="rounded-full bg-white/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80">{d}</span>)}
+          <div className="mt-10"><InShort title="At a glance" points={c.glance} /></div>
+
+          <div className="mt-10">
+            <ReadingLayout heads={heads} aside={step && (
+              <div className="rounded-[24px] border border-ink/[0.07] bg-white p-5">
+                <div className="text-[13px] font-semibold uppercase tracking-[0.06em] text-ink/55">Where this fits</div>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink/80">
+                  <span className="font-semibold text-flame">Step {Number(step.step)} of {PROCESS.length}:</span> <strong className="font-medium text-ink">{step.title}.</strong> {step.desc}
+                </p>
+                <Link href="/#how-it-works" className="mt-3 inline-flex items-center gap-1 text-[14px] font-medium text-flame hover:underline">See all six steps <ArrowUpRight size={14} /></Link>
               </div>
-            </section>
-          </div>
-
-          <div className="mt-16 grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
-            <div className="min-w-0 max-w-[820px]">
-              <Blocks blocks={c.body} />
-              <FaqList items={c.faqs} heading={`${s.title}: common questions`} />
-            </div>
-            <aside className="space-y-4 lg:sticky lg:top-28 lg:self-start">
-              <Toc blocks={c.body} />
-              {step && (
-                <div className="rounded-2xl border border-ink/[0.07] bg-white p-5">
-                  <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/60">Where this fits</div>
-                  <p className="mt-2 text-[15px] leading-relaxed text-ink/80">
-                    <span className="font-mono text-flame">Step {step.step} of {PROCESS.length}</span> · <strong className="font-medium text-ink">{step.title}.</strong> {step.desc}
-                  </p>
-                  <Link href="/#how-it-works" className="mt-3 inline-flex items-center gap-1 text-[14px] font-medium text-flame hover:underline">See all six steps <ArrowUpRight size={14} /></Link>
+            )}>
+              <section id="included" aria-label="What's included" className="grid scroll-mt-28 gap-4 md:grid-cols-2">
+                <div className="rounded-[28px] border border-ink/[0.07] bg-white p-6 md:p-8">
+                  <h2 className="font-display text-[24px] font-medium tracking-[-0.03em]">What&apos;s included</h2>
+                  <ul className="mt-5 space-y-3">
+                    {s.includes.map((it) => (
+                      <li key={it} className="flex gap-3 text-[16px] leading-relaxed text-ink/80">
+                        <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-flame/15 text-flame"><Check size={13} strokeWidth={2.5} /></span>{it}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              )}
-            </aside>
+                <div data-theme="dark" className="flex flex-col rounded-[28px] bg-ink p-6 text-white md:p-8">
+                  <h2 className="font-display text-[24px] font-medium tracking-[-0.03em]">What you receive</h2>
+                  <p className="mt-5 flex-1 text-[18px] leading-relaxed text-white/85">{s.youReceive}</p>
+                  <Link href="/quote" className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-flame px-5 py-3 text-[15px] font-medium">Get a free quote <ArrowUpRight size={16} /></Link>
+                </div>
+              </section>
+
+              <Blocks blocks={c.body} />
+              <FaqList items={c.faqs} heading="Common questions" />
+            </ReadingLayout>
           </div>
 
           <RelatedLinks paths={guides} heading="Guides on this topic" />
 
-          <section className="mt-14">
+          <section className="mt-16">
             <h2 className="font-display text-[clamp(24px,2.6vw,30px)] font-medium tracking-[-0.03em]">Other services</h2>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {others.map((o) => (
-                <li key={o.slug}>
-                  <Link href={`/services/${o.slug}`} className="group flex h-full items-center justify-between gap-3 rounded-2xl border border-ink/[0.07] bg-white p-5 transition-colors hover:border-flame">
-                    <span className="font-display text-[17px] font-medium">{o.title}</span>
-                    <ArrowUpRight size={18} className="shrink-0 text-flame transition-transform group-hover:rotate-45" />
-                  </Link>
-                </li>
-              ))}
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              {others.map((o) => {
+                const OIcon = o.icon;
+                return (
+                  <li key={o.slug}>
+                    <Link href={`/services/${o.slug}`} className="group flex h-full flex-col gap-4 rounded-[24px] border border-ink/[0.07] bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-flame">
+                      <span className="grid h-10 w-10 place-items-center rounded-xl bg-flame/10 text-flame transition-colors group-hover:bg-flame group-hover:text-white"><OIcon size={19} strokeWidth={1.7} /></span>
+                      <span className="flex items-center justify-between gap-2 font-display text-[16px] font-medium leading-snug">
+                        {o.title}<ArrowUpRight size={16} className="shrink-0 text-flame transition-transform group-hover:rotate-45" />
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         </div>

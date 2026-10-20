@@ -17,6 +17,7 @@ export type Article = {
   h1: string;
   description: string;  // meta description, ≤ 155 chars
   summary: string;      // short answer shown under the H1 (quotable by AI engines)
+  takeaways: string[];  // "In short" box: 3 or 4 points for readers who skim
   published: string;
   updated: string;
   body: Block[];

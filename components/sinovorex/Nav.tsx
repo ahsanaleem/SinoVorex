@@ -62,7 +62,7 @@ export function Nav({ onContact, ready }: { onContact: () => void; ready: boolea
               : "max-w-[1400px] border border-transparent bg-transparent py-3 pl-4 pr-3 md:px-6",
           )}
         >
-          <a href="/" onClick={onLink("top")} className="flex items-center transition-transform duration-500 ease-apple hover:scale-[1.03]" aria-label="Sino Vorex — back to top">
+          <a href="/" onClick={onLink("top")} className="flex items-center transition-transform duration-500 ease-apple hover:scale-[1.03]" aria-label="Sino Vorex, back to top">
             <BrandLogo
               dark={menuOpen && !scrolled}
               className={clsx("w-auto transition-[height] duration-700 ease-apple", scrolled ? "h-11 md:h-12" : "h-12 md:h-16")}

@@ -30,7 +30,7 @@ export default function GuidesIndex() {
           <PageHeader
             crumbs={[{ name: "Home", path: "/" }, { name: "Guides" }]}
             h1="Guides to sourcing from China"
-            summary="Plain-English guides for buyers: what sourcing agents cost, how to place a small first order, how to audit a factory, how AQL inspections work, and who does what between your agent and your freight forwarder."
+            summary="Practical guides for buyers. Find out what sourcing agents cost, how to place a small first order, how to audit a factory, how AQL inspections work, and who does what between your agent and your freight forwarder."
             updated={PAGE_UPDATED.guides}
           />
           <ul className="mt-14 grid gap-4 md:grid-cols-2">

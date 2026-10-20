@@ -29,7 +29,7 @@ function Field({
         ? <textarea {...props} required={required} placeholder={label} rows={3} className={`${fieldCls} min-h-[100px] resize-none`} />
         : <input {...props} required={required} placeholder={label} className={fieldCls} />}
       <span className="pointer-events-none absolute left-4 top-2.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink/70 transition-colors peer-focus:text-flame">
-        {label}{required && " *"}{hint && <span className="normal-case tracking-normal text-ink/55"> · {hint}</span>}
+        {label}{!required && <span className="normal-case tracking-normal text-ink/55"> (optional)</span>}{hint && <span className="normal-case tracking-normal text-ink/55"> · {hint}</span>}
       </span>
     </label>
   );
@@ -95,7 +95,7 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
               <h2 className="mt-3 pr-12 font-display text-[clamp(28px,5vw,40px)] font-medium leading-[1] tracking-[-0.04em] text-ink">
                 Request a free <span className="font-serif font-normal italic text-flame">quote</span>
               </h2>
-              <p className="mt-3 text-[14px] text-ink/70">The more detail you share, the more accurate our quote. Fields marked * are required.</p>
+              <p className="mt-3 text-[14px] text-ink/70">The more you tell us, the more accurate our quote will be.</p>
             </>
           )}
 
@@ -168,7 +168,7 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
               <input type="checkbox" name="consent" value="yes" required checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-[#FF6B2B]" />
               <span>
                 I agree that Sino Vorex may use these details to reply to my request, as described in the{" "}
-                <Link href="/privacy" target="_blank" className="font-medium text-ink underline underline-offset-2 hover:text-flame">privacy policy</Link>. *
+                <Link href="/privacy" target="_blank" className="font-medium text-ink underline underline-offset-2 hover:text-flame">privacy policy</Link>.
               </span>
             </label>
 

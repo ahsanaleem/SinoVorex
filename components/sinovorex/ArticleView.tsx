@@ -1,5 +1,5 @@
 import { Blocks, FaqList } from "./Blocks";
-import { PageHeader, RelatedLinks, Toc } from "./PageParts";
+import { InShort, PageHeader, ReadingLayout, RelatedLinks, headsOf, readMinutes } from "./PageParts";
 import { SubpageShell } from "./SubpageShell";
 import type { Article } from "./content/types";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph } from "@/lib/seo";
@@ -39,7 +39,7 @@ export function ArticleView({ a, path, crumbs, kind, eyebrow }: {
   return (
     <SubpageShell>
       <JsonLd data={graph(breadcrumbLd(crumbs), page)} />
-      <article className="px-4 pb-16 pt-14 sm:px-6 md:pt-20">
+      <article className="px-4 pb-16 pt-10 sm:px-6 md:pt-16">
         <div className="mx-auto max-w-[1280px]">
           <PageHeader
             crumbs={crumbs.map((c, i) => (i === crumbs.length - 1 ? { name: c.name } : c))}
@@ -47,13 +47,14 @@ export function ArticleView({ a, path, crumbs, kind, eyebrow }: {
             summary={a.summary}
             updated={a.updated}
             eyebrow={eyebrow}
+            minutes={readMinutes(a.body, a.faqs)}
           />
-          <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
-            <div className="min-w-0 max-w-[820px]">
+          <div className="mt-10"><InShort title={kind === "guide" ? "Key takeaways" : "How we help"} points={a.takeaways} /></div>
+          <div className="mt-10">
+            <ReadingLayout heads={headsOf(a.body, a.faqs ? [{ id: "faq", text: "Common questions" }] : [])}>
               <Blocks blocks={a.body} />
-              {a.faqs && <FaqList items={a.faqs} />}
-            </div>
-            <aside className="lg:sticky lg:top-28 lg:self-start"><Toc blocks={a.body} /></aside>
+              {a.faqs && <FaqList items={a.faqs} heading="Common questions" />}
+            </ReadingLayout>
           </div>
           {a.related && <RelatedLinks paths={a.related} />}
         </div>

@@ -11,9 +11,9 @@ const DESCRIPTION = "Tell us what you want to source from China: product, quanti
 export const metadata: Metadata = pageMeta({ title: TITLE, description: DESCRIPTION, path: "/quote" });
 
 const NEXT_STEPS = [
-  "We read your request and reply within 24 hours, usually with a few questions about the specification.",
-  "We confirm the scope, the fee and an expected timeline in a written quote. Nothing starts before you agree.",
-  "We start sourcing, and send you a supplier shortlist with prices, MOQs and lead times.",
+  "We'll read your request and get back to you within 24 hours, usually with a few questions about the details.",
+  "We send you a written quote with the work involved, our fee and a rough timeline. Nothing starts until you're happy with it.",
+  "We start looking for suppliers and send you a shortlist with prices, MOQs and lead times.",
 ];
 
 /** Server-rendered quote page: the same form as the modal, reachable by URL and by fetch-only agents. */
@@ -37,7 +37,7 @@ export default function QuotePage() {
               Request a free <span className="font-serif font-normal italic text-flame">quote</span>
             </h1>
             <p className="mt-6 max-w-[480px] text-[18px] leading-relaxed text-ink/75">
-              Tell us what you want to source. The more detail you share (photos, drawings, an item list), the more accurate our quote.
+              Tell us what you want to source. Photos, drawings or an item list all help us give you a more accurate quote.
             </p>
             <h2 className="mt-10 font-display text-[22px] font-medium tracking-[-0.02em]">What happens next</h2>
             <ol className="mt-4 max-w-[480px] space-y-3 text-[16px] leading-relaxed text-ink/80">
@@ -53,7 +53,6 @@ export default function QuotePage() {
             </ul>
           </div>
           <div className="rounded-[32px] bg-white p-6 shadow-[0_40px_120px_-40px_rgba(14,14,22,0.35)] sm:p-10">
-            <p className="text-[14px] text-ink/70">Fields marked * are required.</p>
             <QuoteForm showHeader={false} />
           </div>
         </div>

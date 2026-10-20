@@ -89,15 +89,15 @@ async function handle(req: NextRequest) {
   const rows: [string, string][] = [
     ["Product", data.product],
     ["Quantity", data.quantity],
-    ["Target price", data.targetPrice || "—"],
+    ["Target price", data.targetPrice || "Not given"],
     ["Destination", data.destination],
     ["Incoterm", data.incoterm],
-    ["Details", data.message || "—"],
+    ["Details", data.message || "Not given"],
     ["Name", data.name],
-    ["Company", data.company || "—"],
+    ["Company", data.company || "Not given"],
     ["Email", data.email],
-    ["Phone / WhatsApp", data.phone || "—"],
-    ["Attachments", uploads.length ? uploads.map((f) => f.name).join(", ") : "—"],
+    ["Phone / WhatsApp", data.phone || "Not given"],
+    ["Attachments", uploads.length ? uploads.map((f) => f.name).join(", ") : "None"],
   ];
   const rowHtml = rows.map(([label, value], i) => `
     <tr>
@@ -119,7 +119,7 @@ async function handle(req: NextRequest) {
       from: `"Sino Vorex Website" <${SMTP_USER}>`,
       to: CONTACT_TO,
       replyTo: { name: data.name, address: data.email },
-      subject: `Quote request: ${data.product.slice(0, 60)} — ${data.name}`,
+      subject: `Quote request: ${data.product.slice(0, 60)} from ${data.name}`,
       text: `New quote request\n\n${rows.map(([l, v]) => `${l}: ${v}`).join("\n")}\n`,
       attachments,
       html: `

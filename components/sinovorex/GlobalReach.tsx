@@ -141,7 +141,7 @@ function CityDetail({ city, onQuote }: { city: City; onQuote?: () => void }) {
   const km = distanceFromHQ(city.lat, city.lng);
   const local = now ? new Intl.DateTimeFormat("en-GB", { timeZone: city.tz, hour: "2-digit", minute: "2-digit" }).format(now) : " ";
   const diffH = now ? (offsetMinutes(city.tz, now) - offsetMinutes("Asia/Shanghai", now)) / 60 : null;
-  const diff = diffH === null ? "—" : diffH === 0 ? "Same time" : `${diffH > 0 ? "+" : "−"}${Math.abs(diffH)}h`;
+  const diff = diffH === null ? "00a0" : diffH === 0 ? "Same time" : `${diffH > 0 ? "+" : "−"}${Math.abs(diffH)}h`;
 
   const stats = [
     { icon: Plane, label: "From Shanghai", value: `≈ ${km.toLocaleString("en-US")} km` },

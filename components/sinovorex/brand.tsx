@@ -7,7 +7,7 @@ export function BrandLogo({ dark = false, className }: { dark?: boolean; classNa
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={`/brand/sinovorex-logo-horizontal-on-${dark ? "dark" : "light"}.svg`}
-      alt="Sino Vorex — Sourcing & Export"
+      alt="Sino Vorex, sourcing and export from China"
       width={434} height={120}
       draggable={false}
       className={clsx("block select-none", className)}

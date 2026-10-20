@@ -104,7 +104,7 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
         <div className="mx-auto grid max-w-[1280px] gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
             <BrandLogo dark className="h-16 w-auto" />
-            <p className="mt-4 max-w-[320px] text-[14px] leading-relaxed text-white/70">China sourcing agent: sourcing, factory audits, quality inspection and shipping from factories across China, for buyers worldwide.</p>
+            <p className="mt-4 max-w-[320px] text-[14px] leading-relaxed text-white/70">We help buyers around the world find, check and ship products from factories across China.</p>
           </div>
           <div>
             <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Services</div>
