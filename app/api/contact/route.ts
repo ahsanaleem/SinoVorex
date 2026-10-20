@@ -7,7 +7,12 @@ const CONTACT_TO = process.env.CONTACT_TO || "business@sinovorex.com";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_FILES = 3;
 const MAX_TOTAL_BYTES = 8 * 1024 * 1024;
-const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "application/pdf"]);
+// Images, PDFs and spreadsheets (multi-item procurement lists). Keep in sync with components/sinovorex/QuoteForm.tsx.
+const ALLOWED_TYPES = new Set([
+  "image/jpeg", "image/png", "image/webp", "application/pdf",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel", "text/csv",
+]);
+const ALLOWED_EXT = /\.(jpe?g|png|webp|pdf|xlsx|xls|csv)$/i;
 const INCOTERMS = new Set(["Not sure", "FOB", "CIF", "DDP", "EXW"]);
 
 const escapeHtml = (s: string) =>
@@ -16,9 +21,16 @@ const escapeHtml = (s: string) =>
 const clean = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const safeFilename = (n: string) => n.replace(/[^\w.\- ]+/g, "_").slice(0, 100) || "attachment";
 
+export async function POST(req: NextRequest) {
+  // Plain HTML form posts (no JavaScript) get a redirect back to /quote instead of JSON.
+  const res = await handle(req);
+  if (!(req.headers.get("accept") || "").includes("text/html")) return res;
+  return NextResponse.redirect(new URL(res.ok ? "/quote/thanks" : "/quote/problem", req.url), 303);
+}
+
 const fail = (error: string, status: number) => NextResponse.json({ error }, { status });
 
-export async function POST(req: NextRequest) {
+async function handle(req: NextRequest) {
   let fields: Record<string, unknown> = {};
   let uploads: File[] = [];
   try {
@@ -57,7 +69,7 @@ export async function POST(req: NextRequest) {
   if (clean(fields.consent, 10) !== "yes") return fail("Please agree to the privacy policy so we can reply to you.", 400);
 
   if (uploads.length > MAX_FILES) return fail(`Please attach up to ${MAX_FILES} files.`, 400);
-  if (uploads.some((f) => !ALLOWED_TYPES.has(f.type))) return fail("Attachments must be JPG, PNG, WebP or PDF files.", 400);
+  if (uploads.some((f) => !ALLOWED_EXT.test(f.name) || (f.type && f.type !== "application/octet-stream" && !ALLOWED_TYPES.has(f.type)))) return fail("Attachments must be JPG, PNG, WebP, PDF, Excel or CSV files.", 400);
   if (uploads.reduce((n, f) => n + f.size, 0) > MAX_TOTAL_BYTES) return fail("Attachments can be up to 8 MB in total.", 400);
 
   const { SMTP_USER, SMTP_PASS } = process.env;
@@ -98,7 +110,8 @@ export async function POST(req: NextRequest) {
   const attachments = await Promise.all(uploads.map(async (f) => ({
     filename: safeFilename(f.name),
     content: Buffer.from(await f.arrayBuffer()),
-    contentType: f.type,
+    // Browsers sometimes send spreadsheets without a type; nodemailer then infers it from the (checked) extension.
+    contentType: ALLOWED_TYPES.has(f.type) ? f.type : undefined,
   })));
 
   try {

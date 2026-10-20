@@ -1,11 +1,14 @@
 "use client";
 
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { ArrowDown, ArrowUpRight, MousePointerClick, Sparkle } from "lucide-react";
 import { SERVICES } from "./data";
-import { HeroGlobe } from "./HeroGlobe";
-import { EASE, Magnetic, PillButton, SplitWords, useScrollTo } from "./primitives";
+import { EASE, Magnetic, PillButton, useScrollTo } from "./primitives";
+
+// Decorative canvas globe: loaded after the page, never part of the server HTML or the LCP.
+const HeroGlobe = dynamic(() => import("./HeroGlobe").then((m) => m.HeroGlobe), { ssr: false });
 
 /* ── Hero ──────────────────────────────────────────────────── */
 export function Hero({ ready, onContact }: { ready: boolean; onContact: () => void }) {
@@ -66,26 +69,24 @@ export function Hero({ ready, onContact }: { ready: boolean; onContact: () => vo
         style={{ y: contentY, opacity: contentOpacity }}
         className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col justify-start px-5 pb-14 pt-[calc(116px+min(84vw,40svh))] sm:px-6 lg:justify-center lg:px-10 lg:pb-24 lg:pt-32"
       >
-        <div className="max-w-[640px] [&>*]:pointer-events-auto">
+        <div className="max-w-[720px] [&>*]:pointer-events-auto">
           <motion.div {...fade(0.1)} className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-ink/10 bg-white/70 py-1.5 pl-1.5 pr-4 text-[13px] font-medium text-ink/80 shadow-sm backdrop-blur-md">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-white">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-flame" /> China
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-flame" /> Sino Vorex
             </span>
-            Sourcing & Export Partner
+            The force behind global trade
           </motion.div>
 
-          <h1 className="font-display text-[clamp(44px,7vw,112px)] font-medium leading-[0.92] tracking-[-0.045em] text-ink">
-            <SplitWords text="The Force Behind" play={ready} delay={0.15} stagger={0.08} />
-            <br />
-            <span className="font-serif font-normal italic tracking-[-0.02em] text-flame">
-              <SplitWords text="Global Trade" play={ready} delay={0.4} stagger={0.1} />
-            </span>
+          {/* Plain text (no per-word spans) with a transform-only CSS entrance: crawlable with normal spaces, painted on the first frame. */}
+          <h1 className="font-display text-[clamp(42px,6.2vw,96px)] font-medium leading-[0.95] tracking-[-0.045em] text-ink">
+            <span className="sv-rise block">China Sourcing Agent</span>{" "}
+            <span className="sv-rise sv-rise-2 block font-serif font-normal italic tracking-[-0.02em] text-flame">for Global Buyers</span>
           </h1>
 
-          <motion.p {...fade(0.75)} className="mt-7 max-w-[520px] text-[clamp(16px,1.6vw,19px)] leading-relaxed text-ink/70">
-            Sino Vorex helps buyers worldwide source, check and ship products from factories across China.
+          <p className="sv-rise sv-rise-2 mt-7 max-w-[540px] text-[clamp(16px,1.6vw,19px)] leading-relaxed text-ink/70">
+            Based in Suzhou, we find factories across China, check them and their goods, and ship your order worldwide.
             <span className="text-ink"> One team, from factory floor to your port.</span>
-          </motion.p>
+          </p>
 
           <motion.div {...fade(0.9)} className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
             <Magnetic strength={0.25}>

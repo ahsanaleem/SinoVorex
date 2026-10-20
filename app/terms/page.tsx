@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { COMPANY } from "@/components/sinovorex/data";
+import { COMPANY, PAGE_UPDATED } from "@/components/sinovorex/data";
 import { LegalPage } from "@/components/sinovorex/LegalPage";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Terms of Service | Sino Vorex",
   description: "Terms for using the Sino Vorex website and requesting quotes.",
-  alternates: { canonical: "/terms" },
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of Service" updated="16 October 2026">
+    <LegalPage title="Terms of Service" updated={PAGE_UPDATED.terms}>
       <p>
         These terms apply to your use of this website, operated by {COMPANY.legalNameZh} under the brand {COMPANY.brand} (&ldquo;Sino Vorex&rdquo;,
         &ldquo;we&rdquo;). By using the website you agree to them.

@@ -1,83 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, animate, useScroll, useSpring } from "framer-motion";
-import { EASE } from "./primitives";
+import { motion, useScroll, useSpring } from "framer-motion";
 
-/* ── Page loader: counter + curtain lift ───────────────────── */
-export function PageLoader({ onDone }: { onDone: () => void }) {
-  const countRef = useRef<HTMLSpanElement>(null);
-  const [exiting, setExiting] = useState(false);
-  const [repeat, setRepeat] = useState(false);
-  const onDoneRef = useRef(onDone);
-  onDoneRef.current = onDone;
-
-  useEffect(() => {
-    // Full intro (~1.5s) on the first visit of a session; a quick fade afterwards.
-    let seen = false;
-    try { seen = sessionStorage.getItem("sv-intro") === "1"; sessionStorage.setItem("sv-intro", "1"); } catch { /* storage blocked */ }
-    setRepeat(seen);
-    document.documentElement.style.overflow = "hidden";
-    const c = animate(0, 100, {
-      duration: seen ? 0.15 : 0.9, ease: [0.65, 0, 0.35, 1],
-      onUpdate: (v) => { if (countRef.current) countRef.current.textContent = String(Math.round(v)).padStart(3, "0"); },
-      onComplete: () => setExiting(true),
-    });
-    return () => { c.stop(); document.documentElement.style.overflow = ""; };
-  }, []);
-
+/* ── Intro curtain ─────────────────────────────────────────
+ * Pure CSS (globals.css: .sv-intro): server-rendered, never blocks input or scroll, and the hero
+ * underneath is visible in the HTML from the first paint, so it does not delay LCP.
+ * Hidden on repeat visits via html[data-intro-seen] (set in app/layout.tsx) and for reduced motion. */
+export function IntroCurtain() {
   return (
-    <motion.div
-      className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-ink text-white"
-      initial={{ y: 0 }}
-      animate={exiting ? { y: "-100%", borderBottomLeftRadius: "50% 12%", borderBottomRightRadius: "50% 12%" } : { y: 0 }}
-      transition={{ duration: repeat ? 0.45 : 0.6, ease: [0.76, 0, 0.24, 1] }}
-      onAnimationComplete={() => {
-        if (!exiting) return;
-        document.documentElement.style.overflow = "";
-        onDoneRef.current();
-      }}
-    >
+    <div aria-hidden className="sv-intro pointer-events-none fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-ink">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_50%,rgba(255,107,43,0.16),transparent_70%)]" />
-
-      <div className="relative">
-        {[0, 1].map((k) => (
-          <motion.span
-            key={k}
-            className="pointer-events-none absolute left-1/2 top-[30%] h-52 w-52 rounded-full border border-flame/50"
-            style={{ x: "-50%", y: "-50%" }}
-            initial={{ scale: 0.4, opacity: 0 }}
-            animate={{ scale: [0.4, 1.8], opacity: [0.8, 0] }}
-            transition={{ duration: 1.4, delay: 0.1 + k * 0.5, repeat: Infinity, ease: "easeOut" }}
-          />
-        ))}
-        <motion.div
-          initial={{ scale: 0.82, opacity: 0, filter: "blur(12px)", clipPath: "inset(100% 0% 0% 0%)" }}
-          animate={{ scale: 1, opacity: 1, filter: "blur(0px)", clipPath: "inset(0% 0% 0% 0%)" }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="relative"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/sinovorex-logo-stacked-on-dark.svg" alt="Sino Vorex — sourcing and export from China" width={350} height={300} className="h-auto w-[280px] md:w-[380px]" />
-        </motion.div>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 0.4 }}
-        className="mt-8 font-mono text-[11px] uppercase tracking-[0.35em] text-white/70"
-      >
-        From factory floor to your port
-      </motion.div>
-
-      <div className="absolute bottom-10 left-6 right-6 flex items-end justify-between font-mono text-xs text-white/70 md:left-12 md:right-12">
-        <span>Loading experience</span>
-        <span className="font-display text-6xl font-light tabular-nums tracking-tight text-white md:text-8xl">
-          <span ref={countRef}>000</span>
-        </span>
-      </div>
-    </motion.div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/brand/sinovorex-logo-stacked-on-dark.svg" alt="" width={350} height={300} className="sv-intro-logo relative h-auto w-[240px] md:w-[340px]" />
+      <div className="sv-intro-logo mt-8 font-mono text-[11px] uppercase tracking-[0.35em] text-white/70">From factory floor to your port</div>
+    </div>
   );
 }
 

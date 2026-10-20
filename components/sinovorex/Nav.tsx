@@ -104,7 +104,7 @@ export function Nav({ onContact, ready }: { onContact: () => void; ready: boolea
             </button>
             <button
               onClick={() => setMenuOpen((o) => !o)}
-              className="grid h-11 w-11 place-items-center rounded-full bg-ink text-white xl:hidden"
+              className="grid h-12 w-12 place-items-center rounded-full bg-ink text-white xl:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
               <AnimatePresence mode="wait" initial={false}>

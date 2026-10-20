@@ -34,7 +34,7 @@ export function HowItWorks() {
             <Eyebrow>How it works</Eyebrow>
             <h2 className="font-display text-[clamp(34px,5vw,68px)] font-medium leading-[0.95] tracking-[-0.045em] text-ink">
               <SplitWords text="Ordering from China," />
-              <br />
+              {" "}<br />
               <span className="font-serif font-normal italic tracking-[-0.02em] text-flame"><SplitWords text="step by step" delay={0.2} /></span>
             </h2>
           </div>
@@ -99,7 +99,9 @@ export function HowItWorks() {
 
                 {/* Text: a normal column on mobile; on desktop its children join the shared subgrid rows */}
                 <div className="flex-1 pb-2 lg:contents">
-                  <h3 className="font-display text-[22px] font-medium tracking-[-0.03em] text-ink lg:mt-6">{p.title}</h3>
+                  <h3 className="font-display text-[22px] font-medium tracking-[-0.03em] text-ink lg:mt-6">
+                    <Link href={p.href} className="underline-offset-4 transition-colors hover:text-flame hover:underline">{p.title}</Link>
+                  </h3>
                   <p className="mt-1.5 text-[14px] leading-relaxed text-ink/70 lg:px-1">{p.desc}</p>
                   <div className="mt-4 grid rounded-2xl border border-ink/[0.07] bg-white text-left text-[13px] transition-colors duration-500 group-hover:border-flame/30 lg:row-span-2 lg:mt-5 lg:w-full lg:grid-rows-subgrid">
                     <div className="px-4 pb-3 pt-3.5">
@@ -211,7 +213,7 @@ export function Services() {
             <Eyebrow>What we do</Eyebrow>
             <h2 className="font-display text-[clamp(38px,6vw,84px)] font-medium leading-[0.95] tracking-[-0.045em] text-ink">
               <SplitWords text="From factory floor" />
-              <br />
+              {" "}<br />
               <span className="font-serif font-normal italic tracking-[-0.02em] text-flame"><SplitWords text="to your port" delay={0.2} /></span>
             </h2>
           </div>

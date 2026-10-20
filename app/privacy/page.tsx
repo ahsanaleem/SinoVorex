@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { COMPANY } from "@/components/sinovorex/data";
+import { COMPANY, PAGE_UPDATED } from "@/components/sinovorex/data";
 import { LegalPage } from "@/components/sinovorex/LegalPage";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Privacy Policy | Sino Vorex",
   description: "How Sino Vorex collects, uses and protects personal information sent through this website.",
-  alternates: { canonical: "/privacy" },
-};
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" updated="16 October 2026">
+    <LegalPage title="Privacy Policy" updated={PAGE_UPDATED.privacy}>
       <p>
         This policy explains how {COMPANY.legalNameZh}, operating under the brand {COMPANY.brand} (&ldquo;Sino Vorex&rdquo;, &ldquo;we&rdquo;), handles personal
         information collected through this website. It is written with the Personal Information Protection Law of the People&apos;s

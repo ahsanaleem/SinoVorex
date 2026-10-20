@@ -5,7 +5,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowUp, ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { ChatButtons } from "./ChatButtons";
-import { COMPANY, NAV_LINKS } from "./data";
+import { COMPANY, NAV_LINKS, SERVICES } from "./data";
+import { FOOTER_RESOURCES } from "./links";
 import { BrandLogo, EASE, Magnetic, PillButton, Reveal, SplitWords, useScrollTo } from "./primitives";
 
 export function CTA({ onContact }: { onContact: () => void }) {
@@ -40,7 +41,7 @@ export function CTA({ onContact }: { onContact: () => void }) {
           </Reveal>
           <h2 className="mx-auto mt-8 max-w-[1000px] font-display text-[clamp(40px,7.5vw,112px)] font-medium leading-[0.92] tracking-[-0.05em]">
             <SplitWords text="Tell us what" />
-            <br />
+            {" "}<br />
             <span className="font-serif font-normal italic tracking-[-0.02em]"><SplitWords text="you want to source" delay={0.2} /></span>
           </h2>
           <Reveal delay={0.2}>
@@ -74,7 +75,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
   return (
     <footer data-theme="dark" className="relative overflow-hidden bg-ink px-4 pt-20 text-white sm:px-6">
       <div className="mx-auto max-w-[1280px]">
-        <div className="grid gap-12 border-b border-white/10 pb-16 md:grid-cols-[1.5fr_1fr_1fr]">
+        <div className="grid gap-12 border-b border-white/10 pb-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
           <div>
             <BrandLogo dark className="h-20 w-auto md:h-24" />
             <p className="mt-6 max-w-[340px] text-[15px] leading-relaxed text-white/65">
@@ -99,6 +100,18 @@ export function Footer({ onContact }: { onContact: () => void }) {
             </ul>
           </div>
           <div>
+            <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Services</div>
+            <ul className="space-y-3 text-[15px]">
+              {SERVICES.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="text-white/70 transition-colors hover:text-white">{s.title}</Link></li>)}
+            </ul>
+          </div>
+          <div>
+            <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Resources</div>
+            <ul className="space-y-3 text-[15px]">
+              {FOOTER_RESOURCES.map(([label, href]) => <li key={href}><Link href={href} className="text-white/70 transition-colors hover:text-white">{label}</Link></li>)}
+            </ul>
+          </div>
+          <div>
             <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Contact</div>
             <ul className="space-y-4 text-[15px] text-white/70">
               <li className="flex gap-3"><MapPin size={18} className="mt-0.5 shrink-0 text-flame" /><span>{COMPANY.address}<span className="mt-0.5 block text-white/65">{COMPANY.addressZh}</span></span></li>
@@ -112,7 +125,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
 
         <div className="flex flex-col gap-4 py-8 text-[13px] text-white/65 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
-            <div>{COMPANY.brand} is a brand of {COMPANY.legalNameZh}</div>
+            <div>{COMPANY.brand} is a brand of {COMPANY.legalNameZh} ({COMPANY.legalNameEnGloss})</div>
             <div className="flex flex-wrap gap-x-4 gap-y-1">
               {COMPANY.licenceNo && <span>统一社会信用代码 {COMPANY.licenceNo}</span>}
               {COMPANY.icp && <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" className="hover:text-white">{COMPANY.icp}</a>}
@@ -121,7 +134,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <span>© 2026 Sino Vorex. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Sino Vorex. All rights reserved.</span>
             <button onClick={() => scrollTo("top")} aria-label="Back to top" className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white transition-all duration-500 ease-apple hover:-translate-y-1 hover:border-flame hover:bg-flame">
               <ArrowUp size={16} />
             </button>
@@ -137,7 +150,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
         className="pointer-events-none select-none text-center font-display text-[19vw] font-semibold leading-[0.75] tracking-[-0.06em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.12)]"
         aria-hidden
       >
-        SinoVorex
+        Sino Vorex
       </motion.div>
     </footer>
   );

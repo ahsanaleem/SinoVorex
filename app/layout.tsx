@@ -2,44 +2,25 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { COMPANY } from "@/components/sinovorex/data";
 import { SITE_URL } from "@/lib/site";
+import { JsonLd, graph, orgLd, pageMeta, websiteLd } from "@/lib/seo";
 
 const DESCRIPTION =
-  "Sino Vorex helps buyers worldwide source, check and ship products from factories across China: product sourcing, factory vetting, quality inspection and shipping coordination.";
+  "Sino Vorex is a China sourcing agent in Suzhou. We find factories, audit suppliers, inspect goods before shipment and arrange freight worldwide.";
+
+const GSC_TOKEN = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const BING_TOKEN = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Sino Vorex — China Sourcing & Export Partner",
-  description: DESCRIPTION,
-  keywords: ["China sourcing agent", "sourcing from China", "factory audit China", "quality inspection China", "China export", "Sino Vorex", "freight from China"],
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Sino Vorex — From factory floor to your port",
-    description: DESCRIPTION,
-    url: "/",
-    siteName: "Sino Vorex",
-    type: "website",
-    locale: "en_US",
-  },
-  twitter: { card: "summary_large_image", title: "Sino Vorex — China Sourcing & Export Partner", description: DESCRIPTION },
+  ...pageMeta({ title: "China Sourcing Agent for Global Buyers | Sino Vorex", description: DESCRIPTION, path: "/" }),
+  ...((GSC_TOKEN || BING_TOKEN) && {
+    verification: { ...(GSC_TOKEN && { google: GSC_TOKEN }), ...(BING_TOKEN && { other: { "msvalidate.01": BING_TOKEN } }) },
+  }),
 };
 
-const orgJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Sino Vorex",
-  legalName: COMPANY.legalNameZh,
-  url: SITE_URL,
-  logo: `${SITE_URL}/brand/sinovorex-app-icon.svg`,
-  email: COMPANY.email,
-  telephone: COMPANY.phoneDisplay.replace(/\s/g, ""),
-  description: DESCRIPTION,
-  address: { "@type": "PostalAddress", streetAddress: "G239, No. 504 Shantang Street, Gusu District", addressLocality: "Suzhou", addressRegion: "Jiangsu", addressCountry: "CN" },
-  areaServed: "Worldwide",
-  contactPoint: [{ "@type": "ContactPoint", contactType: "sales", email: COMPANY.email, telephone: COMPANY.phoneDisplay.replace(/\s/g, ""), availableLanguage: ["English", "Chinese"] }],
-  ...(COMPANY.licenceNo ? { taxID: COMPANY.licenceNo } : {}),
-};
+/** Plays the homepage intro curtain only on a browser's first visit (see IntroCurtain). Runs before paint. */
+const INTRO_FLAG = `try{if(localStorage.getItem("sv-intro"))document.documentElement.setAttribute("data-intro-seen","");localStorage.setItem("sv-intro","1")}catch(e){}`;
 
 // Fonts are downloaded at build time and served from this site (Google Fonts is blocked in mainland China).
 const interTight = Inter_Tight({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"], variable: "--font-display", display: "swap" });
@@ -55,9 +36,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}>
       <head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+        <script dangerouslySetInnerHTML={{ __html: INTRO_FLAG }} />
+        <JsonLd data={graph(orgLd(DESCRIPTION), websiteLd())} />
       </head>
       <body>
         {children}

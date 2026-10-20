@@ -1,0 +1,342 @@
+{
+  "summary": {
+    "health_score": 59,
+    "business_type": "B2B service / sourcing agency (China sourcing, inspection & export)",
+    "top_findings": [
+      "No proof of track record: empty licence number, no team, case studies, testimonials or sample reports; AI product images",
+      "Service pages thin (147-194 words) and near-duplicate (0.45-0.48 overlap)",
+      "Head term 'China sourcing agent' on zero pages; slogan H1; no guide content",
+      "Homepage LCP poor (4.3s desktop / 6.6s mobile lab) because loader gates the hero",
+      "6 of 7 FAQ answers and CIF/DDP panels missing from HTML"
+    ],
+    "quick_wins": [
+      "Fill licenceNo in components/sinovorex/data.ts",
+      "Render all FAQ answers in the DOM",
+      "Add www CNAME and redirect to apex",
+      "Show hero by default; loader as overlay",
+      "Verify GSC + Bing Webmaster Tools, submit sitemap, add IndexNow"
+    ]
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "score": 78,
+      "what_works": [
+        "Server-rendered pages",
+        "Valid robots.txt and sitemap matching all 9 pages",
+        "Self-referencing canonicals",
+        "http->https 308",
+        "Real 404s",
+        "HSTS",
+        "Self-hosted fonts"
+      ],
+      "findings": [
+        {
+          "title": "www subdomain has no DNS record",
+          "severity": "High",
+          "description": "www.sinovorex.com returns NXDOMAIN (verified via dns.google)",
+          "recommendation": "Add CNAME to cname.vercel-dns.com and 308 to apex"
+        },
+        {
+          "title": "Missing security headers",
+          "severity": "Medium",
+          "description": "Only HSTS; next.config.mjs is empty",
+          "recommendation": "Add headers() with CSP, nosniff, frame, referrer, permissions policies"
+        },
+        {
+          "title": "Uniform sitemap lastmod",
+          "severity": "Medium",
+          "description": "app/sitemap.ts uses one new Date() for all URLs",
+          "recommendation": "Per-route real dates"
+        },
+        {
+          "title": "No IndexNow",
+          "severity": "Medium",
+          "description": "Not implemented",
+          "recommendation": "Add key file and ping on deploy"
+        },
+        {
+          "title": "Deprecated keywords meta",
+          "severity": "Low",
+          "description": "app/layout.tsx",
+          "recommendation": "Remove; use terms in visible copy"
+        }
+      ]
+    },
+    {
+      "name": "Content Quality",
+      "score": 42,
+      "what_works": [
+        "Honest, readable copy (Flesch 65.7)",
+        "Legal entity and address shown",
+        "Thorough privacy policy"
+      ],
+      "findings": [
+        {
+          "title": "No evidence of experience or track record",
+          "severity": "High",
+          "description": "Empty licenceNo, no team, founding year, case studies, testimonials, sample reports; /about 404; AI images",
+          "recommendation": "Fill licence, add /about, case studies, sample reports, real photos"
+        },
+        {
+          "title": "Thin service pages",
+          "severity": "High",
+          "description": "147-194 words each, ~70-90 unique",
+          "recommendation": "Expand to 800-1,500 unique words"
+        },
+        {
+          "title": "Near-duplicate service pages",
+          "severity": "High",
+          "description": "Shared H2s and 6-step block; overlap 0.45-0.48",
+          "recommendation": "Unique H2s; only relevant step"
+        },
+        {
+          "title": "No guide content",
+          "severity": "High",
+          "description": "Guides own ~65% of the head-term SERP",
+          "recommendation": "Build /guides/ hub"
+        },
+        {
+          "title": "Opaque pricing",
+          "severity": "High",
+          "description": "Competitors publish commission and man-day rates",
+          "recommendation": "Publish ranges and worked example"
+        },
+        {
+          "title": "No audience pages",
+          "severity": "Medium",
+          "description": "Amazon 44, QC buyer 46, cost comparer 46 persona scores",
+          "recommendation": "Add /sourcing-for/ pages"
+        }
+      ]
+    },
+    {
+      "name": "On-Page SEO",
+      "score": 61,
+      "what_works": [
+        "One H1 per page",
+        "Unique titles and descriptions",
+        "Breadcrumbs",
+        "Strong internal links to services"
+      ],
+      "findings": [
+        {
+          "title": "Head terms missing from visible text; slogan H1",
+          "severity": "High",
+          "description": "'China sourcing agent' appears 0 times; H1 'The Force Behind Global Trade'",
+          "recommendation": "Keyword H1, slogan as tagline"
+        },
+        {
+          "title": "Service H1s don't match search phrasing",
+          "severity": "High",
+          "description": "'Shipping Coordination', 'Order Follow-up'; no 'factory audit'",
+          "recommendation": "Retarget titles/H1s"
+        },
+        {
+          "title": "FAQ answers not in HTML",
+          "severity": "High",
+          "description": "Trade.tsx {isOpen && ...}",
+          "recommendation": "Always render; CSS-hide; H3 questions"
+        },
+        {
+          "title": "Inherited/missing OG tags",
+          "severity": "Medium",
+          "description": "Legal pages reuse homepage OG; service pages lose og:image",
+          "recommendation": "Per-page metadata"
+        },
+        {
+          "title": "Meta description too long",
+          "severity": "Low",
+          "description": "175 chars on homepage",
+          "recommendation": "~150 chars"
+        }
+      ]
+    },
+    {
+      "name": "Schema / Structured Data",
+      "score": 48,
+      "what_works": [
+        "Valid Organization JSON-LD on every page",
+        "No deprecated types"
+      ],
+      "findings": [
+        {
+          "title": "No BreadcrumbList",
+          "severity": "Medium",
+          "description": "Visible breadcrumbs without markup",
+          "recommendation": "Template in app/services/[slug]/page.tsx"
+        },
+        {
+          "title": "No Service schema",
+          "severity": "Medium",
+          "description": "None per service page",
+          "recommendation": "Build from SERVICES"
+        },
+        {
+          "title": "No WebSite / @id graph / sameAs",
+          "severity": "Medium",
+          "description": "Single isolated Organization node",
+          "recommendation": "@graph in layout.tsx"
+        },
+        {
+          "title": "Existing FAQ unmarked",
+          "severity": "Info",
+          "description": "FAQ rich results retired 2026-05-07",
+          "recommendation": "Leave as is"
+        }
+      ]
+    },
+    {
+      "name": "Performance (CWV)",
+      "score": 60,
+      "what_works": [
+        "CLS 0 everywhere",
+        "TTFB 321-574 ms",
+        "Brotli + immutable caching",
+        "Canvas2D globe, not three.js"
+      ],
+      "findings": [
+        {
+          "title": "Loader gates homepage LCP",
+          "severity": "High",
+          "description": "LCP 4.25s desktop / 6.58s mobile lab; INP 1,224ms mobile synthetic",
+          "recommendation": "Hero visible by default; loader as overlay"
+        },
+        {
+          "title": "Shared animation JS on every route",
+          "severity": "High",
+          "description": "~212 KB brotli framer-motion/lenis/lucide",
+          "recommendation": "next/dynamic code-splitting"
+        },
+        {
+          "title": "Large homepage DOM",
+          "severity": "Medium",
+          "description": "~1,570 elements",
+          "recommendation": "Trim decorative nodes"
+        }
+      ]
+    },
+    {
+      "name": "AI Search Readiness",
+      "score": 56,
+      "what_works": [
+        "All AI crawlers allowed",
+        "Server-rendered content",
+        "Agent-UX heuristic 100/100 on homepage DOM"
+      ],
+      "findings": [
+        {
+          "title": "No off-site entity presence",
+          "severity": "High",
+          "description": "Bing site: returns nothing; no profiles, Wikidata or sameAs",
+          "recommendation": "Bing WMT, IndexNow, LinkedIn/GBP/B2B directories, sameAs"
+        },
+        {
+          "title": "Quote form only mounts on click",
+          "severity": "Medium",
+          "description": "ContactModal.tsx",
+          "recommendation": "Server-rendered /quote route"
+        },
+        {
+          "title": "No tables, video or sample reports",
+          "severity": "Medium",
+          "description": "Multi-modal 35/100",
+          "recommendation": "Transit table, sample report, videos"
+        },
+        {
+          "title": "No llms.txt",
+          "severity": "Info",
+          "description": "404",
+          "recommendation": "Optional"
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "score": 78,
+      "what_works": [
+        "Alt text everywhere",
+        "Explicit width/height",
+        "Lazy loading",
+        "SVG logos"
+      ],
+      "findings": [
+        {
+          "title": "No modern formats or srcset",
+          "severity": "Medium",
+          "description": "Same 1200px JPG on mobile; next/image bypassed",
+          "recommendation": "next/image or <picture> with AVIF/WebP"
+        },
+        {
+          "title": "AI-generated product images",
+          "severity": "Medium",
+          "description": "Labelled illustrative",
+          "recommendation": "Real photos"
+        },
+        {
+          "title": "Orphan assets",
+          "severity": "Low",
+          "description": "~18 MB unused in public/",
+          "recommendation": "Delete"
+        }
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {
+        "name": "Phase 1: Critical Fixes",
+        "timeframe": "Week 1",
+        "items": [
+          "Fill licenceNo",
+          "www DNS + redirect",
+          "Render FAQ/Incoterm answers",
+          "Hero visible by default",
+          "Keyword H1/title, meta ≤150",
+          "GSC + Bing WMT + IndexNow",
+          "Per-route lastmod",
+          "Per-page OG",
+          "Security headers"
+        ]
+      },
+      {
+        "name": "Phase 2: High-Impact Improvements",
+        "timeframe": "Weeks 2-3",
+        "items": [
+          "Rewrite 6 service pages",
+          "Retarget service titles/H1s",
+          "Publish pricing ranges",
+          "Breadcrumb/Service/WebSite JSON-LD",
+          "Mobile subpage nav",
+          "Code-split JS; responsive images",
+          "/quote route"
+        ]
+      },
+      {
+        "name": "Phase 3: Content & Authority",
+        "timeframe": "Month 2",
+        "items": [
+          "/about, case studies, sample reports, real photos",
+          "/guides/ hub",
+          "Audience pages",
+          "Off-site profiles + sameAs",
+          "Transit table, videos, llms.txt"
+        ]
+      },
+      {
+        "name": "Phase 4: Monitoring & Iteration",
+        "timeframe": "Ongoing",
+        "items": [
+          "Drift baseline after Phase 1",
+          "CrUX via /seo google once keys exist",
+          "Moz key + backlinks re-run in 2-3 months",
+          "Remove orphan code/assets"
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "findings_dir": "findings/",
+    "screenshots_dir": "screenshots/"
+  }
+}

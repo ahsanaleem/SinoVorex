@@ -15,7 +15,7 @@ function ChinaClock() {
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
-  return <span className="tabular-nums">{time ?? "--:--"}</span>;
+  return time ? <span className="tabular-nums">{time}</span> : null;
 }
 
 export function About() {
@@ -30,7 +30,7 @@ export function About() {
           <Eyebrow>Who we are</Eyebrow>
           <h2 className="font-display text-[clamp(38px,5.5vw,76px)] font-medium leading-[0.95] tracking-[-0.045em] text-ink">
             <SplitWords text="Based in China." />
-            <br />
+            {" "}<br />
             <span className="font-serif font-normal italic tracking-[-0.02em] text-flame"><SplitWords text="Working for you." delay={0.2} /></span>
           </h2>
           <Reveal delay={0.1}>
@@ -70,6 +70,7 @@ export function About() {
               </div>
               <div className="relative mt-8">
                 <div className="font-display text-[26px] font-medium leading-tight tracking-[-0.03em]">{COMPANY.legalNameZh}</div>
+                <div className="mt-1 text-[14px] text-white/60">{COMPANY.legalNameEnGloss} (unofficial English rendering)</div>
                 <div className="mt-1 text-[15px] text-white/70">Operating as {COMPANY.brand}</div>
               </div>
               <dl className="relative mt-6 grid gap-3 border-t border-white/10 pt-5 text-[14px] sm:grid-cols-2">

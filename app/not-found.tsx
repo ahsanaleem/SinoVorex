@@ -1,15 +1,26 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { SubpageShell } from "@/components/sinovorex/SubpageShell";
+import { FOOTER_RESOURCES } from "@/components/sinovorex/links";
+
+export const metadata: Metadata = { title: "Page not found | Sino Vorex", robots: { index: false, follow: true } };
+
 export default function NotFound() {
   return (
-    <html lang="en">
-      <body style={{ margin: 0, background: "#0A0F1E", color: "#F5F5F5", fontFamily: "'Barlow Condensed', sans-serif", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 96, fontWeight: 900, color: "#FF6B2B", lineHeight: 1 }}>404</div>
-          <div style={{ fontSize: 18, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,245,245,0.5)", margin: "16px 0 32px" }}>Page Not Found</div>
-          <a href="/" style={{ color: "#FF6B2B", fontSize: 13, letterSpacing: "0.15em", textTransform: "uppercase", textDecoration: "none", border: "1px solid rgba(255,107,43,0.4)", padding: "10px 24px" }}>
-            Return Home
-          </a>
+    <SubpageShell quoteCta={false}>
+      <section className="px-4 py-24 sm:px-6">
+        <div className="mx-auto max-w-[640px] text-center">
+          <div className="font-display text-[96px] font-medium leading-none text-flame">404</div>
+          <h1 className="mt-4 font-display text-[clamp(28px,4vw,44px)] font-medium tracking-[-0.04em]">Page not found</h1>
+          <p className="mt-4 text-[17px] text-ink/70">The page you are looking for has moved or does not exist. These may help:</p>
+          <ul className="mt-8 flex flex-wrap justify-center gap-2">
+            <li><Link href="/" className="inline-block rounded-full bg-ink px-5 py-2.5 text-[15px] font-medium text-white">Home</Link></li>
+            {FOOTER_RESOURCES.map(([label, href]) => (
+              <li key={href}><Link href={href} className="inline-block rounded-full border border-ink/15 px-5 py-2.5 text-[15px] font-medium hover:border-flame">{label}</Link></li>
+            ))}
+          </ul>
         </div>
-      </body>
-    </html>
+      </section>
+    </SubpageShell>
   );
 }

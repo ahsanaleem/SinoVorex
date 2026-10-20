@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Camera, Check, ClipboardCheck, Factory, Plane, Plus, Ship, TrainFront } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowUpRight, Camera, Check, ClipboardCheck, Factory, Plane, Plus, Ship, TrainFront } from "lucide-react";
 import { clsx } from "clsx";
 import { FAQ, FEES, INCOTERMS, PRODUCTS, QC_POINTS, SHIPPING_MODES } from "./data";
 import { EASE, Eyebrow, PillButton, Reveal, SplitWords } from "./primitives";
@@ -14,7 +16,7 @@ function SectionHead({ eyebrow, line1, line2, intro, dark = false }: { eyebrow: 
         <Eyebrow dark={dark}>{eyebrow}</Eyebrow>
         <h2 className={clsx("font-display text-[clamp(34px,5vw,68px)] font-medium leading-[0.95] tracking-[-0.045em]", dark ? "text-white" : "text-ink")}>
           <SplitWords text={line1} />
-          <br />
+          {" "}<br />
           <span className="font-serif font-normal italic tracking-[-0.02em] text-flame"><SplitWords text={line2} delay={0.2} /></span>
         </h2>
       </div>
@@ -46,14 +48,12 @@ export function Products({ onQuote }: { onQuote: () => void }) {
                 <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#FFE9DD] via-[#FFF4EE] to-paper">
                   {p.photo ? (
                     <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={p.photo}
                         alt={`${p.title}: ${p.items.join(", ").toLowerCase()}`}
-                        loading="lazy"
-                        width={1200}
-                        height={896}
-                        className="h-full w-full object-cover transition-transform [transition-duration:1200ms] ease-apple group-hover:scale-[1.06]"
+                        fill
+                        sizes="(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform [transition-duration:1200ms] ease-apple group-hover:scale-[1.06]"
                       />
                       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/25 to-transparent" />
                       <span className="absolute bottom-3 left-3 grid h-11 w-11 place-items-center rounded-2xl bg-white/90 text-flame shadow-lg backdrop-blur transition-transform duration-500 ease-apple group-hover:-rotate-6">
@@ -84,6 +84,19 @@ export function Products({ onQuote }: { onQuote: () => void }) {
           })}
         </div>
         <p className="mt-4 text-[12px] text-ink/60">Images are illustrative of each category.</p>
+        <ul className="mt-8 flex flex-wrap justify-center gap-2 text-[14px]">
+          {[
+            ["Hotel, restaurant & café procurement", "/sourcing-for/hotels-restaurants"],
+            ["Amazon & e-commerce sellers", "/sourcing-for/amazon-sellers"],
+            ["Small businesses", "/sourcing-for/small-businesses"],
+          ].map(([label, href]) => (
+            <li key={href}>
+              <Link href={href} className="group inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-paper px-4 py-2 font-medium text-ink/80 transition-colors hover:border-flame hover:text-ink">
+                {label}<ArrowUpRight size={14} className="text-flame transition-transform group-hover:rotate-45" />
+              </Link>
+            </li>
+          ))}
+        </ul>
         <Reveal className="mt-8 flex justify-center">
           <PillButton onClick={onQuote} icon={<Plus size={18} />}>Request a quote for your product</PillButton>
         </Reveal>
@@ -167,11 +180,13 @@ export function Shipping() {
                   <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">Incoterms we quote on</div>
                   <h3 className="mt-2 font-display text-[28px] font-medium tracking-[-0.03em]">Who pays for what</h3>
                 </div>
-                <div role="tablist" className="flex gap-1 rounded-full bg-white/[0.06] p-1">
+                <div role="tablist" aria-label="Incoterms" className="flex gap-1 rounded-full bg-white/[0.06] p-1">
                   {INCOTERMS.map((t, i) => (
                     <button
                       key={t.term}
                       role="tab"
+                      id={`incoterm-tab-${t.term}`}
+                      aria-controls={`incoterm-${t.term}`}
                       aria-selected={term === i}
                       onClick={() => setTerm(i)}
                       className={clsx("relative rounded-full px-5 py-2 font-mono text-[13px] transition-colors", term === i ? "text-white" : "text-white/70 hover:text-white")}
@@ -182,12 +197,16 @@ export function Shipping() {
                   ))}
                 </div>
               </div>
-              <AnimatePresence mode="wait">
-                <motion.div key={term} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.3 }}>
-                  <div className="font-display text-[20px] font-medium text-flame">{INCOTERMS[term].term} · {INCOTERMS[term].name}</div>
-                  <p className="mt-2 max-w-[760px] text-[16px] leading-relaxed text-white/80">{INCOTERMS[term].desc}</p>
-                </motion.div>
-              </AnimatePresence>
+              {/* Every panel is in the HTML (crawlers and AI engines read all three); only the selected one is shown. */}
+              {INCOTERMS.map((t, i) => (
+                <div key={t.term} id={`incoterm-${t.term}`} role="tabpanel" aria-labelledby={`incoterm-tab-${t.term}`} hidden={term !== i}>
+                  <h4 className="font-display text-[20px] font-medium text-flame">{t.term} · {t.name}</h4>
+                  <p className="mt-2 max-w-[760px] text-[16px] leading-relaxed text-white/80">{t.desc}</p>
+                </div>
+              ))}
+              <Link href="/services/shipping-coordination" className="mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline">
+                Shipping from China: transit times, FCL vs LCL and documents <ArrowUpRight size={14} className="text-flame" />
+              </Link>
             </div>
           </Reveal>
         </div>
@@ -206,11 +225,20 @@ export function FeesAndFaq() {
           <Eyebrow>Fees & payment</Eyebrow>
           <h2 className="font-display text-[clamp(34px,4.5vw,60px)] font-medium leading-[0.95] tracking-[-0.045em] text-ink">
             <SplitWords text="Clear fees," />
-            <br />
+            {" "}<br />
             <span className="font-serif font-normal italic tracking-[-0.02em] text-flame"><SplitWords text="agreed upfront" delay={0.2} /></span>
           </h2>
           <Reveal delay={0.1}>
             <p className="mt-6 text-[17px] leading-relaxed text-ink/75">{FEES.summary}</p>
+            {(FEES.commissionRange || FEES.inspectionRate) && (
+              <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+                {FEES.commissionRange && <div className="rounded-2xl bg-flame/[0.08] p-4"><dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70">Commission</dt><dd className="mt-1 text-[18px] font-medium text-ink">{FEES.commissionRange}</dd></div>}
+                {FEES.inspectionRate && <div className="rounded-2xl bg-flame/[0.08] p-4"><dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70">Inspections &amp; audits</dt><dd className="mt-1 text-[18px] font-medium text-ink">{FEES.inspectionRate}</dd></div>}
+              </dl>
+            )}
+            <Link href="/guides/china-sourcing-agent-cost" className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-medium text-flame underline-offset-4 hover:underline">
+              How sourcing agents charge, with a worked example <ArrowUpRight size={15} />
+            </Link>
             <div className="mt-6 rounded-[24px] border border-ink/[0.08] bg-paper p-6">
               <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70">Accepted payment</div>
               <ul className="mt-3 flex flex-wrap gap-2">
@@ -224,32 +252,38 @@ export function FeesAndFaq() {
 
         <div>
           <Eyebrow>Frequently asked</Eyebrow>
+          <h2 className="sr-only">Frequently asked questions</h2>
           <ul className="divide-y divide-ink/10 border-y border-ink/10">
             {FAQ.map((f, i) => {
               const isOpen = open === i;
               return (
                 <li key={f.q}>
-                  <button
-                    onClick={() => setOpen(isOpen ? null : i)}
-                    aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-6 py-6 text-left"
-                  >
-                    <span className="font-display text-[19px] font-medium tracking-[-0.02em] text-ink md:text-[21px]">{f.q}</span>
-                    <span className={clsx("grid h-9 w-9 shrink-0 place-items-center rounded-full border transition-all duration-500 ease-apple", isOpen ? "rotate-45 border-flame bg-flame text-white" : "border-ink/15 text-ink")}>
-                      <Plus size={16} />
-                    </span>
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.4, ease: EASE }} className="overflow-hidden">
-                        <p className="max-w-[640px] pb-6 text-[16px] leading-relaxed text-ink/75">{f.a}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <h3>
+                    <button
+                      onClick={() => setOpen(isOpen ? null : i)}
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-${i}`}
+                      className="flex w-full items-center justify-between gap-6 py-6 text-left"
+                    >
+                      <span className="font-display text-[19px] font-medium tracking-[-0.02em] text-ink md:text-[21px]">{f.q}</span>
+                      <span className={clsx("grid h-9 w-9 shrink-0 place-items-center rounded-full border transition-all duration-500 ease-apple", isOpen ? "rotate-45 border-flame bg-flame text-white" : "border-ink/15 text-ink")}>
+                        <Plus size={16} />
+                      </span>
+                    </button>
+                  </h3>
+                  {/* Answers are always rendered (so crawlers see them) and collapsed with CSS. */}
+                  <div id={`faq-${i}`} className={clsx("grid transition-[grid-template-rows,opacity] duration-500 ease-apple", isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
+                    <div className="overflow-hidden">
+                      <p className="max-w-[640px] pb-6 text-[16px] leading-relaxed text-ink/75">{f.a}</p>
+                    </div>
+                  </div>
                 </li>
               );
             })}
           </ul>
+          <p className="mt-6 text-[15px] text-ink/70">
+            More detail in our <Link href="/guides" className="font-medium text-flame underline-offset-4 hover:underline">guides to sourcing from China</Link>.
+          </p>
         </div>
       </div>
     </section>

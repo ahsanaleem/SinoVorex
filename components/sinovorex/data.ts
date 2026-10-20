@@ -7,6 +7,8 @@ import {
 export const COMPANY = {
   /** Exactly as on the business licence. "Sino Vorex" is the brand; there is no official English legal name. */
   legalNameZh: "苏州智贸通贸易咨询服务有限公司",
+  /** Unofficial English rendering of the legal name, shown as a gloss only. */
+  legalNameEnGloss: "Suzhou Zhimaotong Trade Consulting Service Co., Ltd.",
   brand: "Sino Vorex",
   email: "business@sinovorex.com",
   phoneDisplay: "+86 137 7050 4359",
@@ -16,10 +18,28 @@ export const COMPANY = {
   /** Registered address, exactly as on the licence, plus an English rendering. */
   addressZh: "苏州市姑苏区山塘街504号G239",
   address: "G239, No. 504 Shantang Street, Gusu District, Suzhou, Jiangsu, China",
-  /** 统一社会信用代码 — shown in the footer and company details once filled in. */
+  /** 统一社会信用代码 (18 characters) — shown in the footer, About and schema `taxID` once filled in. FILL THIS IN. */
   licenceNo: "",
   /** ICP 备案号 — only needed if the site is hosted on a mainland-China server. */
   icp: "",
+  /** Year the company was established (from the business licence), e.g. "2024". Shown on /about once filled in. */
+  foundedYear: "",
+  /** Official profile URLs (LinkedIn company page, Google Business Profile, Made-in-China, Global Sources…). Feeds schema `sameAs` and the About page. */
+  sameAs: [] as string[],
+};
+
+/** Named team members for /about. Real people only; leave empty until you have names and (ideally) photos in public/team/. */
+export const TEAM: { name: string; role: string; bio: string; photo?: string; linkedin?: string }[] = [];
+
+/** Date each standalone page's content last changed (ISO). Used for sitemap lastmod and visible "Updated" dates. */
+export const PAGE_UPDATED = {
+  home: "2026-10-20",
+  services: "2026-10-20",
+  guides: "2026-10-20",
+  about: "2026-10-20",
+  quote: "2026-10-20",
+  privacy: "2026-10-16",
+  terms: "2026-10-16",
 };
 
 export const NAV_LINKS = [
@@ -64,13 +84,13 @@ export const SERVICES: Service[] = [
 ];
 
 /* How it works — replaces the old numeric stats strip; describes the service, makes no claims. */
-export const PROCESS: { step: string; title: string; desc: string; we: string; you: string; icon: LucideIcon }[] = [
-  { step: "01", title: "Inquiry",    icon: MessageSquareText, desc: "Send us your product, quantity, target price and destination.",      we: "Reply within 24 hours",        you: "Send product details" },
-  { step: "02", title: "Sourcing",   icon: Search,            desc: "We shortlist suitable factories across China and compare quotes.",   we: "Shortlist & compare factories", you: "Choose a factory" },
-  { step: "03", title: "Samples",    icon: Package,           desc: "Samples are collected and checked, then sent for your approval.",    we: "Collect & check samples",       you: "Approve the sample" },
-  { step: "04", title: "Production", icon: Factory,           desc: "We follow production with the factory and keep you updated.",       we: "Track production",              you: "Pay the deposit" },
-  { step: "05", title: "Inspection", icon: ClipboardCheck,    desc: "Goods are inspected against your specs before the balance is paid.", we: "Inspect & send photo report",   you: "Review, then pay balance" },
-  { step: "06", title: "Shipping",   icon: Ship,              desc: "Freight is booked by sea, air or rail to your destination.",        we: "Book freight & share tracking", you: "Receive your goods" },
+export const PROCESS: { step: string; title: string; desc: string; we: string; you: string; icon: LucideIcon; href: string }[] = [
+  { step: "01", title: "Inquiry",    icon: MessageSquareText, href: "/quote",                          desc: "Send us your product, quantity, target price and destination.",      we: "Reply within 24 hours",        you: "Send product details" },
+  { step: "02", title: "Sourcing",   icon: Search,            href: "/services/product-sourcing",      desc: "We shortlist suitable factories across China and compare quotes.",   we: "Shortlist & compare factories", you: "Choose a factory" },
+  { step: "03", title: "Samples",    icon: Package,           href: "/services/samples-consolidation", desc: "Samples are collected and checked, then sent for your approval.",    we: "Collect & check samples",       you: "Approve the sample" },
+  { step: "04", title: "Production", icon: Factory,           href: "/services/order-follow-up",       desc: "We follow production with the factory and keep you updated.",       we: "Track production",              you: "Pay the deposit" },
+  { step: "05", title: "Inspection", icon: ClipboardCheck,    href: "/services/quality-inspection",    desc: "Goods are inspected against your specs before the balance is paid.", we: "Inspect & send photo report",   you: "Review, then pay balance" },
+  { step: "06", title: "Shipping",   icon: Ship,              href: "/services/shipping-coordination", desc: "Freight is booked by sea, air or rail to your destination.",        we: "Book freight & share tracking", you: "Receive your goods" },
 ];
 
 /** `photo`: representative AI-generated images (public/products). Replace with photos of real products when available; remove `photo` to fall back to the icon. */
@@ -101,6 +121,10 @@ export const INCOTERMS = [
 
 export const FEES = {
   summary: "We charge a commission on the order value. The rate depends on the product and order size and is confirmed in writing in your quote before any work starts.",
+  /** Your published commission range, e.g. "5–8% of the order value". Shown in the fees section once filled in. FILL THIS IN. */
+  commissionRange: "",
+  /** Your published on-site rate, e.g. "US$250 per inspector-day". Shown once filled in. */
+  inspectionRate: "",
   payments: ["T/T (bank transfer)", "Terms agreed per order"],
   deposit: "Factories usually ask for a deposit before production and the balance before shipment. We tell you the exact terms for each factory in your quote, and recommend paying the balance only after inspection.",
 };

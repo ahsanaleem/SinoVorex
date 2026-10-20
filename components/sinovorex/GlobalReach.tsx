@@ -139,7 +139,7 @@ function WorldMap({ cities, active, onPick }: { cities: readonly City[]; active:
 function CityDetail({ city, onQuote }: { city: City; onQuote?: () => void }) {
   const now = useNow();
   const km = distanceFromHQ(city.lat, city.lng);
-  const local = now ? new Intl.DateTimeFormat("en-GB", { timeZone: city.tz, hour: "2-digit", minute: "2-digit" }).format(now) : "--:--";
+  const local = now ? new Intl.DateTimeFormat("en-GB", { timeZone: city.tz, hour: "2-digit", minute: "2-digit" }).format(now) : " ";
   const diffH = now ? (offsetMinutes(city.tz, now) - offsetMinutes("Asia/Shanghai", now)) / 60 : null;
   const diff = diffH === null ? "—" : diffH === 0 ? "Same time" : `${diffH > 0 ? "+" : "−"}${Math.abs(diffH)}h`;
 
@@ -243,7 +243,7 @@ export function GlobalReach({ onQuote }: { onQuote?: () => void }) {
               <Eyebrow dark>Where we ship</Eyebrow>
               <h2 className="font-display text-[clamp(38px,5.5vw,76px)] font-medium leading-[0.95] tracking-[-0.045em]">
                 <SplitWords text="Connected across" />
-                <br />
+                {" "}<br />
                 <span className="font-serif font-normal italic tracking-[-0.02em] text-flame"><SplitWords text="every major market" delay={0.2} /></span>
               </h2>
             </div>
