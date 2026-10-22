@@ -3,21 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 
-/* ── Intro curtain ─────────────────────────────────────────
- * Pure CSS (globals.css: .sv-intro): server-rendered, never blocks input or scroll, and the hero
- * underneath is visible in the HTML from the first paint, so it does not delay LCP.
- * Hidden on repeat visits via html[data-intro-seen] (set in app/layout.tsx) and for reduced motion. */
-export function IntroCurtain() {
-  return (
-    <div aria-hidden className="sv-intro pointer-events-none fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-ink">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_50%,rgba(255,107,43,0.16),transparent_70%)]" />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/brand/sinovorex-logo-stacked-on-dark.svg" alt="" width={350} height={300} className="sv-intro-logo relative h-auto w-[240px] md:w-[340px]" />
-      <div className="sv-intro-logo mt-8 font-mono text-[11px] uppercase tracking-[0.35em] text-white/70">From factory floor to your port</div>
-    </div>
-  );
-}
-
 /* ── Custom cursor (fine pointers only) ────────────────────── */
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);

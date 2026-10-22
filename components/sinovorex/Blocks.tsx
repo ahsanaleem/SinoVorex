@@ -69,39 +69,23 @@ function BlockView({ b }: { b: Block }) {
     const { head, rows, caption } = b.table;
     return (
       <figure className="mt-6 first:mt-0">
-        {/* Desktop: a real table. */}
-        <div className="hidden overflow-hidden rounded-2xl border border-ink/[0.08] md:block">
-          <table className="w-full border-collapse text-left text-[15px] leading-snug">
-            <thead className="bg-paper">
+        {/* One real table. On phones each row becomes a card and every cell shows its column name (data-label). */}
+        <div className="md:overflow-hidden md:rounded-2xl md:border md:border-ink/[0.08]">
+          <table className="w-full border-collapse text-left text-[15px] leading-snug max-md:block">
+            <thead className="bg-paper max-md:sr-only">
               <tr>{head.map((h, n) => <th key={n} scope="col" className="px-5 py-3.5 text-[13px] font-semibold uppercase tracking-[0.06em] text-ink/70">{h}</th>)}</tr>
             </thead>
-            <tbody>
+            <tbody className="max-md:block max-md:space-y-3">
               {rows.map((r, j) => (
-                <tr key={j} className="border-t border-ink/[0.07] even:bg-paper/40">
+                <tr key={j} className="border-t border-ink/[0.07] even:bg-paper/40 max-md:block max-md:rounded-2xl max-md:border max-md:border-ink/[0.08] max-md:bg-paper/50 max-md:p-4">
                   {r.map((c, n) => n === 0
-                    ? <th key={n} scope="row" className="px-5 py-4 align-top font-semibold text-ink"><RichText text={c} /></th>
-                    : <td key={n} className="px-5 py-4 align-top text-ink/75"><RichText text={c} /></td>)}
+                    ? <th key={n} scope="row" className="px-5 py-4 align-top font-semibold text-ink max-md:block max-md:p-0"><RichText text={c} /></th>
+                    : <td key={n} data-label={head[n] || undefined} className="px-5 py-4 align-top text-ink/75 max-md:block max-md:px-0 max-md:pb-0 max-md:pt-2 max-md:before:block max-md:before:text-[12px] max-md:before:font-semibold max-md:before:uppercase max-md:before:tracking-[0.06em] max-md:before:text-ink/55 max-md:before:content-[attr(data-label)]"><RichText text={c} /></td>)}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        {/* Phones: one card per row, no sideways scrolling (the table above is display:none here). */}
-        <ul className="space-y-3 md:hidden">
-          {rows.map((r, j) => (
-            <li key={j} className="rounded-2xl border border-ink/[0.08] bg-paper/50 p-4">
-              <div className="font-semibold text-ink"><RichText text={r[0]} /></div>
-              <dl className="mt-2 space-y-2 text-[15px]">
-                {r.slice(1).map((c, n) => (
-                  <div key={n}>
-                    {head[n + 1] && <dt className="text-[12px] font-semibold uppercase tracking-[0.06em] text-ink/55">{head[n + 1]}</dt>}
-                    <dd className="text-ink/80"><RichText text={c} /></dd>
-                  </div>
-                ))}
-              </dl>
-            </li>
-          ))}
-        </ul>
         {caption && <figcaption className="mt-3 text-[13px] leading-relaxed text-ink/60">{caption}</figcaption>}
       </figure>
     );

@@ -19,9 +19,6 @@ export const metadata: Metadata = {
   }),
 };
 
-/** Plays the homepage intro curtain only on a browser's first visit (see IntroCurtain). Runs before paint. */
-const INTRO_FLAG = `try{if(localStorage.getItem("sv-intro"))document.documentElement.setAttribute("data-intro-seen","");localStorage.setItem("sv-intro","1")}catch(e){}`;
-
 // Fonts are downloaded at build time and served from this site (Google Fonts is blocked in mainland China).
 const interTight = Inter_Tight({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"], variable: "--font-display", display: "swap" });
 const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
@@ -36,9 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: INTRO_FLAG }} />
         <JsonLd data={graph(orgLd(DESCRIPTION), websiteLd())} />
       </head>
       <body>

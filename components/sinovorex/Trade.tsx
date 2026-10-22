@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Camera, Check, ClipboardCheck, Factory, Plane, Plus, Ship, TrainFront } from "lucide-react";
 import { clsx } from "clsx";
 import { FAQ, FEES, INCOTERMS, PRODUCTS, QC_POINTS, SHIPPING_MODES } from "./data";
+import { FOOTER_GUIDES } from "./links";
 import { EASE, Eyebrow, PillButton, Reveal, SplitWords } from "./primitives";
 
 function SectionHead({ eyebrow, line1, line2, intro, dark = false }: { eyebrow: string; line1: string; line2: string; intro: string; dark?: boolean }) {
@@ -281,9 +282,19 @@ export function FeesAndFaq() {
               );
             })}
           </ul>
-          <p className="mt-6 text-[15px] text-ink/70">
-            More detail in our <Link href="/guides" className="font-medium text-flame underline-offset-4 hover:underline">guides to sourcing from China</Link>.
-          </p>
+          <div className="mt-10">
+            <h3 className="font-display text-[20px] font-medium tracking-[-0.02em] text-ink">Guides for buyers</h3>
+            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+              {FOOTER_GUIDES.slice(0, 6).map(([label, href]) => (
+                <li key={href}>
+                  <Link href={href} className="group flex min-h-[48px] items-center justify-between gap-3 rounded-2xl border border-ink/[0.08] bg-paper px-4 py-2 text-[15px] font-medium text-ink/85 transition-colors hover:border-flame hover:text-ink">
+                    {label}<ArrowUpRight size={15} className="shrink-0 text-flame transition-transform group-hover:rotate-45" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link href="/guides" className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-medium text-flame underline-offset-4 hover:underline">All guides <ArrowUpRight size={15} /></Link>
+          </div>
         </div>
       </div>
     </section>

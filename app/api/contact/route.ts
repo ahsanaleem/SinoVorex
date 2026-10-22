@@ -33,13 +33,16 @@ const fail = (error: string, status: number) => NextResponse.json({ error }, { s
 async function handle(req: NextRequest) {
   let fields: Record<string, unknown> = {};
   let uploads: File[] = [];
+  let services: string[] = [];
   try {
     if ((req.headers.get("content-type") || "").includes("multipart/form-data")) {
       const fd = await req.formData();
       fd.forEach((v, k) => { if (typeof v === "string") fields[k] = v; });
+      services = fd.getAll("services").filter((v): v is string => typeof v === "string");
       uploads = fd.getAll("files").filter((f): f is File => typeof f !== "string" && f.size > 0);
     } else {
       fields = await req.json();
+      services = Array.isArray(fields.services) ? fields.services.filter((v): v is string => typeof v === "string") : [];
     }
   } catch {
     return fail("Invalid request.", 400);
@@ -58,12 +61,14 @@ async function handle(req: NextRequest) {
     targetPrice: clean(fields.targetPrice, 120),
     destination: clean(fields.destination, 160),
     incoterm: clean(fields.incoterm, 20),
+    services: services.map((v) => clean(v, 60)).filter(Boolean).slice(0, 10).join(", "),
+    fba: clean(fields.fba, 10) === "yes" ? "Yes" : "",
     message: clean(fields.message, 5000),
   };
   if (!INCOTERMS.has(data.incoterm)) data.incoterm = "Not sure";
 
-  if (!data.name || !data.email || !data.product || !data.quantity || !data.destination) {
-    return fail("Please fill in your name, email, product, quantity and destination.", 400);
+  if (!data.name || !data.email || !data.product) {
+    return fail("Please fill in your name, email and product.", 400);
   }
   if (!EMAIL_RE.test(data.email)) return fail("Please enter a valid email address.", 400);
   if (clean(fields.consent, 10) !== "yes") return fail("Please agree to the privacy policy so we can reply to you.", 400);
@@ -87,10 +92,12 @@ async function handle(req: NextRequest) {
   });
 
   const rows: [string, string][] = [
+    ["Services", data.services || "Not given"],
+    ["Amazon FBA", data.fba || "No"],
     ["Product", data.product],
-    ["Quantity", data.quantity],
+    ["Quantity", data.quantity || "Not given"],
     ["Target price", data.targetPrice || "Not given"],
-    ["Destination", data.destination],
+    ["Destination", data.destination || "Not given"],
     ["Incoterm", data.incoterm],
     ["Details", data.message || "Not given"],
     ["Name", data.name],

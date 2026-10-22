@@ -31,7 +31,7 @@ export function Breadcrumbs({ items }: { items: { name: string; path?: string }[
           <li key={it.name} className="flex items-center gap-1.5">
             {i > 0 && <ChevronRight size={14} aria-hidden className="text-ink/35" />}
             {it.path
-              ? <Link href={it.path} className="rounded hover:text-flame hover:underline">{it.name}</Link>
+              ? <Link href={it.path} className="-my-3 inline-block rounded py-3 hover:text-flame hover:underline">{it.name}</Link>
               : <span aria-current="page" className="font-medium text-ink">{it.name}</span>}
           </li>
         ))}
@@ -41,8 +41,8 @@ export function Breadcrumbs({ items }: { items: { name: string; path?: string }[
 }
 
 /** Title block for inner pages: breadcrumb, H1, a plain-language lead, reading time and a quote CTA. */
-export function PageHeader({ crumbs, h1, summary, updated, eyebrow, minutes, icon }: {
-  crumbs: { name: string; path?: string }[]; h1: string; summary: string; updated?: string; eyebrow?: string; minutes?: number; icon?: ReactNode;
+export function PageHeader({ crumbs, h1, summary, updated, eyebrow, minutes, icon, quoteHref = "/quote", byline }: {
+  crumbs: { name: string; path?: string }[]; h1: string; summary: string; updated?: string; eyebrow?: string; minutes?: number; icon?: ReactNode; quoteHref?: string; byline?: string;
 }) {
   return (
     <header className="max-w-[880px]">
@@ -54,12 +54,13 @@ export function PageHeader({ crumbs, h1, summary, updated, eyebrow, minutes, ico
       <h1 className="mt-4 font-display text-[clamp(34px,5vw,64px)] font-medium leading-[1.02] tracking-[-0.04em] text-ink">{h1}</h1>
       <p className="mt-5 max-w-[68ch] text-[19px] leading-relaxed text-ink/75">{summary}</p>
       <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <Link href="/quote" className="group inline-flex items-center gap-3 rounded-full bg-ink py-2 pl-6 pr-2 text-[15px] font-medium text-white transition-shadow hover:shadow-[0_18px_40px_-12px_rgba(255,107,43,0.55)]">
+        <Link href={quoteHref} className="group inline-flex items-center gap-3 rounded-full bg-ink py-2 pl-6 pr-2 text-[15px] font-medium text-white transition-shadow hover:shadow-[0_18px_40px_-12px_rgba(255,107,43,0.55)]">
           Get a free quote
           <span className="grid h-9 w-9 place-items-center rounded-full bg-flame transition-transform duration-500 group-hover:rotate-45"><ArrowUpRight size={16} /></span>
         </Link>
         {(updated || minutes) && (
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[14px] text-ink/60">
+            {byline && <span>By <Link href="/about" className="font-medium text-ink hover:text-flame">{byline}</Link></span>}
             {minutes && <span className="inline-flex items-center gap-1.5"><Clock size={15} className="text-flame" />{minutes} min read</span>}
             {updated && <span>Updated <time dateTime={updated}>{fmtDate(updated)}</time></span>}
           </p>

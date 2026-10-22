@@ -5,7 +5,7 @@ import { SITE_URL } from "./site";
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
-const OG_IMAGE = { url: "/opengraph-image.png", width: 1200, height: 630, alt: "Sino Vorex: China sourcing agent for sourcing, inspection and shipping" };
+const OG_IMAGE = { url: "/opengraph-image.png", width: 1200, height: 630, alt: "Sino Vorex, a China sourcing agent helping buyers source, inspect and ship products from China" };
 
 export const abs = (path: string) => (path === "/" ? SITE_URL : `${SITE_URL}${path}`);
 
@@ -34,12 +34,14 @@ export const breadcrumbLd = (items: { name: string; path: string }[]) => ({
 });
 
 export const orgLd = (description: string) => ({
-  "@type": "Organization",
+  // ProfessionalService (a LocalBusiness type) fits a services firm with a real registered office.
+  "@type": ["Organization", "ProfessionalService"],
   "@id": ORG_ID,
   name: COMPANY.brand,
+  alternateName: ["SinoVorex", COMPANY.legalNameEnGloss],
   legalName: COMPANY.legalNameZh,
   url: SITE_URL,
-  logo: { "@type": "ImageObject", url: `${SITE_URL}/apple-icon.png`, width: 180, height: 180 },
+  logo: { "@type": "ImageObject", url: `${SITE_URL}/brand/sinovorex-logo-512.png`, width: 512, height: 512 },
   image: `${SITE_URL}/opengraph-image.png`,
   email: COMPANY.email,
   telephone: COMPANY.phoneDisplay.replace(/\s/g, ""),

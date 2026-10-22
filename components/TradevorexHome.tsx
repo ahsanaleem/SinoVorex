@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { MotionConfig } from "framer-motion";
 import { SmoothScroll, useScrollTo } from "./sinovorex/primitives";
-import { CustomCursor, IntroCurtain, ScrollProgress } from "./sinovorex/chrome";
+import { CustomCursor, ScrollProgress } from "./sinovorex/chrome";
 import { Nav } from "./sinovorex/Nav";
 import { Hero, MarqueeBands } from "./sinovorex/Hero";
 import { HowItWorks, Services } from "./sinovorex/Services";
@@ -17,7 +17,7 @@ import { FloatingChat } from "./sinovorex/FloatingChat";
 // Only needed once someone opens the quote form; keeps it out of the initial bundle.
 const ContactModal = dynamic(() => import("./sinovorex/ContactModal").then((m) => m.ContactModal), { ssr: false });
 
-/** Scrolls to #section from a shared link once the intro has finished. */
+/** Scrolls to #section from a shared link once the page is ready. */
 function HashScroll({ ready }: { ready: boolean }) {
   const scrollTo = useScrollTo();
   useEffect(() => {
@@ -34,19 +34,14 @@ export default function TradevorexHome() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMounted, setModalMounted] = useState(false);
 
-  // Entrance animations start as the intro curtain lifts (first visit) or straight away. Content is never hidden behind this.
-  useEffect(() => {
-    const seen = document.documentElement.hasAttribute("data-intro-seen") || matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const t = setTimeout(() => setLoaded(true), seen ? 0 : 750);
-    return () => clearTimeout(t);
-  }, []);
+  // Entrance animations start once the page is interactive. The hero text never waits for them.
+  useEffect(() => setLoaded(true), []);
   const openContact = useCallback(() => { setModalMounted(true); setModalOpen(true); }, []);
   const closeContact = useCallback(() => setModalOpen(false), []);
 
   return (
     <MotionConfig reducedMotion="user">
       <SmoothScroll>
-        <IntroCurtain />
         <HashScroll ready={loaded} />
         <CustomCursor />
         <ScrollProgress />

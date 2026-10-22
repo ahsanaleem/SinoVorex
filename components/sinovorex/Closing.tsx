@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowUp, ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { ChatButtons } from "./ChatButtons";
 import { COMPANY, NAV_LINKS, SERVICES } from "./data";
-import { FOOTER_RESOURCES } from "./links";
+import { FOOTER_GUIDES, FOOTER_RESOURCES } from "./links";
 import { BrandLogo, EASE, Magnetic, PillButton, Reveal, SplitWords, useScrollTo } from "./primitives";
 
 export function CTA({ onContact }: { onContact: () => void }) {
@@ -75,7 +75,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
   return (
     <footer data-theme="dark" className="relative overflow-hidden bg-ink px-4 pt-20 text-white sm:px-6">
       <div className="mx-auto max-w-[1280px]">
-        <div className="grid gap-12 border-b border-white/10 pb-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
+        <div className="grid gap-12 border-b border-white/10 pb-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.3fr_0.8fr_1fr_1fr_1.2fr_1.2fr]">
           <div>
             <BrandLogo dark className="h-20 w-auto md:h-24" />
             <p className="mt-6 max-w-[340px] text-[15px] leading-relaxed text-white/65">
@@ -102,13 +102,19 @@ export function Footer({ onContact }: { onContact: () => void }) {
           <div>
             <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Services</div>
             <ul className="space-y-3 text-[15px]">
-              {SERVICES.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="text-white/70 transition-colors hover:text-white">{s.title}</Link></li>)}
+              {SERVICES.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="inline-block py-1 text-white/70 transition-colors hover:text-white">{s.title}</Link></li>)}
             </ul>
           </div>
           <div>
             <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Resources</div>
             <ul className="space-y-3 text-[15px]">
-              {FOOTER_RESOURCES.map(([label, href]) => <li key={href}><Link href={href} className="text-white/70 transition-colors hover:text-white">{label}</Link></li>)}
+              {FOOTER_RESOURCES.map(([label, href]) => <li key={href}><Link href={href} className="inline-block py-1 text-white/70 transition-colors hover:text-white">{label}</Link></li>)}
+            </ul>
+          </div>
+          <div>
+            <div className="mb-5 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Guides</div>
+            <ul className="space-y-3 text-[15px]">
+              {FOOTER_GUIDES.map(([label, href]) => <li key={href}><Link href={href} className="inline-block py-1 text-white/70 transition-colors hover:text-white">{label}</Link></li>)}
             </ul>
           </div>
           <div>

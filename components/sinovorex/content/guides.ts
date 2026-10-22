@@ -1,7 +1,9 @@
 import type { Article } from "./types";
+import { PILLAR_GUIDE } from "./guide-pillar";
+import { SHIPPING_GUIDES } from "./guide-shipping";
 
 /** /guides/[slug]. Educational content; each guide links to the matching service pages. */
-export const GUIDES: Article[] = [
+const CORE_GUIDES: Article[] = [
   {
     slug: "china-sourcing-agent-cost",
     takeaways: [
@@ -15,7 +17,7 @@ export const GUIDES: Article[] = [
     description: "How China sourcing agents charge: commission, flat fees and per-day inspection rates, what a $10,000 order costs in fees, and the red flags to watch for.",
     summary: "Most China sourcing agents charge a commission of roughly 5 to 10% of the order value, a flat fee per project, or a monthly retainer. Factory audits and inspections are usually priced per person per day on site. The headline rate matters less than what it includes, and whether you're the only one paying the agent.",
     published: "2026-10-20",
-    updated: "2026-10-20",
+    updated: "2026-10-23",
     body: [
       { h2: "What a sourcing agent does for the fee" },
       { p: "A sourcing agent works for you in China. Depending on what you agree, that can cover finding and comparing suppliers, negotiating in Chinese, collecting samples, checking factories, following production, inspecting the goods and arranging freight." },
@@ -28,7 +30,17 @@ export const GUIDES: Article[] = [
         ["Day rate", "A daily rate for work on site, such as factory audits and quality inspections", "Inspection companies often advertise about US$200 to 350 per person per day, sometimes plus travel", "Audits and inspections, with or without a sourcing agent"],
         ["Monthly retainer", "A fixed monthly fee for a set amount of work", "Depends on the workload", "Buyers with lots of products and frequent orders"],
       ] } },
+      { p: "Those ranges line up with what the market publishes. Epic Sourcing's 2026 UK pricing guide, for example, puts most reputable agents at 5 to 10%, within a wider market range of 5 to 15%. On the inspection side, V-Trust advertises an all-inclusive rate of US$268 per man-day, travel included." },
       { p: "Plenty of agents mix these, for example a commission for sourcing and follow-up plus a day rate for inspections. Whatever the model, ask for every fee in writing before any work starts." },
+
+      { h2: "How commission changes with order size" },
+      { p: "Percentages usually fall as orders get bigger, because the agent's work doesn't grow at the same rate as the order value. The bands below are from Epic Sourcing's 2026 guide." },
+      { table: { caption: "Published by Epic Sourcing (June 2026), based on ex-factory order value.", head: ["Order value", "Typical commission"], rows: [
+        ["Under £10,000", "8 to 12%"],
+        ["Most orders", "5 to 10%"],
+        ["£50,000 and above", "3 to 6%"],
+      ] } },
+      { p: "If an agent quotes far below these figures, find out what they're leaving out, or how else they're being paid." },
 
       { h2: "Worked example: a US$10,000 order" },
       { p: "Let's say you order US$10,000 worth of goods, valued FOB, with one pre-shipment inspection." },
@@ -39,6 +51,17 @@ export const GUIDES: Article[] = [
         ["As a share of the order value", "7%", "13.5%"],
       ] } },
       { p: "Freight, import duties, samples and bank charges come on top, whichever agent you use. On small orders, fixed costs like an inspection day make up a bigger share, which is why some agents have a minimum fee." },
+
+      { h2: "Comparing two agents' quotes" },
+      { p: "A lower percentage doesn't always mean a cheaper agent. Here's a simple comparison on the same US$10,000 order." },
+      { table: { caption: "Illustrative example, not a quote.", head: ["", "Agent A", "Agent B"], rows: [
+        ["Commission", "6%, so US$600", "9%, so US$900"],
+        ["Pre-shipment inspection", "Charged extra, US$300", "Included"],
+        ["Factory audit before ordering", "Charged extra, US$300", "Included"],
+        ["Sample checking and forwarding", "Charged extra, US$100", "Included"],
+        ["Total", "US$1,300", "US$900"],
+      ] } },
+      { p: "Agent A looks cheaper on the headline rate but costs more once you add what you actually need. Always compare the total for the same scope of work." },
 
       { h2: "What to check is included" },
       { ul: [
@@ -60,6 +83,18 @@ export const GUIDES: Article[] = [
         "No written agreement covering the work, the fee, and who owns the relationship with the supplier.",
       ] },
       { p: "It's worth asking any agent straight out how they're paid, who pays them, and whether they'll put that in writing." },
+
+      { h2: "Costs that aren't the agent's fee" },
+      { p: "Whichever agent you choose, these costs are part of buying from China, and it helps to budget for them from the start." },
+      { ul: [
+        "Samples and the courier to send them, usually tens to a few hundred dollars per supplier.",
+        "Tooling, moulds or print set-up for custom products.",
+        "Freight and cargo insurance, which depend heavily on the season and route.",
+        "Import duty and VAT or sales tax in your country.",
+        "Bank charges for international transfers, typically a small fixed fee per payment.",
+        "Testing and certification, if your product needs it for your market.",
+      ] },
+      { p: "Our [guide to China sourcing agents](/guides/china-sourcing-agent) explains what you get for these fees, and how to choose an agent." },
 
       { h2: "Is an agent worth it?" },
       { p: "An agent usually pays for itself if you can't visit China, if your order includes custom or quality-critical products, or if you're dealing with several suppliers at once." },
@@ -89,7 +124,7 @@ export const GUIDES: Article[] = [
     description: "How small businesses can source from China with low MOQs: how MOQs are set, how to negotiate a smaller first order, and how to keep a small order safe.",
     summary: "Small businesses can buy from China by picking products made from standard materials, sticking to stock designs or simple customisation for the first order, negotiating a trial order the factory can still make money on, and paying for an inspection before the balance.",
     published: "2026-10-20",
-    updated: "2026-10-20",
+    updated: "2026-10-23",
     body: [
       { h2: "Why factories set MOQs" },
       { p: "A minimum order quantity, or MOQ, is rarely just a number the factory made up. It usually reflects real costs. There's the smallest amount of raw material they can buy, like a roll of fabric or a batch of a custom colour. There's the time it takes to set up a machine or a print run. And a small order needs as much admin as a big one." },
@@ -138,7 +173,7 @@ export const GUIDES: Article[] = [
       { q: "Are Alibaba MOQs negotiable?", a: "Often they are. Ask what's behind the MOQ and offer a realistic trial order. Some listed MOQs are set high just to put off casual enquiries." },
       { q: "Is it worth inspecting a small order?", a: "Usually, yes. An inspection is a fixed cost, but finding a fault after the goods arrive can cost you the whole order." },
     ],
-    related: ["/sourcing-for/small-businesses", "/services/product-sourcing", "/guides/china-sourcing-agent-cost"],
+    related: ["/sourcing-for/small-businesses", "/services/product-sourcing", "/services/samples-consolidation", "/guides/china-sourcing-agent-cost"],
   },
 
   {
@@ -248,7 +283,7 @@ export const GUIDES: Article[] = [
     description: "What a pre-shipment inspection checks, how AQL sampling works under ISO 2859-1, an AQL table for common lot sizes, and what to do when goods fail.",
     summary: "A pre-shipment inspection checks a random sample of your finished, packed goods before you pay the balance. How many get checked, and how many faults are allowed, comes from a standard called ISO 2859-1, also known as AQL. For an order of 3,000 units, an inspector checks 125, and at AQL 2.5 the order passes with up to 7 major defects.",
     published: "2026-10-20",
-    updated: "2026-10-20",
+    updated: "2026-10-23",
     body: [
       { h2: "What a pre-shipment inspection is" },
       { p: "A pre-shipment inspection, or PSI, is a check of the finished goods at the factory once at least 80% of the order has been made and packed." },
@@ -263,7 +298,7 @@ export const GUIDES: Article[] = [
       ] } },
 
       { h2: "What AQL means" },
-      { p: "AQL stands for Acceptance Quality Limit. Under ISO 2859-1, which is the same as ANSI/ASQ Z1.4, an inspector checks a random sample. The size of that sample depends on how big the order is and which inspection level you use. The AQL then sets how many faulty units the sample can have before the whole order fails." },
+      { p: "AQL stands for Acceptance Quality Limit. The sampling plans come from [ISO 2859-1](https://www.iso.org/standard/85464.html), published by the International Organization for Standardization (the current edition is from 2026). Under ISO 2859-1, which is the same as ANSI/ASQ Z1.4, an inspector checks a random sample. The size of that sample depends on how big the order is and which inspection level you use. The AQL then sets how many faulty units the sample can have before the whole order fails." },
       { p: "Faults are put into three groups, and each group has its own AQL." },
       { ul: [
         "Critical faults make the product unsafe or illegal in your market, like a sharp edge on a child's toy. These usually aren't allowed at all.",
@@ -313,7 +348,7 @@ export const GUIDES: Article[] = [
       { q: "Does passing AQL mean there are no faults?", a: "No. AQL sampling accepts a small, known risk of faults in the whole order. A pass means the number of faults in the sample was within the limit you set." },
       { q: "Can an inspection replace lab testing?", a: "No. Certification tests such as CE, UKCA or CPSIA are done by accredited labs. An inspection checks that production matches the specification and the sample that was tested." },
     ],
-    related: ["/services/quality-inspection", "/guides/factory-audit-checklist", "/sourcing-for/amazon-sellers"],
+    related: ["/services/quality-inspection", "/services/order-follow-up", "/guides/factory-audit-checklist", "/sourcing-for/amazon-sellers"],
   },
 
   {
@@ -329,7 +364,7 @@ export const GUIDES: Article[] = [
     description: "The difference between a freight forwarder and a China sourcing agent, which one you need, and how they work together from the factory to your door.",
     summary: "A sourcing agent works on the buying side, finding suppliers, checking factories and goods, and managing production. A freight forwarder works on the shipping side, booking transport, preparing the transport documents and arranging customs clearance. Most importers need both, and the handover happens at the factory or the port.",
     published: "2026-10-20",
-    updated: "2026-10-20",
+    updated: "2026-10-23",
     body: [
       { h2: "The short answer" },
       { table: { head: ["", "Sourcing agent", "Freight forwarder"], rows: [
@@ -349,7 +384,7 @@ export const GUIDES: Article[] = [
       { p: "What they don't do is check whether the goods inside the cartons are right." },
 
       { h2: "Where the handover happens" },
-      { p: "Where one hands over to the other depends on the Incoterm in your purchase contract." },
+      { p: "Where one hands over to the other depends on the Incoterm in your purchase contract. Incoterms are the standard trade terms published by the [International Chamber of Commerce](https://iccwbo.org/business-solutions/incoterms-rules/); the current version is Incoterms 2020." },
       { ul: [
         "With EXW, the forwarder collects from the factory and handles export clearance.",
         "With FOB, the factory delivers to the ship at the Chinese port, and your forwarder takes over from there.",
@@ -386,5 +421,8 @@ export const GUIDES: Article[] = [
     related: ["/services/shipping-coordination", "/guides/china-sourcing-agent-cost", "/services/product-sourcing"],
   },
 ];
+
+/** Pillar guide first, then the practical guides, then the shipping guides. */
+export const GUIDES: Article[] = [PILLAR_GUIDE, ...CORE_GUIDES, ...SHIPPING_GUIDES];
 
 export const GUIDE_BY_SLUG = Object.fromEntries(GUIDES.map((g) => [g.slug, g]));

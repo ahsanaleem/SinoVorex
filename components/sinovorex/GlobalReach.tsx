@@ -35,7 +35,7 @@ function WorldMap({ cities, active, onPick }: { cities: readonly City[]; active:
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_70%_at_82%_40%,rgba(255,107,43,0.14),transparent_70%)]" />
       <div className="relative" style={{ aspectRatio: `${MAP_W} / ${MAP_H}` }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/world-dots.svg" alt="World map showing shipping routes from China to partner markets" className="absolute inset-0 h-full w-full opacity-[0.16]" draggable={false} />
+        <img src="/world-dots.svg" loading="lazy" decoding="async" width={147} height={70} alt="World map showing shipping routes from China to partner markets" className="absolute inset-0 h-full w-full opacity-[0.16]" draggable={false} />
 
         <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="absolute inset-0 h-full w-full">
           <defs>

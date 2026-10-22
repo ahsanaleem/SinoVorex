@@ -5,7 +5,7 @@ import { PAGE_UPDATED, SERVICES } from "@/components/sinovorex/data";
 import { SERVICE_CONTENT } from "@/components/sinovorex/content/services";
 import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { PageHeader, RelatedLinks } from "@/components/sinovorex/PageParts";
-import { JsonLd, ORG_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
+import { JsonLd, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
 const TITLE = "China Sourcing, Inspection & Shipping Services | Sino Vorex";
 const DESCRIPTION = "Our services for buyers sourcing from China: product sourcing, factory audits, quality inspection, production follow-up, samples, consolidation and freight.";
@@ -20,8 +20,9 @@ export default function ServicesIndex() {
         "@type": "ItemList",
         name: "Sino Vorex services",
         itemListElement: SERVICES.map((s, i) => ({
-          "@type": "ListItem", position: i + 1,
-          item: { "@type": "Service", name: SERVICE_CONTENT[s.slug].h1, url: abs(`/services/${s.slug}`), provider: { "@id": ORG_ID } },
+          "@type": "ListItem", position: i + 1, url: abs(`/services/${s.slug}`),
+          // Same @id as the Service node on each service page, so they are one entity.
+          item: { "@id": `${abs(`/services/${s.slug}`)}#service` },
         })),
       })} />
       <section className="px-4 pb-16 pt-14 sm:px-6 md:pt-20">

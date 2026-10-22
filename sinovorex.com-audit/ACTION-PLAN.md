@@ -1,48 +1,42 @@
-# Action Plan — sinovorex.com
+# Action Plan — sinovorex.com (2026-10-22)
 
-Health score today: **59/100**. No Critical (indexing-blocking) issues. Ordered by dependency: fixes that unblock others come first.
+SEO Health Score **81/100** (was 59). No Critical items. Ordered by impact ÷ effort.
 
-Each item lists **why** (the observation it rests on), **depends on / unblocks**, **how we'd know it failed**, and a **leading indicator** to watch without re-auditing.
+## Critical
+None — every indexable page is 200, server-rendered, canonicalised and in the sitemap.
 
-## Phase 1 — Quick fixes (Week 1, ~1–2 days of dev)
+## High (this week)
+1. **Fill the trust data** — `components/sinovorex/data.ts`: `licenceNo` (:22), `foundedYear` (:26), `sameAs` (:28), `TEAM` (:32), `commissionRange` (:125), `inspectionRate` (:127). Footer, /about, Organization schema and pricing UI already render them. *Effort: 30 min + gathering the data.*
+2. **Get into Bing (and confirm Google)** — verify in Bing Webmaster Tools and Google Search Console (set `NEXT_PUBLIC_BING_SITE_VERIFICATION` / `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, `app/layout.tsx:11-18`, or use DNS), submit `https://sinovorex.com/sitemap.xml`, run `npm run indexnow`. *1 h.*
+3. **Create off-site profiles** — LinkedIn company page, Google Business Profile (Suzhou office), YouTube, 1–2 B2B directories; add URLs to `sameAs`. *1–2 days.*
+4. **Real proof** — replace "Illustrative example" cases (`content/services.ts:79,147,212`) with 2–3 real anonymised orders; publish a redacted sample inspection report and factory-audit report. *1–3 days.*
 
-| # | Action | Where | Why | Depends / unblocks | Failure check | Leading indicator |
-|---|---|---|---|---|---|---|
-| 1.1 | Fill `licenceNo` (统一社会信用代码) | `components/sinovorex/data.ts:20` | Rendering code already exists in footer, About, SubpageShell and schema `taxID`; empty string hides it | Unblocks trust content (3.1), schema `taxID` | `curl` homepage HTML: no "统一社会信用代码" | Code visible on every page; schema shows `taxID` |
-| 1.2 | Add `www` DNS (CNAME → `cname.vercel-dns.com`), add in Vercel, 308 → apex | DNS / Vercel | `www` is NXDOMAIN | — | `curl -I https://www.sinovorex.com` ≠ 308 | Redirect works from a phone on mobile data |
-| 1.3 | Render all FAQ answers + Incoterm panels in the DOM; FAQ questions as H3 | `components/sinovorex/Trade.tsx:185-190, 242-247` | `{isOpen && …}` drops 6/7 answers from HTML | Unblocks AI citability | Raw HTML lacks answer #2 text | Answers quoted in Google/Perplexity results |
-| 1.4 | Hero visible by default; loader as overlay (or skip) | `chrome.tsx:8-39`, `Hero.tsx:27-31` | H1 at opacity 0 for ~2.5–3.5 s → LCP 4.3 s / 6.6 s | Unblocks Performance score | Lab LCP on / still > 2.5 s desktop | CrUX LCP (once traffic) < 2.5 s |
-| 1.5 | Homepage H1 + title target "China sourcing agent"; slogan as tagline; normal spaces; meta description ≤ 150 chars | `Hero.tsx:77-83`, `app/layout.tsx` | Head term on zero pages | Pairs with 3.x content | Term absent from H1/title | GSC impressions for "sourcing agent" queries |
-| 1.6 | Verify Google Search Console + Bing Webmaster Tools; submit sitemap; add IndexNow | external + small route | Bing shows 0 pages; feeds ChatGPT Search/Copilot | Unblocks field data, backlink data, `/seo google` | Bing still 0 indexed after 2 weeks | Indexed-page count in both consoles |
-| 1.7 | Per-route sitemap `lastmod`; drop `priority`/`changefreq` | `app/sitemap.ts` | All 9 URLs share one `new Date()` | — | All lastmods identical again | — |
-| 1.8 | Per-page OG/Twitter metadata; service `og:type=website`; restore og:image | `app/privacy`, `app/terms`, `app/services/[slug]/page.tsx:17-20` | Legal pages inherit homepage OG | — | Share preview of /privacy shows homepage title | — |
-| 1.9 | Security headers (CSP, nosniff, frame, referrer, permissions) | `next.config.mjs` | Only HSTS present | — | `curl -I` lacks headers | securityheaders.com grade |
+## Medium (within a month)
+5. Name an author: add a real person to `TEAM`, switch Article `author` to Person (`ArticleView.tsx:23`), show a byline. *2 h.*
+6. Internal links to guides: footer + homepage guide list, `related` guides for order-follow-up and samples-consolidation (`app/services/[slug]/page.tsx:33`), in-body links from service pages. *1 h.*
+7. Fix noindex-page canonicals: `alternates: { canonical: null }` in `app/quote/thanks/page.tsx:7`, `app/quote/problem/page.tsx:7`, `app/not-found.tsx:6` (also drop the duplicate robots there). *10 min.*
+8. De-cannibalise: retitle product-sourcing away from "China Sourcing Agent" (`content/services.ts:22`); write a 2,500+ word `/guides/china-sourcing-agent` pillar. *1 day.*
+9. Shipping intent: add "shipping from China to USA / UK / EU" guides; retarget the service page to "freight forwarding from China". *2–3 days.*
+10. Deepen the Amazon page and cost guide toward 2,000+ words; source the market figures in all guides (1–3 named sources each). *1–2 days.*
+11. Homepage mobile performance: drop parallax/`useScroll` springs on touch, lazy-mount below-fold sections, `aria-hidden` + dedupe the marquee (`Hero.tsx:26-45,150`). *0.5 day.*
+12. Intro curtain: remove or cut to ≤300 ms and remove the 0.8 s H1 delay (`globals.css:61,72-73`). *30 min.*
+13. Mobile UX: shrink the globe below `md` so H1 + CTA sit in the first screen; quote inputs 16 px, labels ≥12 px; ≥44 px tap targets; hide floating chat on /quote; form above explainer on mobile. *0.5 day.*
+14. Quote form fit: "What do you need?" service chips, Amazon FBA toggle, `?service=` prefill from service-page CTAs (`QuoteForm.tsx:111-124`). *0.5 day.*
+15. Real photos / video on service pages and guides with descriptive alt text. *Ongoing.*
+16. `http://www` single hop: set www→apex redirect at the Vercel domain level. *10 min.*
+17. Automate sitemap lastmod (git-derived) and IndexNow on deploy. *1 h.*
 
-## Phase 2 — High-impact improvements (Weeks 2–3)
+## Low (backlog)
+- HSTS `includeSubDomains; preload`; gate `vercel.live`/pusher CSP entries to preview.
+- `/sourcing-for` hub page (currently 404).
+- Remove `world-dots.svg` preload (`GlobalReach.tsx:38`); long cache headers for `/brand`, `/products`, OG image; delete unused Geist fonts; SVGO logos; re-encode OG PNG (~60 KB).
+- Schema: /services hub reference Service `@id`s (`app/services/page.tsx:24`); ≥512 px logo (`lib/seo.tsx:42`); homepage WebPage `dateModified`; breadcrumbs on /privacy, /terms.
+- Rename duplicate H2s (`services.ts:282,366`, `audiences.ts:25`); trim hotels description; lengthen /terms and /privacy descriptions.
+- Single responsive `<table>` instead of table + card duplicate (`Blocks.tsx:72-104`); concrete homepage FAQ answers.
+- Optional agent-readiness drafts: Content-Signal, llms-full.txt, WebMCP annotations on the quote form.
+- Do **not** add FAQPage markup expecting rich results — Google ended them for all sites on 2026-05-07.
 
-| # | Action | Where | Why | Depends / unblocks | Failure check | Leading indicator |
-|---|---|---|---|---|---|---|
-| 2.1 | Rewrite the 6 service pages: 800–1,500 unique words each; unique H2s; only the relevant process step; checklist, what the report contains, timing, price basis, example | `data.ts` SERVICES + `app/services/[slug]/page.tsx` | 147–194 words, 0.45–0.48 overlap | Needs 1.1 / 3.1 proof assets to cite | Pairwise overlap still > 0.3 | Service-page impressions in GSC |
-| 2.2 | Retarget service H1/titles to searched terms ("Factory Audit…", "Pre-shipment Inspection & QC…", "Shipping from China: Sea, Air & Rail…") | same | Current phrasing has little search demand | Do together with 2.1 | — | Queries per page in GSC |
-| 2.3 | Publish price ranges + worked $10k example | homepage fees section / service pages | Competitors publish 5–10% and $199–320/man-day | — | — | Quote-form submissions |
-| 2.4 | BreadcrumbList + Service + WebSite JSON-LD with `@id` graph; PNG logo | `app/services/[slug]/page.tsx`, `app/layout.tsx` (code in findings/schema.md §4) | Only Organization exists | — | Rich Results Test errors | Breadcrumb trail shown in Google results |
-| 2.5 | Mobile nav menu on subpages; 48 px hamburger | `SubpageShell.tsx`, `Nav.tsx` | Subpages have no menu on mobile | — | — | Mobile pages/session |
-| 2.6 | Code-split heavy client JS; `next/image` or `<picture>` with AVIF/WebP + `sizes` | Hero/HeroGlobe/PageLoader, product images | ~212 KB shared JS on every route; same 1200 px image on mobile | After 1.4 | Service-page mobile LCP still > 2.5 s | CrUX |
-| 2.7 | Server-rendered `/quote` route (modal can still open it) | new route + `ContactModal.tsx` | Form invisible to fetch-only agents | — | — | — |
-
-## Phase 3 — Content & authority (Month 2)
-
-| # | Action | Why | Depends / unblocks | Failure check | Leading indicator |
-|---|---|---|---|---|---|
-| 3.1 | /about with named team, founding year, office/warehouse photos; 2–3 real case studies with numbers; redacted sample inspection + factory-audit reports; replace AI product images | Experience 25, Authority 15 — the biggest score drag and the main buyer objection | After 1.1; feeds 2.1, 3.2 and link building | Still no named person or real photo on site | Time on /about; quote conversion rate |
-| 3.2 | `/guides/` hub: what a sourcing agent costs & red flags; small business / low MOQ; factory audit checklist; pre-shipment inspection & AQL; freight forwarder vs sourcing agent | Guides are ~65% of the "china sourcing agent" SERP; site has none | Uses proof from 3.1; internal links to 2.1 pages | Guides not indexed after 4 weeks | Guide impressions/clicks in GSC |
-| 3.3 | Audience pages: Amazon sellers, small businesses, hotel & café procurement (with compliance notes + multi-item upload) | Weakest personas 44–53 | After 2.1 | — | Conversions by landing page |
-| 3.4 | Off-site entity: LinkedIn company page, Google Business Profile, Made-in-China / Global Sources / Kompass listings, trade association membership; add all to `sameAs` | Authority/brand 20/100; zero external mentions | After 1.6 | Brand search still shows unrelated results | Branded search results; referring domains (Bing WMT) |
-| 3.5 | Transit-time table by route, short YouTube videos (inspection walkthrough), optional `llms.txt` | Multi-modal 35/100 | After 3.1 | — | — |
-
-## Phase 4 — Monitoring (ongoing)
-
-- Run `/seo drift baseline https://sinovorex.com` after Phase 1 ships, then `/seo drift compare` after each release.
-- Once GSC/PSI keys are configured, re-run `/seo google` for CrUX field data to replace these lab numbers.
-- Add a free Moz API key and re-run `/seo backlinks` in 2–3 months.
-- Housekeeping: delete unused template code (`components/three/*`, `components/sections/*`) and ~18 MB orphan assets in `public/`.
+## Monitoring
+- Run Lighthouse / PSI with an API key for real CWV and the Agentic Browsing fraction.
+- Capture a drift baseline (`/claude-seo:seo-drift baseline https://sinovorex.com`) so future deploys can be diffed.
+- After Bing/GSC verification, re-audit in ~6 weeks with field data and backlink data.

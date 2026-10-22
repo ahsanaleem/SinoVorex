@@ -102,8 +102,8 @@ export function HeroGlobe({ ready }: { ready: boolean }) {
       cv.width = W * dpr; cv.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       if (W > 1024) { R = Math.min(H * 0.34, W * 0.24); cx = W * 0.73; cy = H * 0.5; }
-      // Small screens: globe sits under the nav; Hero offsets its copy by the same 96px + 2.1R
-      else { R = Math.min(W * 0.4, innerHeight * 0.19); cx = W * 0.5; cy = 96 + R * 1.1; }
+      // Kept small so the H1 and quote button fit in the first screen; Hero.tsx offsets its copy by ~96px + 2.1R.
+      else { R = Math.min(W * 0.28, innerHeight * 0.13); cx = W * 0.5; cy = 96 + R * 1.1; }
     }
     function setRot() {
       const y = (yaw + tmx * 8) * D, p = (pitch - tmy * 6) * D;

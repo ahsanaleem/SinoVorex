@@ -5,13 +5,13 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "Privacy Policy | Sino Vorex",
-  description: "How Sino Vorex collects, uses and protects personal information sent through this website.",
+  description: "How Sino Vorex collects, uses, shares and protects the personal information you send us through this website, and the rights you have over it.",
   path: "/privacy",
 });
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" updated={PAGE_UPDATED.privacy}>
+    <LegalPage title="Privacy Policy" path="/privacy" updated={PAGE_UPDATED.privacy}>
       <p>
         This policy explains how {COMPANY.legalNameZh}, operating under the brand {COMPANY.brand} (&ldquo;Sino Vorex&rdquo;, &ldquo;we&rdquo;), handles personal
         information collected through this website. It is written with the Personal Information Protection Law of the People&apos;s

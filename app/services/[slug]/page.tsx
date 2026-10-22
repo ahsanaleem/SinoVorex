@@ -59,6 +59,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             eyebrow={`Service ${s.num} of ${SERVICES.length}`}
             icon={<Icon size={22} strokeWidth={1.7} />}
             minutes={readMinutes(c.body, c.faqs)}
+            quoteHref={`/quote?service=${s.slug}`}
           />
 
           <div className="mt-10"><InShort title="At a glance" points={c.glance} /></div>
@@ -87,7 +88,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                 <div data-theme="dark" className="flex flex-col rounded-[28px] bg-ink p-6 text-white md:p-8">
                   <h2 className="font-display text-[24px] font-medium tracking-[-0.03em]">What you receive</h2>
                   <p className="mt-5 flex-1 text-[18px] leading-relaxed text-white/85">{s.youReceive}</p>
-                  <Link href="/quote" className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-flame px-5 py-3 text-[15px] font-medium">Get a free quote <ArrowUpRight size={16} /></Link>
+                  <Link href={`/quote?service=${s.slug}`} className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-flame px-5 py-3 text-[15px] font-medium">Get a free quote <ArrowUpRight size={16} /></Link>
                 </div>
               </section>
 

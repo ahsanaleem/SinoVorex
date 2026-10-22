@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Loader2, Paperclip, X } from "lucide-react";
-import { COMPANY } from "./data";
+import { COMPANY, SERVICES } from "./data";
 import { EASE } from "./primitives";
 import { track } from "./analytics";
 
@@ -12,13 +12,15 @@ const EMPTY = {
   name: "", email: "", company: "", phone: "",
   product: "", quantity: "", targetPrice: "", destination: "", incoterm: "Not sure", message: "",
 };
+/** "What do you need?" chips. Service pages link to /quote?service=<slug> to preselect one. */
+const SERVICE_OPTIONS = SERVICES.map((s) => ({ slug: s.slug, label: s.title }));
 export const MAX_FILES = 3;
 export const MAX_TOTAL_BYTES = 8 * 1024 * 1024;
 // Images, PDFs and spreadsheets (multi-item procurement lists). Keep in sync with app/api/contact/route.ts.
 const ACCEPT = "image/jpeg,image/png,image/webp,application/pdf,.xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv";
 const INCOTERM_OPTIONS = ["Not sure", "FOB", "CIF", "DDP", "EXW"];
 
-const fieldCls = "peer w-full rounded-2xl border border-ink/10 bg-paper px-4 pb-3 pt-7 text-[15px] text-ink outline-none transition-all duration-300 placeholder:text-transparent focus:border-flame focus:bg-white focus:shadow-[0_0_0_4px_rgba(255,107,43,0.12)]";
+const fieldCls = "peer w-full rounded-2xl border border-ink/10 bg-paper px-4 pb-3 pt-8 text-[16px] text-ink outline-none transition-all duration-300 placeholder:text-transparent focus:border-flame focus:bg-white focus:shadow-[0_0_0_4px_rgba(255,107,43,0.12)]";
 
 function Field({
   label, required, textarea, hint, ...props
@@ -28,8 +30,8 @@ function Field({
       {textarea
         ? <textarea {...props} required={required} placeholder={label} rows={3} className={`${fieldCls} min-h-[100px] resize-none`} />
         : <input {...props} required={required} placeholder={label} className={fieldCls} />}
-      <span className="pointer-events-none absolute left-4 top-2.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink/70 transition-colors peer-focus:text-flame">
-        {label}{!required && <span className="normal-case tracking-normal text-ink/55"> (optional)</span>}{hint && <span className="normal-case tracking-normal text-ink/55"> · {hint}</span>}
+      <span className="pointer-events-none absolute left-4 top-2.5 text-[12px] font-semibold text-ink/70 transition-colors peer-focus:text-flame">
+        {label}{!required && <span className="font-normal text-ink/55"> (optional)</span>}{hint && <span className="font-normal text-ink/55"> · {hint}</span>}
       </span>
     </label>
   );
@@ -46,7 +48,18 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [honeypot, setHoneypot] = useState("");
+  const [services, setServices] = useState<string[]>([]);
+  const [fba, setFba] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
+
+  // Preselect the service a visitor came from (e.g. /quote?service=quality-inspection).
+  useEffect(() => {
+    const slug = new URLSearchParams(location.search).get("service");
+    const match = SERVICE_OPTIONS.find((o) => o.slug === slug);
+    if (match) setServices([match.label]);
+  }, []);
+  const toggleService = (label: string) =>
+    setServices((cur) => (cur.includes(label) ? cur.filter((x) => x !== label) : [...cur, label]));
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((p) => ({ ...p, [k]: e.target.value }));
@@ -70,13 +83,15 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
       Object.entries(form).forEach(([k, v]) => body.append(k, v));
       body.append("website", honeypot);
       body.append("consent", consent ? "yes" : "");
+      services.forEach((s) => body.append("services", s));
+      if (fba) body.append("fba", "yes");
       files.forEach((f) => body.append("files", f, f.name));
       const res = await fetch("/api/contact", { method: "POST", body });
       if (!res.ok) {
         const data = await res.json().catch(() => null);
         throw new Error(data?.error);
       }
-      track("generate_lead", { form: "quote_request", incoterm: form.incoterm, attachments: files.length });
+      track("generate_lead", { form: "quote_request", incoterm: form.incoterm, attachments: files.length, services: services.join(", ") || "none", fba: fba ? "yes" : "no" });
       setSent(true);
     } catch (err) {
       setError((err instanceof Error && err.message) || `Something went wrong. Please try again or email ${COMPANY.email}.`);
@@ -106,20 +121,36 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
               className="absolute -left-[9999px] h-0 w-0 opacity-0"
             />
 
-            <fieldset className="space-y-3">
-              <legend className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70">Your product</legend>
-              <Field label="Product" name="product" required value={form.product} onChange={set("product")} hint="what you want to source" />
+            <fieldset>
+              <legend className="mb-3 text-[14px] font-semibold text-ink">What do you need help with? <span className="font-normal text-ink/55">(pick any)</span></legend>
+              <div className="flex flex-wrap gap-2">
+                {SERVICE_OPTIONS.map((o) => (
+                  <label key={o.slug} className="cursor-pointer">
+                    <input type="checkbox" name="services" value={o.label} checked={services.includes(o.label)} onChange={() => toggleService(o.label)} className="peer sr-only" />
+                    <span className="inline-flex min-h-[44px] items-center rounded-full border border-ink/15 bg-paper px-4 text-[14px] text-ink/80 transition-colors hover:border-ink/40 peer-checked:border-flame peer-checked:bg-flame peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-flame peer-focus-visible:ring-offset-2">{o.label}</span>
+                  </label>
+                ))}
+              </div>
+              <label className="mt-3 flex min-h-[44px] cursor-pointer items-center gap-3 text-[15px] text-ink/80">
+                <input type="checkbox" name="fba" value="yes" checked={fba} onChange={(e) => setFba(e.target.checked)} className="h-5 w-5 shrink-0 accent-[#FF6B2B]" />
+                The goods are going to Amazon FBA
+              </label>
+            </fieldset>
+
+            <fieldset className="space-y-3 pt-2">
+              <legend className="mb-2 text-[14px] font-semibold text-ink">Your product</legend>
+              <Field label="Product" name="product" required value={form.product} onChange={set("product")} hint="what you want to buy, inspect or ship" />
               <div className="grid gap-3 sm:grid-cols-2">
-                <Field label="Quantity" name="quantity" required value={form.quantity} onChange={set("quantity")} hint="e.g. 2,000 pcs" />
+                <Field label="Quantity" name="quantity" value={form.quantity} onChange={set("quantity")} hint="e.g. 2,000 pcs" />
                 <Field label="Target price" name="targetPrice" value={form.targetPrice} onChange={set("targetPrice")} hint="per unit, USD" />
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                <Field label="Destination" name="destination" required value={form.destination} onChange={set("destination")} hint="country / port" />
+                <Field label="Destination" name="destination" value={form.destination} onChange={set("destination")} hint="country / port" />
                 <label className="relative block">
                   <select name="incoterm" value={form.incoterm} onChange={set("incoterm")} className={`${fieldCls} appearance-none`}>
                     {INCOTERM_OPTIONS.map((o) => <option key={o}>{o}</option>)}
                   </select>
-                  <span className="pointer-events-none absolute left-4 top-2.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink/70">Incoterm</span>
+                  <span className="pointer-events-none absolute left-4 top-2.5 text-[12px] font-semibold text-ink/70">Incoterm</span>
                   <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink/60">▾</span>
                 </label>
               </div>
@@ -153,7 +184,7 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
             </fieldset>
 
             <fieldset className="space-y-3 pt-2">
-              <legend className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70">Your details</legend>
+              <legend className="mb-2 text-[14px] font-semibold text-ink">Your details</legend>
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Full name" name="name" required autoComplete="name" value={form.name} onChange={set("name")} />
                 <Field label="Company" name="company" autoComplete="organization" value={form.company} onChange={set("company")} />
@@ -165,7 +196,7 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
             </fieldset>
 
             <label className="flex items-start gap-3 pt-1 text-[13px] leading-relaxed text-ink/75">
-              <input type="checkbox" name="consent" value="yes" required checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-[#FF6B2B]" />
+              <input type="checkbox" name="consent" value="yes" required checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[#FF6B2B]" />
               <span>
                 I agree that Sino Vorex may use these details to reply to my request, as described in the{" "}
                 <Link href="/privacy" target="_blank" className="font-medium text-ink underline underline-offset-2 hover:text-flame">privacy policy</Link>.
@@ -184,7 +215,7 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
 
             <button
               type="submit" disabled={sending}
-              className="group mt-2 flex w-full items-center justify-center gap-3 rounded-full bg-ink py-4 text-[15px] font-medium text-white transition-all duration-500 hover:bg-flame hover:shadow-[0_18px_40px_-12px_rgba(255,107,43,0.6)] disabled:opacity-70"
+              className="group mt-2 flex w-full items-center justify-center gap-3 rounded-full bg-ink py-4 text-[16px] font-medium text-white transition-all duration-500 hover:bg-flame hover:shadow-[0_18px_40px_-12px_rgba(255,107,43,0.6)] disabled:opacity-70"
             >
               {sending ? <><Loader2 size={18} className="animate-spin" /> Sending…</> : <>Send quote request <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:rotate-45" /></>}
             </button>

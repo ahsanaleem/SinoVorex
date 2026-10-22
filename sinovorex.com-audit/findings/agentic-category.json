@@ -1,56 +1,13 @@
 {
-  "name": "AI Search Readiness",
-  "score": 78,
-  "what_works": [
-    "Server-rendered primary content on every page tested (/ = 1488 words, /services/product-sourcing = 267, /privacy = 528, /terms = 318 words without JS; no JS-shell marker anywhere)",
-    "robots.txt reachable (HTTP 200), valid Sitemap pointer, permissive single group with no AI training/search/user-agent token blocked at the root",
-    "Real 404s for unknown URLs (no catch-all 200, which would also break llms.txt/ard-schema Lighthouse checks)",
-    "Clean accessibility tree on the homepage shell: Agent-UX heuristic 100/100 (complete) -- 0 unnamed interactive nodes, 0 div-onclick widgets, 0 inputs missing labels/ARIA",
-    "Contact modal, once opened, uses role=dialog/aria-modal, real <label>-wrapped fields, fieldset/legend grouping, role=alert error banner, and an aria-hidden honeypot that won't confuse legitimate agents",
-    "Desktop nav links are real always-present <a href> elements, not JS-conditional"
-  ],
+  "category": "AI Search Readiness",
+  "score": 84,
+  "lighthouse_agentic": "not measurable (PSI HTTP 429)",
+  "agent_ux": {"home": 100, "quote": 100, "status": "complete"},
   "findings": [
-    {
-      "title": "Lighthouse Agentic Browsing fraction not obtained (PSI quota exceeded)",
-      "severity": "Info",
-      "description": "lighthouse_agentic.py returned HTTP 429 'Quota exceeded for quota metric Queries per day' for both psi-mobile and psi-desktop on 2026-10-19. No X/N fraction, audit statuses, or CLS reading could be retrieved. This is a testing-environment limitation, not a finding about the site.",
-      "recommendation": "Configure a Google API key (/seo google setup) to move off the shared anonymous PSI quota, or run `npx lighthouse@latest https://sinovorex.com --only-categories=agentic-browsing --output=json` locally and re-check with lighthouse_agentic.py --from-json."
-    },
-    {
-      "title": "Quote-request form does not exist in server/static HTML until a click fires",
-      "severity": "Medium",
-      "description": "ContactModal.tsx mounts the dialog only when React state `open` is true ({open && (<div role=\"dialog\">...)}), starting false. Confirmed live via curl on https://sinovorex.com/: the string 'Request a quote' appears only as marketing CTA copy; role=\"dialog\", the id=\"quote-files\" file input, and all form labels/fieldsets are absent from the raw document. A fetch-only or non-interactive agent (a one-shot summarizer, a crawler that does not simulate clicks) cannot discover that Sino Vorex has a lead-generation form or what fields it requires. Agents that execute JS and can click real elements are unaffected, since the trigger is a genuine, accessibly-labelled <button> (\"Get a Quote\"), not a disguised div.",
-      "recommendation": "Optional, scoped by audience: if only interactive/computer-use-style agents matter, no change is needed. If fetch-only or summarizer agents should be able to describe the offer, give the quote request its own server-rendered route (e.g. /quote) that the modal can also open in place as a progressive enhancement."
-    },
-    {
-      "title": "No deliberate robots.txt groups or Content-Signal declaration",
-      "severity": "Low",
-      "description": "Single catch-all 'User-agent: *' group with Allow: / and Disallow: /api/ only; no named groups per AI purpose and no Content-Signal line (checked against Cloudflare's CC0 Content Signals Policy + expired IETF draft, as of 2026-09-23). Current behaviour is maximally permissive, which is a valid choice, not a defect.",
-      "recommendation": "Only if Sino Vorex wants to state a differentiated policy (e.g. allow AI search citation, decline training): add named groups per token and a Content-Signal line such as 'Content-Signal: search=yes, ai-input=yes, ai-train=no' to each relevant group. This is a stated preference, not an enforcement mechanism."
-    },
-    {
-      "title": "No llms.txt",
-      "severity": "Low",
-      "description": "GET /llms.txt and /llms-full.txt both return 404. This is a community convention (llmstxt.org), not a standard; Google Search does not use it, and no consumer agent is confirmed to read it. Lighthouse drops the audit from its fraction rather than failing it when the file is absent.",
-      "recommendation": "Optional: publish /llms.txt with an H1, a one-line '>' summary, and Markdown links to the 6 service pages, /privacy and /terms, following the Lighthouse llms-txt rules."
-    },
-    {
-      "title": "No Markdown delivery (.md URLs or Accept: text/markdown negotiation)",
-      "severity": "Low",
-      "description": "No Vary: Accept header, no rel=\"alternate\" type=\"text/markdown\" link, and /index.md returns 404. No primary source confirms any consumer agent currently requests text/markdown.",
-      "recommendation": "Optional low-regret addition: serve a Markdown-equivalent page via content negotiation or .md sibling URLs if the team wants to test agent consumption; do not expect a measurable traffic or citation effect."
-    },
-    {
-      "title": "No WebMCP tool registered for the one transactional form on the site",
-      "severity": "Low",
-      "description": "Static scan found registerTool_call_sites: 0 and forms: 0 (same root cause as the quote-form-visibility finding above: the form doesn't exist until the modal mounts). WebMCP is a W3C Community Group draft, not a standard -- WebKit opposes it, Mozilla is neutral, and only ChatGPT desktop's browser is documented to call tools by default (checked 2026-09-23).",
-      "recommendation": "Optional enhancement, not a baseline requirement: if adopted, register one imperative tool bound to the existing /api/contact handler so a tool-calling agent can submit a quote request, with a human-confirmation step since it sends a real lead email."
-    },
-    {
-      "title": "No /.well-known discovery files or ai-catalog.json",
-      "severity": "Info",
-      "description": "api-catalog, oauth-protected-resource, oauth-authorization-server, agent-card.json, ucp, and ai-catalog.json all return 404. The site runs no API, no OAuth-protected resource, no A2A agent, and is not an e-commerce storefront, so these are correctly not-applicable rather than gaps.",
-      "recommendation": "No action needed unless Sino Vorex later operates one of the matching services (e.g. publishes an MCP server or A2A agent)."
-    }
+    {"title": "Lighthouse Agentic Browsing fraction unavailable", "severity": "Low", "description": "PSI mobile and desktop returned HTTP 429 (shared quota); no X/N obtained.", "recommendation": "Configure a Google API key or run Lighthouse locally with --only-categories=agentic-browsing."},
+    {"title": "No Content-Signal declaration", "severity": "Low", "description": "robots.txt has a single * group with no Content-Signal line (draft preference, Google ignores it; checked 2026-09-23).", "recommendation": "Optional: serve robots via route handler to add Content-Signal; app/robots.ts:6."},
+    {"title": "No WebMCP markup on quote form", "severity": "Low", "description": "0 registerTool calls, 0 annotated forms (W3C CG draft, not a standard).", "recommendation": "Optional: annotate the /quote form in components/sinovorex/QuoteForm.tsx:102."},
+    {"title": "No Markdown delivery, ai-catalog.json or /.well-known files", "severity": "Low", "description": "index.md, ai-catalog.json, security.txt, api-catalog return 404. Opportunities, not defects.", "recommendation": "Optional; add security.txt if desired."},
+    {"title": "Quote form relies on implicit labels and a hidden honeypot", "severity": "Low", "description": "All 11 inputs are label-wrapped (0 unlabeled) but have no aria-describedby for hints; honeypot field 'website' may be filled by naive agents.", "recommendation": "Add aria-describedby for hints at QuoteForm.tsx:32; keep the honeypot and note it in docs."}
   ]
 }

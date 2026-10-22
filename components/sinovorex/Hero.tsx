@@ -67,7 +67,7 @@ export function Hero({ ready, onContact }: { ready: boolean; onContact: () => vo
 
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col justify-start px-5 pb-14 pt-[calc(116px+min(84vw,40svh))] sm:px-6 lg:justify-center lg:px-10 lg:pb-24 lg:pt-32"
+        className="pointer-events-none relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col justify-start px-5 pb-14 pt-[calc(108px+min(59vw,27svh))] sm:px-6 lg:justify-center lg:px-10 lg:pb-24 lg:pt-32"
       >
         <div className="max-w-[720px] [&>*]:pointer-events-auto">
           <motion.div {...fade(0.1)} className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-ink/10 bg-white/70 py-1.5 pl-1.5 pr-4 text-[13px] font-medium text-ink/80 shadow-sm backdrop-blur-md">
@@ -136,8 +136,8 @@ export function MarqueeBands() {
     <div className={dark ? "bg-ink text-white" : "bg-flame text-white"}>
       <div className={`flex w-max py-5 ${dark ? "animate-marquee" : "animate-marquee-reverse"}`}>
         {[0, 1].map((k) => (
-          <div key={k} className="flex shrink-0 items-center" aria-hidden={k === 1}>
-            {[...items, ...items].map((t, i) => (
+          <div key={k} className="flex shrink-0 items-center">
+            {items.map((t, i) => (
               <span key={i} className="flex items-center gap-8 pr-8 font-display text-[clamp(22px,3vw,40px)] font-medium tracking-[-0.03em]">
                 <span className={i % 2 ? "font-serif font-normal italic" : ""}>{t}</span>
                 <Sparkle size={22} className={dark ? "text-flame" : "text-ink"} fill="currentColor" />
@@ -148,8 +148,9 @@ export function MarqueeBands() {
       </div>
     </div>
   );
+  // Decorative: the service names are already linked in the Services section, so screen readers and crawlers skip this.
   return (
-    <div className="relative z-20 h-[170px] overflow-hidden md:h-[220px]">
+    <div aria-hidden className="relative z-20 h-[170px] overflow-hidden md:h-[220px]">
       <div className="absolute -inset-x-[5%] top-1/2 -translate-y-1/2 rotate-[2.5deg] opacity-90"><Row dark={false} /></div>
       <div className="absolute -inset-x-[5%] top-1/2 -translate-y-1/2 -rotate-[2.5deg] shadow-[0_30px_60px_-20px_rgba(14,14,22,0.45)]"><Row dark /></div>
     </div>

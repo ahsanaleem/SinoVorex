@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { clsx } from "clsx";
 import { COMPANY, SERVICES } from "./data";
-import { FOOTER_RESOURCES, SUBPAGE_NAV } from "./links";
+import { FOOTER_GUIDES, FOOTER_RESOURCES, SUBPAGE_NAV } from "./links";
 import { BrandLogo } from "./brand";
 import { HeaderWhatsApp } from "./ChatButtons";
 
@@ -100,22 +100,28 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
         </section>
       )}
 
-      <footer data-theme="dark" className="bg-ink px-4 py-12 text-white sm:px-6">
-        <div className="mx-auto grid max-w-[1280px] gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+      <footer data-theme="dark" className="bg-ink px-4 pb-28 pt-12 text-white sm:px-6 lg:pb-12">
+        <div className="mx-auto grid max-w-[1280px] gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.3fr_1fr_1fr_1.2fr_1.2fr]">
           <div>
             <BrandLogo dark className="h-16 w-auto" />
             <p className="mt-4 max-w-[320px] text-[14px] leading-relaxed text-white/70">We help buyers around the world find, check and ship products from factories across China.</p>
           </div>
           <div>
             <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Services</div>
-            <ul className="space-y-2 text-[14px]">
-              {SERVICES.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="text-white/75 hover:text-white">{s.title}</Link></li>)}
+            <ul className="space-y-0.5 text-[14px]">
+              {SERVICES.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="inline-block py-1.5 text-white/75 hover:text-white">{s.title}</Link></li>)}
             </ul>
           </div>
           <div>
             <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Resources</div>
-            <ul className="space-y-2 text-[14px]">
-              {FOOTER_RESOURCES.map(([label, href]) => <li key={href}><Link href={href} className="text-white/75 hover:text-white">{label}</Link></li>)}
+            <ul className="space-y-0.5 text-[14px]">
+              {FOOTER_RESOURCES.map(([label, href]) => <li key={href}><Link href={href} className="inline-block py-1.5 text-white/75 hover:text-white">{label}</Link></li>)}
+            </ul>
+          </div>
+          <div>
+            <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Guides</div>
+            <ul className="space-y-0.5 text-[14px]">
+              {FOOTER_GUIDES.map(([label, href]) => <li key={href}><Link href={href} className="inline-block py-1.5 text-white/75 hover:text-white">{label}</Link></li>)}
             </ul>
           </div>
           <div>
@@ -140,7 +146,8 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
       </footer>
 
       {mounted && <ContactModal open={open} onClose={close} />}
-      <FloatingChat />
+      {/* Not on the quote pages, where it would cover form fields on phones. */}
+      {!pathname.startsWith("/quote") && <FloatingChat />}
     </div>
   );
 }

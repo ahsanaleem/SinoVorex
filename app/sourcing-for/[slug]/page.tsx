@@ -23,7 +23,7 @@ export default function AudiencePage({ params }: { params: { slug: string } }) {
   return (
     <ArticleView
       a={a} path={path} kind="page" eyebrow={`Who we help · ${a.label}`}
-      crumbs={[{ name: "Home", path: "/" }, { name: a.label, path }]}
+      crumbs={[{ name: "Home", path: "/" }, { name: "Who we help", path: "/sourcing-for" }, { name: a.label, path }]}
     />
   );
 }

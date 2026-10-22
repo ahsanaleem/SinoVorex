@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...SERVICES.map((s) => entry(`/services/${s.slug}`, SERVICE_CONTENT[s.slug].updated)),
     entry("/guides", PAGE_UPDATED.guides),
     ...GUIDES.map((g) => entry(`/guides/${g.slug}`, g.updated)),
+    entry("/sourcing-for", PAGE_UPDATED.sourcingFor),
     ...AUDIENCES.map((a) => entry(`/sourcing-for/${a.slug}`, a.updated)),
     entry("/about", PAGE_UPDATED.about),
     entry("/quote", PAGE_UPDATED.quote),

@@ -2,12 +2,18 @@ import { Blocks, FaqList } from "./Blocks";
 import { InShort, PageHeader, ReadingLayout, RelatedLinks, headsOf, readMinutes } from "./PageParts";
 import { SubpageShell } from "./SubpageShell";
 import type { Article } from "./content/types";
+import { TEAM } from "./data";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph } from "@/lib/seo";
 
 /** Guide and audience page layout, with BreadcrumbList + Article/WebPage JSON-LD. */
 export function ArticleView({ a, path, crumbs, kind, eyebrow }: {
   a: Article; path: string; crumbs: { name: string; path: string }[]; kind: "guide" | "page"; eyebrow?: string;
 }) {
+  // The first TEAM member is the named author of guides; until one is added, the company is the author.
+  const author = TEAM[0];
+  const authorLd = author
+    ? { "@type": "Person", name: author.name, jobTitle: author.role, worksFor: { "@id": ORG_ID }, url: abs("/about"), ...(author.linkedin ? { sameAs: [author.linkedin] } : {}) }
+    : { "@id": ORG_ID };
   const page = kind === "guide"
     ? {
         "@type": "Article",
@@ -20,7 +26,7 @@ export function ArticleView({ a, path, crumbs, kind, eyebrow }: {
         dateModified: a.updated,
         inLanguage: "en",
         image: abs("/opengraph-image.png"),
-        author: { "@id": ORG_ID },
+        author: authorLd,
         publisher: { "@id": ORG_ID },
         isPartOf: { "@id": WEBSITE_ID },
       }
@@ -48,8 +54,9 @@ export function ArticleView({ a, path, crumbs, kind, eyebrow }: {
             updated={a.updated}
             eyebrow={eyebrow}
             minutes={readMinutes(a.body, a.faqs)}
+            byline={kind === "guide" && author ? `${author.name}, ${author.role}` : undefined}
           />
-          <div className="mt-10"><InShort title={kind === "guide" ? "Key takeaways" : "How we help"} points={a.takeaways} /></div>
+          <div className="mt-10"><InShort title={kind === "guide" ? "Key takeaways" : "At a glance"} points={a.takeaways} /></div>
           <div className="mt-10">
             <ReadingLayout heads={headsOf(a.body, a.faqs ? [{ id: "faq", text: "Common questions" }] : [])}>
               <Blocks blocks={a.body} />

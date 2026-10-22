@@ -18,8 +18,8 @@ export type ServiceContent = {
 
 export const SERVICE_CONTENT: Record<string, ServiceContent> = {
   "product-sourcing": {
-    h1: "Product Sourcing Agent in China",
-    seoTitle: "China Sourcing Agent: Find & Compare Factories | Sino Vorex",
+    h1: "Product Sourcing: Find the Right Manufacturer in China",
+    seoTitle: "Find Manufacturers in China: Product Sourcing | Sino Vorex",
     description: "We find manufacturers in China for your product, compare quotes, MOQs and lead times against one specification, and send you a shortlist of factories.",
     serviceType: "Product sourcing",
     glance: [
@@ -29,11 +29,12 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "It's covered by our commission on the order, and we confirm the rate in writing first.",
     ],
     processStep: "02",
-    updated: "2026-10-20",
+    updated: "2026-10-23",
     body: [
       { h2: "Who product sourcing is for" },
       { p: "You know what you want to buy, but not which factory should make it. That's where we come in. Our clients are importers, brands, Amazon sellers, wholesalers and procurement teams." },
       { p: "It helps most when you don't have a supplier in China yet, when your current one has become too expensive or unreliable, or when you have a pile of marketplace quotes and can't tell which ones come from real manufacturers." },
+      { p: "New to working with an agent? Our [guide to China sourcing agents](/guides/china-sourcing-agent) explains what they do, what they cost and how to choose one." },
       { p: "Already have a factory you trust? Then you probably just need us to check it, or check the goods. Have a look at our [factory audit](/services/factory-vetting) and [pre-shipment inspection](/services/quality-inspection) services instead." },
 
       { h2: "How we search for suppliers" },
@@ -232,7 +233,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "Plan around Chinese New Year. Most factories close for two to four weeks.",
     ],
     processStep: "04",
-    updated: "2026-10-20",
+    updated: "2026-10-23",
     body: [
       { h2: "Why orders go off track" },
       { p: "Most production problems aren't dramatic. Someone changes a detail over chat and it never gets written down. A colour is \"close enough\". A bigger customer gets priority on the line. Materials turn up late, or a public holiday stops the factory for two weeks." },
@@ -279,7 +280,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       ] } },
       { p: "If your order needs to ship in the weeks around Chinese New Year, try to place it at least two to three months ahead." },
 
-      { h2: "What you receive" },
+      { h2: "Updates you'll get from us" },
       { ul: [
         "Updates in English at each milestone, with photos from the factory.",
         "A written log of every issue we raised with the factory and how it was resolved.",
@@ -298,7 +299,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
 
   "shipping-coordination": {
     h1: "Shipping from China: Sea, Air & Rail Freight",
-    seoTitle: "Shipping from China: Sea, Air & Rail Freight | Sino Vorex",
+    seoTitle: "Shipping & Freight from China: Sea, Air, Rail | Sino Vorex",
     description: "Freight from China by sea (FCL/LCL), air and rail with partner forwarders: FOB, CIF and DDP options, export documents and tracking to your door.",
     serviceType: "Freight coordination",
     glance: [
@@ -308,7 +309,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       "You get compared quotes, the booking, shipping documents and tracking.",
     ],
     processStep: "06",
-    updated: "2026-10-20",
+    updated: "2026-10-23",
     body: [
       { h2: "How we arrange freight" },
       { p: "To be clear up front, we're not a freight forwarder. The goods are moved by partner forwarders, and we sit between them, the factory and you. We compare quotes, book the pick-up from the factory, check the export paperwork and send you tracking until the goods arrive." },
@@ -363,7 +364,15 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
       { h2: "Shipping to Amazon FBA warehouses" },
       { p: "Our partner forwarders can deliver to Amazon fulfilment centres in many markets. If your goods are going to FBA, let us know when you ask for a quote. That way the factory adds the FBA product and carton labels and packs to Amazon's carton rules, and we check all of it in the [pre-shipment inspection](/services/quality-inspection)." },
 
-      { h2: "What you receive" },
+      { h2: "Shipping guides by destination" },
+      { p: "Customs, duties and paperwork are different in every market. Our guides cover the details for the most common destinations." },
+      { ul: [
+        "[Shipping from China to the USA](/guides/shipping-from-china-to-usa), including the ISF, customs bonds and duties.",
+        "[Shipping from China to the UK](/guides/shipping-from-china-to-uk), including EORI numbers and import VAT.",
+        "[Shipping from China to Europe](/guides/shipping-from-china-to-europe), including rail freight, EORI and TARIC.",
+      ] },
+
+      { h2: "Documents and tracking you'll get" },
       { p: "A freight quote comparing the options, the booking confirmation, copies of the shipping documents, and tracking details until your goods arrive." },
     ],
     faqs: [

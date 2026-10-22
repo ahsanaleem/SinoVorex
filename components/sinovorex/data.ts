@@ -33,11 +33,12 @@ export const TEAM: { name: string; role: string; bio: string; photo?: string; li
 
 /** Date each standalone page's content last changed (ISO). Used for sitemap lastmod and visible "Updated" dates. */
 export const PAGE_UPDATED = {
-  home: "2026-10-20",
-  services: "2026-10-20",
-  guides: "2026-10-20",
+  home: "2026-10-23",
+  services: "2026-10-23",
+  guides: "2026-10-23",
   about: "2026-10-20",
-  quote: "2026-10-20",
+  quote: "2026-10-23",
+  sourcingFor: "2026-10-23",
   privacy: "2026-10-16",
   terms: "2026-10-16",
 };
@@ -130,13 +131,13 @@ export const FEES = {
 };
 
 export const FAQ = [
-  { q: "What is the minimum order quantity (MOQ)?", a: "MOQs are set by each factory and depend on the product. We include the MOQ in every quote, and where possible look for factories that accept smaller first orders." },
+  { q: "What is the minimum order quantity (MOQ)?", a: "Each factory sets its own, and it depends on the product. Stock products can start at a few hundred units, while custom products often need a thousand or more. We include the MOQ in every quote, and look for factories that accept smaller first orders where we can." },
   { q: "Can I get samples before ordering?", a: "Yes. We collect samples from shortlisted factories, check them, and send them to you for approval. Sample and courier costs are quoted upfront." },
   { q: "How do payments work?", a: "Payment terms are agreed per order and confirmed in writing. Factories usually ask for a deposit before production and the balance before shipment. We recommend paying the balance only after the inspection report." },
-  { q: "How long does an order take?", a: "It depends on the product and quantity. Production commonly takes a few weeks, plus shipping time (see the shipping section). Your quote includes an estimated timeline." },
+  { q: "How long does an order take?", a: "A first order usually takes two to four months from first contact to delivery. That's about one to two weeks to find suppliers, one to three weeks for samples, three to six weeks of production, then shipping, which takes about 3 to 10 days by air or 15 to 45 days by sea. Your quote includes a timeline for your product." },
   { q: "Who pays for shipping?", a: "It depends on the Incoterm you choose. With FOB you pay for the freight from China. With CIF and DDP it's included in the price. We'll help you compare the options." },
   { q: "What happens if goods are faulty?", a: "Our pre-shipment inspection is designed to catch problems before goods leave the factory, when the factory can still fix them. If an issue is found, we share photos and agree fixes with the factory before shipment." },
-  { q: "Which countries do you ship to?", a: "We arrange freight with partner forwarders to most countries. Tell us your destination port or address and we'll confirm the options and costs." },
+  { q: "Which countries do you ship to?", a: "We ship worldwide with partner forwarders, including to the USA, the UK, the EU, the Middle East, Australia and Southeast Asia. Tell us your destination port or address and we'll confirm the options and costs." },
 ];
 
 export const WHY_US: { title: string; desc: string; icon: LucideIcon }[] = [

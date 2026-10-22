@@ -1,129 +1,124 @@
-# GEO / AI Search Readiness: sinovorex.com
+# GEO / AI Search Readiness: sinovorex.com (re-audit)
 
-Audit date: 2026-10-19. Pages checked: /, 6 x /services/*, /privacy, /terms (all HTTP 200, served by Vercel, Next.js SSR).
-Method: robots.txt/llms.txt/RSL probes using curl; every page fetched with render_page.py (`--mode auto`, raw SSR was used and no SPA shell was detected); source code read (app/robots.ts, components/sinovorex/Trade.tsx); off-site checks on Wikipedia, Wikidata, Bing, YouTube, LinkedIn, Reddit and Wayback.
+Audit date: 2026-10-22. Previous audit: 2026-10-19 (GEO score 46).
+Pages checked: all 21 URLs in crawl.json (all HTTP 200, SSR on Vercel hkg1). Raw HTML was fetched with crawler user agents for /, /services/quality-inspection, /guides/china-sourcing-agent-cost, /about and /sourcing-for/amazon-sellers.
+Method: curl probes of robots.txt, llms.txt and RSL; a UA matrix covering GPTBot, OAI-SearchBot, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, bingbot, Googlebot and CCBot; passage review of the crawl.json text; a JSON-LD parse; source review (lib/seo.tsx, components/sinovorex/data.ts, Trade.tsx, Blocks.tsx, app/llms.txt/route.ts, app/layout.tsx); off-site checks on Bing, Wikipedia, Wikidata, YouTube, LinkedIn, Reddit and Wayback.
 
-## GEO Readiness Score: 46 / 100
+## GEO Readiness Score: 64 / 100 (was 46)
 
 | Dimension | Weight | Score | Weighted |
 |---|---|---|---|
-| Citability | 25% | 40 | 10.0 |
-| Structural Readability | 20% | 55 | 11.0 |
-| Multi-Modal Content | 15% | 35 | 5.3 |
-| Authority & Brand Signals | 20% | 20 | 4.0 |
-| Technical Accessibility | 20% | 80 | 16.0 |
-| **Total** | | | **46** |
+| Citability | 25% | 72 | 18.0 |
+| Structural Readability | 20% | 82 | 16.4 |
+| Multi-Modal Content | 15% | 40 | 6.0 |
+| Authority & Brand Signals | 20% | 28 | 5.6 |
+| Technical Accessibility | 20% | 92 | 18.4 |
+| **Total** | | | **64** |
 
-Platform estimates: Google AI Overviews 45, Perplexity 40, ChatGPT Search 35, Bing Copilot 30. ChatGPT and Copilot score lower because both lean on the Bing index, and a `site:sinovorex.com` query on Bing returned no sinovorex.com pages.
+Platform estimates: Google AI Overviews 62, Perplexity 58, ChatGPT Search 45, Bing Copilot 40. The site is in neither the ChatGPT nor the Copilot index. `site:sinovorex.com` on Bing still returns no sinovorex.com pages, only unrelated fallback results, and both of those engines lean on Bing.
 
 ## What works
 
-- **Crawler access is open.** robots.txt (`User-Agent: * / Allow: / / Disallow: /api/`) lets in every AI crawler. No bot is named, so the wildcard rule covers all of them. The sitemap is listed and holds all 9 URLs.
-- **Content is server-rendered.** Every page returns its full text in the raw HTML (`is_spa: false`), so crawlers that do not run JavaScript (GPTBot, ClaudeBot, PerplexityBot and others) can read it.
-- **Organization JSON-LD is on every page** with name, legalName (苏州智贸通贸易咨询服务有限公司), full Suzhou PostalAddress, phone, email, and a ContactPoint listing English and Chinese. This is a strong base for entity matching.
-- **The homepage has some quotable answers:** sea freight "approx. 15–45 days", plain definitions of the FOB, CIF and DDP Incoterms, how the commission works, deposit and balance terms, and how MOQs are set.
-- **Each page has a unique title, description and canonical.** Service H1s follow the "X in China" pattern, which matches how people search.
-- **Category images have descriptive alt text** (for example "Packaging: boxes & cartons, paper & poly bags, labels & stickers, printed packaging").
+- **Crawler access is open, and no CDN or WAF blocks bots.** robots.txt is `User-Agent: * / Allow: / / Disallow: /api/` with the sitemap listed. Every AI UA tested got HTTP 200 with a byte-identical body: 203,016 B on / and 134,826 B on /services/quality-inspection. No Vercel challenge was served.
+- **SSR is complete.** The full article text, tables and FAQ answers are in the raw HTML. The loader text, the placeholder `--:--` time and the NBSP headings are gone.
+- **llms.txt is good** (app/llms.txt/route.ts). It returns 200 text/plain, is force-static, and has an H1, a blockquote summary, contact details and fee model, and linked lists of the 6 services, 5 guides, 3 audiences and the company pages, each with a one-line description. RSL (`/license.xml`, `/.well-known/rsl.xml`) returns 404. That is Info only.
+- **The guides are highly citable.** Each opens with a 40-60 word direct answer, followed by a "Key takeaways" box. Example: "For an order of 3,000 units, an inspector checks 125, and at AQL 2.5 the order passes with up to 7 major defects." The guides also have real HTML `<table>`s (an AQL table, pricing models, a US$10,000 worked example), "Updated 20 October 2026" dates, and Q&A blocks.
+- **The service pages grew from about 150 words to 1,100-1,660 words** of unique content, with topical H2s, an "At a glance" box, timing and charging sections, and FAQs.
+- **The schema is connected.** There is an Organization `@id` (`/#organization`), WebSite, Service, Article (datePublished/dateModified, author → org @id), AboutPage, BreadcrumbList and ItemList.
+- **The entity is clear.** The H1 "China Sourcing Agent for Global Buyers" names the category. /about states what the company is and is not (not a manufacturer, forwarder or lab), gives the legal name, the bilingual address, and how to verify the company on gsxt.gov.cn.
+- **IndexNow is ready.** The key file `/c45690fe483bb9f595b7bd03894d610e.txt` returns 200, and scripts/indexnow.mjs exists.
 
 ## AI crawler access
 
-| Crawler | What it governs | Status |
+| Crawler | Governs | robots.txt | Live fetch |
+|---|---|---|---|
+| OAI-SearchBot | ChatGPT Search | Allowed (wildcard) | 200 |
+| Claude-SearchBot | Claude search | Allowed | 200 |
+| PerplexityBot | Perplexity | Allowed | 200 |
+| Googlebot | Search and AI Overviews | Allowed | 200 |
+| bingbot | Bing and Copilot | Allowed | 200 |
+| GPTBot | OpenAI training only | Allowed (optional) | 200 |
+| ClaudeBot | Anthropic training only | Allowed (optional) | 200 |
+| Google-Extended | Gemini training/grounding (not Search/AIO) | Allowed (optional) | 200 |
+| CCBot | Common Crawl training | Allowed (optional) | 200 |
+
+## Status of the 2026-10-19 findings
+
+| ID | Finding | Status |
 |---|---|---|
-| OAI-SearchBot | ChatGPT Search citations | Allowed (wildcard) |
-| Claude-SearchBot | Claude search citations | Allowed (wildcard) |
-| PerplexityBot | Perplexity search | Allowed (wildcard) |
-| Googlebot | Google Search and AI Overviews | Allowed (wildcard) |
-| Bingbot | Bing and Copilot grounding | Allowed (wildcard) |
-| Applebot | Siri, Spotlight, Safari | Allowed (wildcard) |
-| GPTBot | OpenAI training only | Allowed (optional to block) |
-| ClaudeBot | Anthropic training only | Allowed (optional to block) |
-| Google-Extended | Gemini/Vertex training and grounding; not Search or AIO | Allowed (optional) |
-| Applebot-Extended | Apple Intelligence training only | Allowed (optional) |
-| CCBot, cohere-ai | Training | Allowed (optional) |
-
-No change is needed. Blocking the training crawlers is a business choice and does not affect search visibility.
-
-## llms.txt / RSL
-
-- `/llms.txt`: 404. `/llms-full.txt`: 404.
-- RSL licensing: `/license.xml` and `/.well-known/rsl.xml` both return 404, and robots.txt has no License directive.
-- llms.txt is an optional proposal. Google Search ignores it and no major AI search engine has said it uses it, so the 404 is **Info** severity only. Adding a short file is a low-cost nice-to-have.
+| GEO-01 | FAQ answers missing from HTML | **FIXED.** All 7 answers are in SSR. Trade.tsx:275 now collapses with CSS grid-rows, the questions are `<h3>`, and FaqList uses `<details>` |
+| GEO-02 | No off-site footprint / not in Bing | **REMAINS.** See GEO-02 below |
+| GEO-03 | Thin service pages | **FIXED.** 1,106-1,658 words each |
+| GEO-04 | No people, proof or dates | **PARTIAL.** Dates and a market fee range were added. There is still no team, founding year, licence number or real case study |
+| GEO-05 | Slogan H1, NBSP | **FIXED** |
+| GEO-06 | Loader and placeholder text | **FIXED** |
+| GEO-07 | Schema gaps | **MOSTLY FIXED.** sameAs, foundingDate and taxID are wired in lib/seo.tsx:51-53 but empty in data.ts |
+| GEO-08 | No multi-modal evidence | **PARTIAL.** Tables were added. The images are still logo only, with no photos, video or sample report |
+| GEO-09 | llms.txt missing | **FIXED** |
 
 ## Findings
 
-### GEO-01: 6 of the 7 FAQ answers are missing from the HTML (High)
-- **Evidence:** The SSR HTML has all 7 questions ("Can I get samples before ordering?", "How do payments work?", "How long does an order take?", "Who pays for shipping?", "What happens if goods are faulty?", "Which countries do you ship to?") but only the first answer (MOQ). `components/sinovorex/Trade.tsx` lines ~228-248 use `{isOpen && (...)}` inside `AnimatePresence`, so closed answers are never mounted. Crawlers that do not run JavaScript get no answers. Even Googlebot only sees them after a click it will not make.
-- **Why it matters:** These are exactly the question-and-answer pairs AI engines quote, such as "how long does sourcing from China take" or "what happens if goods are faulty".
-- **Fix:** Always render every answer in the DOM and collapse it with CSS (`hidden`, height 0 plus `overflow-hidden`, or native `<details>`/`<summary>`). Mark each question as an `<h3>` inside the button, or next to it. Effort: about 1 hour.
+### GEO-02: Entity still unknown off-site, and the site is not in Bing (High, REMAINS)
+- **Evidence:** Wikipedia search for "Sino Vorex": 0 hits. Wikidata: 0 entities. `youtube.com/@sinovorex`: 404. `linkedin.com/company/sinovorex`: 404. Bing `site:sinovorex.com` (both scraped and through WebFetch) returns only unrelated fallback pages, and Bing "Sino Vorex" also returns only unrelated pages. Reddit and DuckDuckGo blocked the scripted search, and Wayback returned 429, so those three are unconfirmed. `COMPANY.sameAs` is `[]` (components/sinovorex/data.ts:28). No `msvalidate.01` or google-site-verification meta is in the production HTML, because the env vars `NEXT_PUBLIC_BING_SITE_VERIFICATION` and `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` are unset (app/layout.tsx:11-18). DNS verification may be in use, which is unconfirmed.
+- **Fix:** (1) Verify the site in Bing Webmaster Tools (set the env var or use DNS), submit sitemap.xml, and run `node scripts/indexnow.mjs` for all 21 URLs. (2) Create a LinkedIn company page, a Google Business Profile, a YouTube channel, and Made-in-China / Global Sources / Kompass listings. (3) Add the profile URLs to data.ts:28, which already feeds schema `sameAs` and the /about page. (4) Take part genuinely in Reddit sourcing threads. Effort: 1-2 days, then ongoing.
 
-### GEO-02: No off-site brand footprint; the entity is unknown to AI engines (High)
-- **Evidence:** Wikipedia search for "Sino Vorex": 0 hits. Wikidata: 0 entities. A Bing search for "Sino Vorex" OR "sinovorex" returned only unrelated results. Bing `site:sinovorex.com` returned no sinovorex.com pages. `youtube.com/@sinovorex`: 404. Wayback Machine: no snapshots. LinkedIn returned 999 (bot block, so unconfirmed) and Reddit blocked the scripted search (unconfirmed). The Organization schema has no `sameAs`. The only external links on the site are wa.me WhatsApp links.
-- **Why it matters:** Brand mentions on YouTube, Reddit and Wikipedia-type sources track AI citations far more closely than backlinks do. If an engine cannot confirm "Sino Vorex" as a real entity, it is unlikely to recommend it.
-- **Fix:** (1) Submit the site in Bing Webmaster Tools (you can import from Google Search Console) and send the sitemap through IndexNow. (2) Create a LinkedIn company page, a YouTube channel (inspection walkthrough videos), and listings on Google Business Profile and B2B directories (Made-in-China, Global Sources, Kompass, Clutch). (3) Add their URLs to `sameAs` in the Organization JSON-LD. (4) Take part genuinely in r/Entrepreneur, r/FulfillmentByAmazon and r/smallbusiness sourcing threads. Effort: 1-2 days to set up, then ongoing. Wikipedia is not realistic yet because notability needs independent coverage. A Wikidata item can come later, once third-party sources exist.
+### GEO-04: No named people, registration number, founding year or real case data (Medium, PARTIAL)
+- **Evidence:** `TEAM = []` (data.ts:32), `licenceNo: ""` (data.ts:22) and `foundedYear: ""` (data.ts:26). The Article author is the Organization only. The "Example" sections on the service pages are labelled "Illustrative example". "How Sino Vorex charges" gives no rate of its own ("confirmed in writing in your quote").
+- **Fix:** Fill in licenceNo and foundedYear, which already flow into the footer, /about and schema. Add at least one named person with a role and photo to TEAM, and use them as Article `author`/`reviewedBy` (components/sinovorex/ArticleView.tsx:23). Publish your own typical commission band and 1-2 anonymised real orders with numbers. Effort: half a day plus gathering the information.
 
-### GEO-03: Service pages are thin (~150 words) and half of each is shared boilerplate (High)
-- **Evidence:** Extracted word counts: product-sourcing 158, factory-vetting 152, quality-inspection 155, order-follow-up 147, shipping-coordination 149, samples-consolidation 148. On every service page, the 6-step "Where this fits in the process" list is identical and makes up about 45% of the text. Each page has only a 1-sentence intro, 4 bullets and 1 "What you receive" line.
-- **Why it matters:** None of these pages has a standalone answer of about 130-170 words that an engine could quote for queries like "what does a pre-shipment inspection in China include" or "how does a sourcing agent vet a factory". Perplexity and AIO will cite competitors' longer pages instead.
-- **Fix:** Add 400-800 words of unique content to each page, opening with a direct 40-60 word answer. Add question H2s such as "What does a pre-shipment inspection check?", "How long does it take?", "What does it cost?" and "What do you need from me?". Use concrete specifics: AQL levels (for example AQL 2.5/4.0 under ISO 2859-1), inspection timing (at 80-100% production), report turnaround, a sample report outline, and freight transit by lane. Effort: 1-2 days of writing.
+### GEO-10 (NEW): Market statistics carry no source attribution (Medium)
+- **Evidence:** In the guides, "Commonly advertised at about 5 to 10%", "US$200 to 350 per person per day" and the MOQ ranges have no citation. Across all 5 guides there is only one outbound source link (gsxt.gov.cn, components/sinovorex/content/guides.ts:160). ISO 2859-1 is named but not linked.
+- **Fix:** Add 1-3 attributed sources per guide, for example ISO 2859-1 / ANSI/ASQ Z1.4 and published inspection-company rate cards. Phrase each figure with its attribution in the same sentence ("…according to X's 2026 price list"). Effort: 2-3 hours.
 
-### GEO-04: No quantified proof, named people or dates (Medium)
-- **Evidence:** No founding year, team members, founder bio, case studies, client counts, orders handled, testimonials or certifications appear on any page. The services carry no datePublished or dateModified, and there are no visible "updated" dates. The homepage's only numbers are the transit ranges and the "reply within 24 hours" promise. Fees are described ("commission on order value") but no range is given.
-- **Fix:** Add an About/Team section naming a responsible person, with a photo, role and years in sourcing. Add 2-3 anonymised case studies with numbers (product, MOQ, defect rate found, days to ship). Publish a typical commission range (for example "typically 5-10% depending on order size") and add a "Last updated" date to the service pages. Effort: half a day plus content gathering.
+### GEO-08: Multi-modal evidence is still thin (Medium, PARTIAL)
+- **Evidence:** Every subpage has 2 images, both the logo. There is no factory or inspection photography, no sample report, and no video.
+- **Fix:** Add a redacted sample inspection report (an image or PDF with an HTML summary) to /services/quality-inspection and the AQL guide, real site photos with descriptive alt text, and 1-2 short YouTube walkthroughs. The videos also feed GEO-02. Effort: 1-3 days.
 
-### GEO-05: Homepage section headings are slogans, not questions or topics (Medium)
-- **Evidence:** The H1 is "The Force Behind Global Trade", and the H2s include "Checked before you pay the balance", "Based in China. Working for you." and "Connected across every major market". The headings contain `&nbsp;` between every word (likely from a word-animation component), so the raw text is "The\xa0Force\xa0Behind...". The FAQ questions are buttons, not headings.
-- **Fix:** Use an H1 that names the entity and the category, for example "China Sourcing Agent & Export Partner for Global Buyers". Keep the slogan as a styled subline. Use normal spaces in heading text (split words visually with spans, not NBSP), and turn the FAQ questions into H3s. Effort: 1-2 hours.
+### GEO-11 (NEW): Homepage FAQ answers are vague (Low)
+- **Evidence:** "Production commonly takes a few weeks", "MOQs are set by each factory", "to most countries". Each is about 25-35 words with no specifics, while the guides contain the specifics.
+- **Fix:** Put a concrete figure in each answer (for example "typically 25-45 days of production plus 15-45 days by sea") and link the matching guide. The source is the FAQ data used by components/sinovorex/Trade.tsx:258-280. Effort: 30 minutes.
 
-### GEO-06: Placeholder and loader text in the SSR HTML (Low)
-- **Evidence:** The raw HTML contains the loader text "Loading experience 000". The route widget renders "870 km Local time --:-- vs. China time —" (default China → Seoul) before hydration. A decorative "SinoVorex" footer wordmark (aria-hidden) gives a third spelling of the brand.
-- **Fix:** Mark the loader `aria-hidden` and keep its text out of the main content, or render it only on the client. Server-render a real default time or leave it empty. Keep the brand spelled "Sino Vorex" everywhere in crawlable text. Effort: under 1 hour.
+### GEO-12 (NEW): Every data table is rendered twice in the HTML (Low)
+- **Evidence:** components/sinovorex/Blocks.tsx:72-104 outputs a desktop `<table>` plus a mobile `<ul>` card list holding the same cells. The extracted text repeats every row (visible in the AQL and cost guides), which adds noise to passage extraction.
+- **Fix:** Render one `<table>` and stack it on phones with CSS (`display:block` rows plus `data-label` pseudo-elements). Effort: 1 hour.
 
-### GEO-07: Schema gaps for AI entity and service understanding (Medium)
-- **Evidence:** Every page carries only the same Organization block. There is no `sameAs`, `foundingDate`, `founder`, `Service` (per service page), `FAQPage`, `BreadcrumbList` or `WebSite`. Service pages declare `og:type=article` but have no article dates. /privacy and /terms inherit the homepage's og:title and og:url.
-- **Fix:** Add `Service` JSON-LD to each service page (serviceType, provider pointing to the Organization @id, areaServed "Worldwide"), plus `BreadcrumbList`. Add an `@id` and `sameAs` to the Organization. FAQPage markup is fine to include for machine readability, even though Google now shows FAQ rich results only for authoritative government and health sites. Change the services' `og:type` to `website`. Coordinate with findings/schema.md. Effort: 2-3 hours.
+### GEO-09b: llms.txt could carry key facts (Info)
+- Optionally add a "Key facts" block to app/llms.txt/route.ts: the AQL defaults, inspection timing and transit ranges, plus the registration number once it is filled in.
 
-### GEO-08: Little multi-modal evidence (Medium)
-- **Evidence:** Each service page has only 2 images, both of the logo. The homepage has 4 illustrative category images ("Images are illustrative") and a map. There is no video, no sample inspection report, no tables, and no real photos of factories, inspections or the team. `public/hero-bg.mp4` exists but is not in the HTML.
-- **Fix:** Add a sample inspection report (redacted PDF or images with a written summary), real factory and inspection photos with descriptive alt text, an HTML `<table>` of transit times and costs by lane (sea, air, rail to the EU, US and Korea), and 1-2 short YouTube videos embedded on the service pages. This also builds the YouTube signal from GEO-02. Effort: 1-3 days.
-
-### GEO-09: llms.txt missing (Info)
-- **Evidence:** `/llms.txt` returns 404.
-- **Note:** Optional. Google Search ignores it, and it has no confirmed ranking or citation effect on the major engines.
-- **Fix (optional):** Add a ~20-line `public/llms.txt` with a one-paragraph description of the company, the 6 service URLs with one-line summaries, contact details, and the legal entity name. Effort: 15 minutes.
-
-## Top 5 highest-impact changes
+## Top 5 changes
 
 | # | Change | Impact | Effort |
 |---|---|---|---|
-| 1 | Render all FAQ answers in the SSR HTML (GEO-01) | High | ~1 h |
-| 2 | Submit to Bing Webmaster Tools and IndexNow; create LinkedIn, YouTube and directory profiles; add `sameAs` (GEO-02) | High | 1-2 days |
-| 3 | Expand each service page to 500+ unique words with question H2s and direct answers (GEO-03) | High | 1-2 days |
-| 4 | Add proof: named team, case studies with numbers, a fee range, updated dates (GEO-04) | Medium-High | 0.5-1 day |
-| 5 | Add Service, Breadcrumb and FAQPage schema and an entity-clear H1 (GEO-05, GEO-07) | Medium | 3-4 h |
+| 1 | Bing Webmaster verification, sitemap and IndexNow submission | High (ChatGPT/Copilot) | 1 h |
+| 2 | Off-site profiles plus `sameAs` (data.ts:28) | High | 1-2 days |
+| 3 | licenceNo, foundedYear, a named TEAM member as author | Medium | 0.5 day |
+| 4 | Source attribution for market figures in the guides | Medium | 2-3 h |
+| 5 | Real photos, a sample report and a short video | Medium | 1-3 days |
 
-## Structured findings (for audit-data.json, category "AI Search Readiness")
+## Structured findings (audit-data.json, "AI Search Readiness")
 
 ```json
 {
   "category": "AI Search Readiness",
-  "score": 46,
-  "dimensions": {"citability": 40, "structural_readability": 55, "multimodal": 35, "authority_brand": 20, "technical_accessibility": 80},
-  "platform_scores": {"google_aio": 45, "chatgpt_search": 35, "perplexity": 40, "bing_copilot": 30},
-  "crawler_access": {"all": "allowed via wildcard", "named_rules": []},
-  "llms_txt": "missing (404, optional)",
-  "rsl": "missing",
+  "score": 64,
+  "previous_score": 46,
+  "dimensions": {"citability": 72, "structural_readability": 82, "multimodal": 40, "authority_brand": 28, "technical_accessibility": 92},
+  "platform_scores": {"google_aio": 62, "chatgpt_search": 45, "perplexity": 58, "bing_copilot": 40},
+  "crawler_access": {"all": "allowed via wildcard; all AI UAs receive HTTP 200, identical body, no WAF challenge"},
+  "llms_txt": "present, well-formed (app/llms.txt/route.ts)",
+  "rsl": "missing (info)",
+  "bing_indexed": false,
   "findings": [
-    {"id": "GEO-01", "severity": "high", "title": "6 of 7 FAQ answers not in SSR HTML (conditional render in Trade.tsx)"},
-    {"id": "GEO-02", "severity": "high", "title": "No off-site entity footprint; not found in Bing index; no sameAs"},
-    {"id": "GEO-03", "severity": "high", "title": "Service pages ~150 words, ~45% shared boilerplate"},
-    {"id": "GEO-04", "severity": "medium", "title": "No named people, case studies, quantified proof or dates"},
-    {"id": "GEO-05", "severity": "medium", "title": "Slogan headings with NBSP; FAQ questions not headings"},
-    {"id": "GEO-07", "severity": "medium", "title": "Only Organization schema; no Service/FAQPage/Breadcrumb/sameAs"},
-    {"id": "GEO-08", "severity": "medium", "title": "No video, tables, sample reports or real photos"},
-    {"id": "GEO-06", "severity": "low", "title": "Loader and placeholder text in SSR HTML"},
-    {"id": "GEO-09", "severity": "info", "title": "llms.txt missing (optional)"}
-  ]
+    {"id": "GEO-02", "severity": "high", "status": "remains", "title": "No off-site entity footprint; not in Bing index; sameAs empty; verification tokens unset"},
+    {"id": "GEO-04", "severity": "medium", "status": "partial", "title": "No named team, licence no., founding year or real case data"},
+    {"id": "GEO-10", "severity": "medium", "status": "new", "title": "Market statistics in guides lack source attribution"},
+    {"id": "GEO-08", "severity": "medium", "status": "partial", "title": "Only logo images; no photos, video or sample report"},
+    {"id": "GEO-11", "severity": "low", "status": "new", "title": "Homepage FAQ answers vague"},
+    {"id": "GEO-12", "severity": "low", "status": "new", "title": "Tables duplicated in DOM (desktop table + mobile cards)"},
+    {"id": "GEO-09b", "severity": "info", "status": "new", "title": "llms.txt could include key facts"}
+  ],
+  "fixed": ["GEO-01", "GEO-03", "GEO-05", "GEO-06", "GEO-07 (mostly)", "GEO-09"]
 }
 ```
 
-Limitations: LinkedIn (HTTP 999) and Reddit (blocked) could not be checked automatically, and the Bing results came from scraping, so treat them as directional. Check them by hand in Bing Webmaster Tools and with a logged-in LinkedIn search. DataForSEO tools were not available, so no live ChatGPT visibility sampling was done.
+Limitations: the Bing results were scraped and are directional; confirm them in Bing Webmaster Tools. Reddit, DuckDuckGo and Wayback blocked the automated checks. No DataForSEO access was available, so no live ChatGPT citation sampling was done.
