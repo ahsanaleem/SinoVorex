@@ -77,7 +77,9 @@ async function handle(req: NextRequest) {
   if (uploads.some((f) => !ALLOWED_EXT.test(f.name) || (f.type && f.type !== "application/octet-stream" && !ALLOWED_TYPES.has(f.type)))) return fail("Attachments must be JPG, PNG, WebP, PDF, Excel or CSV files.", 400);
   if (uploads.reduce((n, f) => n + f.size, 0) > MAX_TOTAL_BYTES) return fail("Attachments can be up to 8 MB in total.", 400);
 
-  const { SMTP_USER, SMTP_PASS } = process.env;
+  // Trim: a space or line break pasted into the Vercel value makes the SMTP login fail with 535.
+  const SMTP_USER = (process.env.SMTP_USER || "").trim();
+  const SMTP_PASS = (process.env.SMTP_PASS || "").trim();
   if (!SMTP_USER || !SMTP_PASS) {
     console.error("Contact form: SMTP_USER / SMTP_PASS are not set. Add them to .env.local (see .env.example).");
     return fail("Our quote form is temporarily unavailable. Please email us at business@sinovorex.com or message us on WhatsApp.", 503);
@@ -85,7 +87,7 @@ async function handle(req: NextRequest) {
 
   const port = Number(process.env.SMTP_PORT || 465);
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.hostinger.com",
+    host: (process.env.SMTP_HOST || "smtp.hostinger.com").trim(),
     port,
     secure: port === 465,
     auth: { user: SMTP_USER, pass: SMTP_PASS },
@@ -149,7 +151,8 @@ async function handle(req: NextRequest) {
     });
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("Contact form: failed to send email:", err);
+    // Log which login was tried (never the password) so a wrong SMTP_USER is easy to spot in Vercel logs.
+    console.error(`Contact form: failed to send email as "${SMTP_USER}" (password length ${SMTP_PASS.length}):`, err);
     return fail("We couldn't send your request right now. Please try again, email business@sinovorex.com, or message us on WhatsApp.", 502);
   }
 }
