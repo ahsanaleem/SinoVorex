@@ -24,7 +24,8 @@ const interTight = Inter_Tight({ subsets: ["latin"], weight: ["300", "400", "500
 const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-mono", display: "swap" });
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+// Google Analytics 4. Set NEXT_PUBLIC_GA_ID to override; set it to "off" to disable.
+const GA_ID = (process.env.NEXT_PUBLIC_GA_ID || "G-TNW1DPPKP5").replace(/^off$/i, "");
 const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
 export default function RootLayout({
