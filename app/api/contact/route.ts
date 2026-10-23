@@ -151,8 +151,11 @@ async function handle(req: NextRequest) {
     });
     return NextResponse.json({ success: true });
   } catch (err) {
-    // Log which login was tried (never the password) so a wrong SMTP_USER is easy to spot in Vercel logs.
-    console.error(`Contact form: failed to send email as "${SMTP_USER}" (password length ${SMTP_PASS.length}):`, err);
+    // Log a masked SMTP_USER (never the raw value or the password) so a wrong login is easy to spot in Vercel logs.
+    const userHint = EMAIL_RE.test(SMTP_USER)
+      ? SMTP_USER.replace(/^(.)[^@]*(@.*)$/, "$1***$2")
+      : "(SMTP_USER is not an email address)";
+    console.error(`Contact form: failed to send email as ${userHint} (password length ${SMTP_PASS.length}):`, err);
     return fail("We couldn't send your request right now. Please try again, email business@sinovorex.com, or message us on WhatsApp.", 502);
   }
 }

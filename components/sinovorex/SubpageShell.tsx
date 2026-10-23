@@ -7,8 +7,9 @@ import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { clsx } from "clsx";
 import { COMPANY, SERVICES } from "./data";
-import { FOOTER_GUIDES, FOOTER_RESOURCES, SUBPAGE_NAV } from "./links";
+import { SUBPAGE_NAV } from "./links";
 import { BrandLogo } from "./brand";
+import { SiteFooter } from "./SiteFooter";
 import { HeaderWhatsApp } from "./ChatButtons";
 
 // Animated widgets (framer-motion) load after the page, keeping subpages light.
@@ -100,50 +101,7 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
         </section>
       )}
 
-      <footer data-theme="dark" className="bg-ink px-4 pb-28 pt-12 text-white sm:px-6 lg:pb-12">
-        <div className="mx-auto grid max-w-[1280px] gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.3fr_1fr_1fr_1.2fr_1.2fr]">
-          <div>
-            <BrandLogo dark className="h-16 w-auto" />
-            <p className="mt-4 max-w-[320px] text-[14px] leading-relaxed text-white/70">We help buyers around the world find, check and ship products from factories across China.</p>
-          </div>
-          <div>
-            <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Services</div>
-            <ul className="space-y-0.5 text-[14px]">
-              {SERVICES.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="inline-block py-1.5 text-white/75 hover:text-white">{s.title}</Link></li>)}
-            </ul>
-          </div>
-          <div>
-            <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Resources</div>
-            <ul className="space-y-0.5 text-[14px]">
-              {FOOTER_RESOURCES.map(([label, href]) => <li key={href}><Link href={href} className="inline-block py-1.5 text-white/75 hover:text-white">{label}</Link></li>)}
-            </ul>
-          </div>
-          <div>
-            <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Guides</div>
-            <ul className="space-y-0.5 text-[14px]">
-              {FOOTER_GUIDES.map(([label, href]) => <li key={href}><Link href={href} className="inline-block py-1.5 text-white/75 hover:text-white">{label}</Link></li>)}
-            </ul>
-          </div>
-          <div>
-            <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/65">Contact</div>
-            <ul className="space-y-2 text-[14px] text-white/75">
-              <li><a href={`mailto:${COMPANY.email}`} className="hover:text-white">{COMPANY.email}</a></li>
-              <li><a href={COMPANY.phoneHref} className="hover:text-white">{COMPANY.phoneDisplay}</a></li>
-              <li><a href={COMPANY.whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-white">WhatsApp</a> · WeChat: {COMPANY.wechatId}</li>
-              <li>{COMPANY.address}<span className="block text-white/65">{COMPANY.addressZh}</span></li>
-            </ul>
-          </div>
-        </div>
-        <div className="mx-auto mt-10 flex max-w-[1280px] flex-col gap-2 border-t border-white/10 pt-6 text-[13px] text-white/65 md:flex-row md:justify-between">
-          <span>{COMPANY.brand} is a brand of {COMPANY.legalNameZh}{COMPANY.licenceNo && ` · 统一社会信用代码 ${COMPANY.licenceNo}`}</span>
-          <span className="flex flex-wrap gap-4">
-            {COMPANY.icp && <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" className="hover:text-white">{COMPANY.icp}</a>}
-            <Link href="/privacy" className="hover:text-white">Privacy policy</Link>
-            <Link href="/terms" className="hover:text-white">Terms of service</Link>
-            <span>© {new Date().getFullYear()} Sino Vorex</span>
-          </span>
-        </div>
-      </footer>
+      <SiteFooter onQuote={openQuote} className="pb-24 lg:pb-0" />
 
       {mounted && <ContactModal open={open} onClose={close} />}
       {/* Not on the quote pages, where it would cover form fields on phones. */}
