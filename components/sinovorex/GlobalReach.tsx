@@ -153,9 +153,9 @@ function CityDetail({ city, onQuote }: { city: City; onQuote?: () => void }) {
     <AnimatePresence mode="wait">
       <motion.div
         key={city.label}
-        initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.45, ease: EASE }}
         className="grid gap-6 rounded-[24px] border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-6 md:grid-cols-[1.2fr_1fr] md:p-7"
       >
@@ -234,7 +234,7 @@ export function GlobalReach({ onQuote }: { onQuote?: () => void }) {
   };
 
   return (
-    <section id="global-reach" className="bg-white px-2 sm:px-3">
+    <section id="global-reach" className="cv-auto bg-white px-2 sm:px-3">
       <div data-theme="dark" className="relative overflow-hidden rounded-[32px] bg-ink px-4 py-24 text-white sm:px-6 md:rounded-[48px] md:py-32">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-flame/20 blur-[120px]" />
         <div ref={ref} className="relative mx-auto max-w-[1280px]">

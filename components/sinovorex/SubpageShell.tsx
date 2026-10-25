@@ -31,19 +31,27 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
     return () => { document.documentElement.style.overflow = ""; };
   }, [menuOpen]);
 
+  // The floating chat button (and its animation library) loads once the page is idle.
+  const [idle, setIdle] = useState(false);
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(() => setIdle(true), { timeout: 3000 });
+    else { const t = setTimeout(() => setIdle(true), 1500); return () => clearTimeout(t); }
+  }, []);
+
   const isActive = (href: string) => !href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`));
 
   return (
     <div className="min-h-screen bg-paper font-display text-ink">
       <header className="sticky top-0 z-[150] border-b border-ink/[0.07] bg-paper/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Link href="/" aria-label="SinoVorex home"><BrandLogo className="h-11 w-auto md:h-12" /></Link>
+          <Link href="/" prefetch={false} aria-label="SinoVorex home"><BrandLogo className="h-11 w-auto md:h-12" /></Link>
 
           <nav aria-label="Main" className="hidden lg:block">
             <ul className="flex items-center gap-1">
               {SUBPAGE_NAV.map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} aria-current={isActive(href) ? "page" : undefined}
+                  <Link href={href} prefetch={href.startsWith("/#") ? false : undefined} aria-current={isActive(href) ? "page" : undefined}
                     className={clsx("rounded-full px-4 py-2 text-[14px] font-medium transition-colors", isActive(href) ? "bg-ink/[0.06] text-ink" : "text-ink/70 hover:text-ink")}>
                     {label}
                   </Link>
@@ -75,9 +83,9 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
       <nav id="subpage-menu" aria-label="Mobile" hidden={!menuOpen} data-theme="dark"
         className="fixed inset-x-0 bottom-0 top-[73px] z-[140] overflow-y-auto bg-ink px-6 pb-10 pt-8 text-white lg:hidden">
         <ul className="space-y-1">
-          <li><Link href="/" className="block py-2 font-display text-[30px] font-medium tracking-[-0.03em]">Home</Link></li>
+          <li><Link href="/" prefetch={false} className="block py-2 font-display text-[30px] font-medium tracking-[-0.03em]">Home</Link></li>
           {SUBPAGE_NAV.map(([label, href]) => (
-            <li key={href}><Link href={href} className="block py-2 font-display text-[30px] font-medium tracking-[-0.03em]">{label}</Link></li>
+            <li key={href}><Link href={href} prefetch={href.startsWith("/#") ? false : undefined} className="block py-2 font-display text-[30px] font-medium tracking-[-0.03em]">{label}</Link></li>
           ))}
         </ul>
         <div className="mt-8 font-mono text-[11px] uppercase tracking-[0.25em] text-white/60">Services</div>
@@ -105,7 +113,7 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
 
       {mounted && <ContactModal open={open} onClose={close} />}
       {/* Not on the quote pages, where it would cover form fields on phones. */}
-      {!pathname.startsWith("/quote") && <FloatingChat />}
+      {idle && !pathname.startsWith("/quote") && <FloatingChat />}
     </div>
   );
 }

@@ -16,15 +16,18 @@ export function CustomCursor() {
     document.documentElement.classList.add("has-custom-cursor");
 
     const mouse = { x: -200, y: -200 }, ring = { x: -200, y: -200 };
-    let scale = 1, dotScale = 1, hover = false, dark = false, raf = 0;
+    let scale = 1, dotScale = 1, hover = false, dark = false, raf = 0, active = false;
+    // The loop only runs while the cursor is catching up, then sleeps until the mouse moves again.
+    const wake = () => { if (!active) { active = true; raf = requestAnimationFrame(tick); } };
 
-    const onMove = (e: MouseEvent) => { mouse.x = e.clientX; mouse.y = e.clientY; };
+    const onMove = (e: MouseEvent) => { mouse.x = e.clientX; mouse.y = e.clientY; wake(); };
     const onOver = (e: MouseEvent) => {
       const t = e.target as HTMLElement;
       hover = !!t.closest("a, button, [role='button'], input, textarea, select, label, [data-cursor='hover']");
       dark = !!t.closest("[data-theme='dark']");
+      wake();
     };
-    const tick = () => {
+    function tick() {
       ring.x += (mouse.x - ring.x) * 0.15;
       ring.y += (mouse.y - ring.y) * 0.15;
       scale += ((hover ? 1.8 : 1) - scale) * 0.15;
@@ -35,11 +38,12 @@ export function CustomCursor() {
         ringRef.current.style.background = hover ? "rgba(255,107,43,0.14)" : "transparent";
         ringRef.current.style.borderColor = hover ? "rgba(255,107,43,0.9)" : dark ? "rgba(255,255,255,0.5)" : "rgba(14,14,22,0.35)";
       }
-      raf = requestAnimationFrame(tick);
-    };
+      const settled = Math.abs(mouse.x - ring.x) < 0.1 && Math.abs(mouse.y - ring.y) < 0.1
+        && Math.abs((hover ? 1.8 : 1) - scale) < 0.001 && Math.abs((hover ? 0 : 1) - dotScale) < 0.001;
+      if (settled) active = false; else raf = requestAnimationFrame(tick);
+    }
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseover", onOver);
-    raf = requestAnimationFrame(tick);
     return () => {
       document.documentElement.classList.remove("has-custom-cursor");
       window.removeEventListener("mousemove", onMove);

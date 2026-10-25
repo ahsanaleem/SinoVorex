@@ -86,7 +86,11 @@ html.lenis, html.lenis body { height: auto; }
   }
 }
 
-/* ── Noise Texture Overlay ────────────────────────────────── */
+/* ── Below-the-fold sections render only when near the viewport (big saving on phones) ── */
+.cv-auto { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
+/* ── Noise Texture Overlay (desktop only: a fixed full-screen texture is costly to repaint on phones) ── */
+@media (max-width: 1024px), (pointer: coarse) { body::before { display: none; } }
 body::before {
   content: "";
   position: fixed;

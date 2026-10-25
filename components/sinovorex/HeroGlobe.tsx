@@ -64,11 +64,33 @@ export function HeroGlobe({ ready }: { ready: boolean }) {
     const monoVar = getComputedStyle(document.documentElement).getPropertyValue("--font-mono").trim();
     const FONT = monoVar ? `${monoVar}, ${FONT_FALLBACK}` : FONT_FALLBACK;
 
+    // Phones and small screens draw a third of the dots (the globe is small there) at 24 fps; desktops draw all at 60 fps.
+    const light = matchMedia("(max-width: 1024px), (pointer: coarse)").matches;
+    const MIN_FRAME_MS = light ? 1000 / 24 : 0;
+
     /* geometry */
     const pts: V3[] = [];
-    for (let i = 0; i < LAND.length; i += 2) pts.push(toV(LAND[i], LAND[i + 1]));
-    const isCN = new Uint8Array(pts.length);
-    CHINA.forEach((i) => (isCN[i] = 1));
+    const isCN: number[] = [];
+    const cn = new Set(CHINA);
+    for (let i = 0, k = 0; i < LAND.length; i += 2, k++) {
+      if (light && k % 3 && !cn.has(k)) continue; // keep every China dot, one in three elsewhere
+      pts.push(toV(LAND[i], LAND[i + 1]));
+      isCN.push(cn.has(k) ? 1 : 0);
+    }
+    // Dot colours depend only on depth (z) and, for China, a pulse: quantise them into a fixed palette.
+    const LEVELS = 16;
+    const LAND_COL = Array.from({ length: LEVELS + 1 }, (_, j) => {
+      const z = j / LEVELS;
+      return `rgba(${Math.round(170 + 85 * z)},${Math.round(165 + 80 * z)},${Math.round(160 + 75 * z)},${(0.18 + 0.62 * z).toFixed(3)})`;
+    });
+    const CN_COL = Array.from({ length: LEVELS + 1 }, (_, j) => Array.from({ length: 5 }, (_, q) => {
+      const z = j / LEVELS, pul = 0.75 + 0.25 * (q / 2 - 1);
+      return `rgba(255,${Math.round(95 + 40 * z)},43,${((0.5 + 0.5 * z) * pul).toFixed(3)})`;
+    }));
+    // Reused per frame: dot positions grouped by colour.
+    const landBuckets: number[][] = Array.from({ length: LEVELS + 1 }, () => []);
+    const cnBuckets: number[][] = Array.from({ length: (LEVELS + 1) * 5 }, () => []);
+    const backDots: number[] = [];
     const HV = toV(HUB.lat, HUB.lon);
     const ORIGINS: Record<string, Origin> = {};
     for (const k in ORIGIN_DATA) ORIGINS[k] = { ...ORIGIN_DATA[k], v: toV(ORIGIN_DATA[k].lat, ORIGIN_DATA[k].lon), flash: 0 };
@@ -175,7 +197,10 @@ export function HeroGlobe({ ready }: { ready: boolean }) {
       ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
     }
 
+    let lastDraw = 0;
     function frame(now: number) {
+      if (MIN_FRAME_MS && now - lastDraw < MIN_FRAME_MS - 2) { if (running) raf = requestAnimationFrame(frame); return; }
+      lastDraw = now;
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       const T = (now - t0) / 1000;
@@ -212,23 +237,34 @@ export function HeroGlobe({ ready }: { ready: boolean }) {
       }
       ctx.setLineDash([]);
 
-      /* land dots */
-      const ds = Math.max(1.2, R / 170);
-      for (let i = 0; i < pts.length; i++) {
-        if (i / pts.length > intro * 1.15) continue;
+      /* land dots: grouped by colour so fillStyle is set ~100 times per frame instead of once per dot */
+      const ds = (light ? 1.3 : 1) * Math.max(1.2, R / 170);
+      for (const b of landBuckets) b.length = 0;
+      for (const b of cnBuckets) b.length = 0;
+      backDots.length = 0;
+      const shown = pts.length * Math.min(1, intro * 1.15);
+      for (let i = 0; i < shown; i++) {
         const p = proj(pts[i]), z = p[2];
-        if (z < 0) {
-          if (z > -0.98) { ctx.fillStyle = "rgba(245,245,245,.05)"; ctx.fillRect(p[0], p[1], ds * 0.7, ds * 0.7); }
-          continue;
-        }
+        if (z < 0) { if (z > -0.98) backDots.push(p[0], p[1]); continue; }
+        const j = Math.round(z * LEVELS);
         if (isCN[i]) {
-          const pul = 0.75 + 0.25 * Math.sin(T * 2.2 + pts[i][0] * 9);
-          ctx.fillStyle = `rgba(255,${Math.round(95 + 40 * z)},43,${(0.5 + 0.5 * z) * pul})`;
-          ctx.fillRect(p[0] - ds * 0.6, p[1] - ds * 0.6, ds * 1.2, ds * 1.2);
-          continue;
-        }
-        ctx.fillStyle = `rgba(${Math.round(170 + 85 * z)},${Math.round(165 + 80 * z)},${Math.round(160 + 75 * z)},${0.18 + 0.62 * z})`;
-        ctx.fillRect(p[0] - ds / 2, p[1] - ds / 2, ds, ds);
+          const q = Math.round((Math.sin(T * 2.2 + pts[i][0] * 9) + 1) * 2);
+          cnBuckets[j * 5 + q].push(p[0], p[1]);
+        } else landBuckets[j].push(p[0], p[1]);
+      }
+      ctx.fillStyle = "rgba(245,245,245,.05)";
+      for (let i = 0; i < backDots.length; i += 2) ctx.fillRect(backDots[i], backDots[i + 1], ds * 0.7, ds * 0.7);
+      for (let j = 0; j <= LEVELS; j++) {
+        const b = landBuckets[j];
+        if (!b.length) continue;
+        ctx.fillStyle = LAND_COL[j];
+        for (let i = 0; i < b.length; i += 2) ctx.fillRect(b[i] - ds / 2, b[i + 1] - ds / 2, ds, ds);
+      }
+      for (let k = 0; k < cnBuckets.length; k++) {
+        const b = cnBuckets[k];
+        if (!b.length) continue;
+        ctx.fillStyle = CN_COL[Math.floor(k / 5)][k % 5];
+        for (let i = 0; i < b.length; i += 2) ctx.fillRect(b[i] - ds * 0.6, b[i + 1] - ds * 0.6, ds * 1.2, ds * 1.2);
       }
 
       /* routes */
@@ -346,8 +382,9 @@ export function HeroGlobe({ ready }: { ready: boolean }) {
       frame(performance.now());
     } else {
       io = new IntersectionObserver((es) => (es[0].isIntersecting ? play() : pause()), { threshold: 0.05 });
-      io.observe(host);
-      document.addEventListener("visibilitychange", onVis);
+      const start = () => { io!.observe(host); document.addEventListener("visibilitychange", onVis); };
+      const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+      if (w.requestIdleCallback) w.requestIdleCallback(start, { timeout: 2500 }); else setTimeout(start, 1200);
     }
 
     return () => {

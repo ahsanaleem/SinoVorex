@@ -45,10 +45,10 @@ export function Hero({ ready, onContact }: { ready: boolean; onContact: () => vo
     >
       {/* Aurora blobs */}
       <motion.div style={{ x: blobX, y: blobY }} className="pointer-events-none absolute -left-[10%] top-[5%] h-[55vw] max-h-[720px] w-[55vw] max-w-[720px]">
-        <div className="h-full w-full animate-blob rounded-full bg-[radial-gradient(circle,rgba(255,107,43,0.18),transparent_65%)] blur-2xl" />
+        <div className="h-full w-full rounded-full lg:animate-blob bg-[radial-gradient(circle,rgba(255,107,43,0.18),transparent_65%)] blur-2xl" />
       </motion.div>
       <motion.div style={{ x: blobX2, y: blobY2 }} className="pointer-events-none absolute -right-[5%] top-[10%] h-[50vw] max-h-[720px] w-[50vw] max-w-[720px]">
-        <div className="h-full w-full animate-blob-slow rounded-full bg-[radial-gradient(circle,rgba(255,176,120,0.3),transparent_65%)] blur-2xl" />
+        <div className="h-full w-full rounded-full lg:animate-blob-slow bg-[radial-gradient(circle,rgba(255,176,120,0.3),transparent_65%)] blur-2xl" />
       </motion.div>
 
       {/* Grid lines */}

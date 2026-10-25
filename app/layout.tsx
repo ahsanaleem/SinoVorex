@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 };
 
 // Fonts are downloaded at build time and served from this site (Google Fonts is blocked in mainland China).
-const interTight = Inter_Tight({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"], variable: "--font-display", display: "swap" });
+const interTight = Inter_Tight({ subsets: ["latin"], variable: "--font-display", display: "swap" }); // variable font: all weights in one file
 const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-mono", display: "swap" });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap", preload: false }); // small labels only
 
 // Google Analytics 4. Set NEXT_PUBLIC_GA_ID to override; set it to "off" to disable.
 const GA_ID = (process.env.NEXT_PUBLIC_GA_ID || "G-TNW1DPPKP5").replace(/^off$/i, "");
@@ -50,9 +50,13 @@ export default function RootLayout({
         )}
         {GA_ID && (
           <>
-            <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+            {/* gtag() queues events straight away; the large gtag.js library loads on the first scroll, tap or key press,
+                or 4 seconds after the page has loaded, so it never slows down the first view of a page. */}
             <Script id="ga" strategy="afterInteractive">
-              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${GA_ID}');`}
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${GA_ID}');
+(function(){var d=0;function l(){if(d)return;d=1;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${GA_ID}';document.head.appendChild(s);}
+['scroll','pointerdown','keydown','touchstart'].forEach(function(e){addEventListener(e,l,{once:true,passive:true});});
+if(document.readyState==='complete')setTimeout(l,4000);else addEventListener('load',function(){setTimeout(l,4000);});})();`}
             </Script>
           </>
         )}

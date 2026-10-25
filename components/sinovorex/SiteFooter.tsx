@@ -53,7 +53,7 @@ export function SiteFooter({ onQuote, onTop, className = "", children }: {
                 <ul className="mt-4 space-y-0.5">
                   {col.links.map(([label, href]) => (
                     <li key={href}>
-                      <Link href={href} className="inline-block py-1.5 text-[15px] leading-snug text-white/75 transition-colors hover:text-white">{label}</Link>
+                      <Link href={href} prefetch={false} className="inline-block py-1.5 text-[15px] leading-snug text-white/75 transition-colors hover:text-white">{label}</Link>
                     </li>
                   ))}
                   {col.more && (
@@ -80,7 +80,7 @@ export function SiteFooter({ onQuote, onTop, className = "", children }: {
             )}
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-            {FOOTER_COMPANY.map(([label, href]) => <Link key={href} href={href} className="py-2 hover:text-white">{label}</Link>)}
+            {FOOTER_COMPANY.map(([label, href]) => <Link key={href} href={href} prefetch={false} className="py-2 hover:text-white">{label}</Link>)}
             {CASE_STUDIES.length > 0 && <Link href="/case-studies" className="py-2 hover:text-white">Case studies</Link>}
             <Link href="/privacy" className="py-2 hover:text-white">Privacy</Link>
             <Link href="/terms" className="py-2 hover:text-white">Terms</Link>

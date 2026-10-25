@@ -31,7 +31,7 @@ function SectionHead({ eyebrow, line1, line2, intro, dark = false }: { eyebrow: 
 /* ── Products & industries ─────────────────────────────────── */
 export function Products({ onQuote }: { onQuote: () => void }) {
   return (
-    <section id="products" className="scroll-mt-24 bg-white px-4 py-24 sm:px-6 md:py-32">
+    <section id="products" className="cv-auto scroll-mt-24 bg-white px-4 py-24 sm:px-6 md:py-32">
       <div className="mx-auto max-w-[1280px]">
         <SectionHead eyebrow="Products & industries" line1="What we" line2="source for you" intro="These are the categories we source most. Need something else? Send us the details and we'll tell you honestly whether we can help." />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -110,7 +110,7 @@ export function Products({ onQuote }: { onQuote: () => void }) {
 export function QualityControl() {
   const icons = [Factory, ClipboardCheck, Camera];
   return (
-    <section id="quality" className="scroll-mt-24 bg-paper px-4 py-24 sm:px-6 md:py-32">
+    <section id="quality" className="cv-auto scroll-mt-24 bg-paper px-4 py-24 sm:px-6 md:py-32">
       <div className="mx-auto max-w-[1280px]">
         <SectionHead eyebrow="Quality control" line1="Checked before" line2="you pay the balance" intro="Most problems with China orders are found too late. We check the factory before you order and the goods before they ship." />
         <div className="grid gap-4 md:grid-cols-3">
@@ -148,7 +148,7 @@ export function Shipping() {
   const [term, setTerm] = useState(0);
   const icons = [Ship, Plane, TrainFront];
   return (
-    <section id="shipping" className="scroll-mt-24 bg-paper px-2 pb-24 sm:px-3 md:pb-32">
+    <section id="shipping" className="cv-auto scroll-mt-24 bg-paper px-2 pb-24 sm:px-3 md:pb-32">
       <div data-theme="dark" className="relative overflow-hidden rounded-[32px] bg-ink px-4 py-20 text-white sm:px-6 md:rounded-[48px] md:py-28">
         <div className="pointer-events-none absolute -right-40 top-0 h-[480px] w-[480px] rounded-full bg-flame/20 blur-[120px]" />
         <div className="relative mx-auto max-w-[1280px]">
@@ -228,7 +228,7 @@ export function Shipping() {
 export function FeesAndFaq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="scroll-mt-24 bg-white px-4 py-24 sm:px-6 md:py-32">
+    <section id="faq" className="cv-auto scroll-mt-24 bg-white px-4 py-24 sm:px-6 md:py-32">
       <div className="mx-auto grid max-w-[1280px] gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div id="fees" className="scroll-mt-24 lg:sticky lg:top-28 lg:self-start">
           <Eyebrow>Fees & payment</Eyebrow>

@@ -33,7 +33,7 @@ export function Breadcrumbs({ items }: { items: { name: string; path?: string }[
           <li key={it.name} className="flex items-center gap-1.5">
             {i > 0 && <ChevronRight size={14} aria-hidden className="text-ink/35" />}
             {it.path
-              ? <Link href={it.path} className="-my-3 inline-block rounded py-3 hover:text-flame hover:underline">{it.name}</Link>
+              ? <Link href={it.path} prefetch={it.path === "/" ? false : undefined} className="-my-3 inline-block rounded py-3 hover:text-flame hover:underline">{it.name}</Link>
               : <span aria-current="page" className="font-medium text-ink">{it.name}</span>}
           </li>
         ))}
