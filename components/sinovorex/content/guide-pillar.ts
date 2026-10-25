@@ -148,7 +148,7 @@ export const PILLAR_GUIDE: Article = {
       "Forgetting about duties, taxes and product rules in their own country until the goods arrive.",
     ] },
 
-    { h2: "How Sino Vorex works" },
+    { h2: "How SinoVorex works" },
     { p: "We're a sourcing agent based in Suzhou, close to Shanghai and the factories of the Yangtze River Delta. We charge a commission on the order value, confirmed in writing before we start. Our shortlists name every supplier, our inspection reports come with photos and defect counts, and we recommend you only pay the factory's balance once you've seen them." },
     { p: "If you'd like to see how we'd approach your product, [send us the details](/quote) and we'll reply within 24 hours." },
   ],

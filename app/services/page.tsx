@@ -7,7 +7,7 @@ import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { PageHeader, RelatedLinks } from "@/components/sinovorex/PageParts";
 import { JsonLd, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
-const TITLE = "Our Services: Sourcing, Inspection, Shipping & More | Sino Vorex";
+const TITLE = "Our Services: Sourcing, Inspection, Shipping & More | SinoVorex";
 const DESCRIPTION = "Sourcing, factory audits, inspection and freight from China, plus company registration, visa help and business trips to China and the Canton Fair.";
 
 export const metadata: Metadata = pageMeta({ title: TITLE, description: DESCRIPTION, path: "/services" });
@@ -18,7 +18,7 @@ export default function ServicesIndex() {
     <SubpageShell>
       <JsonLd data={graph(breadcrumbLd(crumbs), {
         "@type": "ItemList",
-        name: "Sino Vorex services",
+        name: "SinoVorex services",
         itemListElement: ALL_SERVICES.map((s, i) => ({
           "@type": "ListItem", position: i + 1, url: abs(`/services/${s.slug}`),
           // Same @id as the Service node on each service page, so they are one entity.

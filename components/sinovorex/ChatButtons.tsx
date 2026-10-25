@@ -6,7 +6,7 @@ import { clsx } from "clsx";
 import { COMPANY } from "./data";
 import { track } from "./analytics";
 
-const WA_TEXT = encodeURIComponent("Hello Sino Vorex, I'd like to source a product from China.");
+const WA_TEXT = encodeURIComponent("Hello SinoVorex, I'd like to source a product from China.");
 export const waHref = `${COMPANY.whatsappHref}?text=${WA_TEXT}`;
 
 export function WeChatGlyph({ size = 18 }: { size?: number }) {

@@ -72,7 +72,7 @@ export function Hero({ ready, onContact }: { ready: boolean; onContact: () => vo
         <div className="max-w-[720px] [&>*]:pointer-events-auto">
           <motion.div {...fade(0.1)} className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-ink/10 bg-white/70 py-1.5 pl-1.5 pr-4 text-[13px] font-medium text-ink/80 shadow-sm backdrop-blur-md">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-white">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-flame" /> Sino Vorex
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-flame" /> SinoVorex
             </span>
             The force behind global trade
           </motion.div>

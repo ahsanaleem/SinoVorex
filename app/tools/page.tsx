@@ -7,7 +7,7 @@ import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { PageHeader } from "@/components/sinovorex/PageParts";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
-const TITLE = "Free Tools for Importers from China | Sino Vorex";
+const TITLE = "Free Tools for Importers from China | SinoVorex";
 const DESCRIPTION = "Free tools for importers: landed cost calculator, CBM and container calculator, interactive Incoterms 2020 chart and AQL sample size calculator.";
 const ICONS = { "landed-cost-calculator": Calculator, "cbm-calculator": Boxes, incoterms: Route, "aql-calculator": ClipboardCheck } as const;
 

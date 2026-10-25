@@ -5,7 +5,7 @@ import { SITE_URL } from "./site";
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
-const OG_IMAGE = { url: "/opengraph-image.png", width: 1200, height: 630, alt: "Sino Vorex, a China sourcing agent helping buyers source, inspect and ship products from China" };
+const OG_IMAGE = { url: "/opengraph-image.png", width: 1200, height: 630, alt: "SinoVorex, a China sourcing agent helping buyers source, inspect and ship products from China" };
 
 export const abs = (path: string) => (path === "/" ? SITE_URL : `${SITE_URL}${path}`);
 
@@ -21,7 +21,7 @@ export function pageMeta({ title, description, path, type = "website", published
     description,
     alternates: { canonical: path },
     openGraph: {
-      title, description, url: path, siteName: "Sino Vorex", locale: "en_US", images: [OG_IMAGE],
+      title, description, url: path, siteName: "SinoVorex", locale: "en_US", images: [OG_IMAGE],
       ...(type === "article" ? { type: "article", publishedTime: published, modifiedTime: modified } : { type: "website" }),
     },
     twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE.url] },
@@ -38,7 +38,7 @@ export const orgLd = (description: string) => ({
   "@type": ["Organization", "ProfessionalService"],
   "@id": ORG_ID,
   name: COMPANY.brand,
-  alternateName: ["SinoVorex", COMPANY.legalNameEnGloss],
+  alternateName: ["Sino Vorex", COMPANY.legalNameEnGloss],
   legalName: COMPANY.legalNameZh,
   url: SITE_URL,
   logo: { "@type": "ImageObject", url: `${SITE_URL}/brand/sinovorex-logo-512.png`, width: 512, height: 512 },

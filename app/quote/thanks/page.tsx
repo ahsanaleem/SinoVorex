@@ -4,7 +4,7 @@ import { COMPANY } from "@/components/sinovorex/data";
 import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 
 // Landing page for the quote form when it is submitted without JavaScript.
-export const metadata: Metadata = { title: "Thank you: your request has been sent | Sino Vorex", robots: { index: false, follow: true }, alternates: { canonical: null } };
+export const metadata: Metadata = { title: "Thank you: your request has been sent | SinoVorex", robots: { index: false, follow: true }, alternates: { canonical: null } };
 
 export default function Page() {
   return (

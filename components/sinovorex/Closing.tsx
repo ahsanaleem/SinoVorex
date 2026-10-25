@@ -81,7 +81,7 @@ export function Footer({ onContact }: { onContact: () => void }) {
         className="pointer-events-none select-none text-center font-display text-[19vw] font-semibold leading-[0.75] tracking-[-0.06em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.12)]"
         aria-hidden
       >
-        Sino Vorex
+        SinoVorex
       </motion.div>
     </SiteFooter>
   );

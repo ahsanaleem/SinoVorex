@@ -125,7 +125,7 @@ async function handle(req: NextRequest) {
 
   try {
     await transporter.sendMail({
-      from: `"Sino Vorex Website" <${SMTP_USER}>`,
+      from: `"SinoVorex Website" <${SMTP_USER}>`,
       to: CONTACT_TO,
       replyTo: { name: data.name, address: data.email },
       subject: `Quote request: ${data.product.slice(0, 60)} from ${data.name}`,
@@ -142,7 +142,7 @@ async function handle(req: NextRequest) {
           </div>
           <div style="background: #f5f5f5; padding: 18px 36px; text-align: center;">
             <p style="font-size: 12px; color: #888; margin: 0;">
-              Sent from the Sino Vorex website quote form &nbsp;·&nbsp;
+              Sent from the SinoVorex website quote form &nbsp;·&nbsp;
               <a href="mailto:${escapeHtml(data.email)}" style="color: #FF6B2B; text-decoration: none;">Reply to ${escapeHtml(data.name)}</a>
             </p>
           </div>

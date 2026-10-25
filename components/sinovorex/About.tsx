@@ -35,7 +35,7 @@ export function About() {
           </h2>
           <Reveal delay={0.1}>
             <p className="mt-8 text-[19px] leading-relaxed text-ink/75">
-              Sino Vorex is a sourcing and export partner for buyers around the world, working with manufacturers across China.
+              SinoVorex is a sourcing and export partner for buyers around the world, working with manufacturers across China.
             </p>
             <p className="mt-5 text-[16px] leading-relaxed text-ink/70">
               We find factories, check them and their goods, follow production and arrange shipping, so you can buy from China with fewer surprises. Our team works in Chinese and English, close to the factories.
@@ -84,7 +84,7 @@ export function About() {
           </Reveal>
 
           <Reveal y={16}>
-            <div className="mb-6 font-mono text-[11px] uppercase tracking-[0.25em] text-ink/65">Why Sino Vorex</div>
+            <div className="mb-6 font-mono text-[11px] uppercase tracking-[0.25em] text-ink/65">Why SinoVorex</div>
           </Reveal>
           <div ref={listRef} className="relative">
             <div className="absolute bottom-6 left-[27px] top-6 w-px bg-ink/10" />

@@ -6,7 +6,7 @@ import { PageHeader, RelatedLinks } from "@/components/sinovorex/PageParts";
 import type { Block } from "@/components/sinovorex/content/types";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
-const TITLE = "About Sino Vorex: China Sourcing Agent in Suzhou";
+const TITLE = "About SinoVorex: China Sourcing Agent in Suzhou";
 const DESCRIPTION = "Who we are: a trade consulting company in Suzhou, China, helping buyers worldwide source, check and ship products. Company details and how to verify us.";
 
 export const metadata: Metadata = pageMeta({ title: TITLE, description: DESCRIPTION, path: "/about" });
@@ -64,7 +64,7 @@ export default function AboutPage() {
         "@type": "AboutPage",
         "@id": `${abs("/about")}#webpage`,
         url: abs("/about"),
-        name: "About Sino Vorex",
+        name: "About SinoVorex",
         dateModified: PAGE_UPDATED.about,
         mainEntity: { "@id": ORG_ID },
         isPartOf: { "@id": WEBSITE_ID },
@@ -74,8 +74,8 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1280px]">
           <PageHeader
             crumbs={[{ name: "Home", path: "/" }, { name: "About" }]}
-            h1="About Sino Vorex"
-            summary={`Sino Vorex is the brand of ${COMPANY.legalNameZh}, a trade consulting company registered in Suzhou, China. We help buyers worldwide source, check and ship products from factories across China.`}
+            h1="About SinoVorex"
+            summary={`SinoVorex is the brand of ${COMPANY.legalNameZh}, a trade consulting company registered in Suzhou, China. We help buyers worldwide source, check and ship products from factories across China.`}
             updated={PAGE_UPDATED.about}
           />
 

@@ -102,7 +102,7 @@ const CORE_GUIDES: Article[] = [
       { p: "An agent usually pays for itself if you can't visit China, if your order includes custom or quality-critical products, or if you're dealing with several suppliers at once." },
       { p: "You may not need one for simple repeat orders from a supplier you already trust. In that case a [pre-shipment inspection](/services/quality-inspection) on its own may be enough." },
 
-      { h2: "How Sino Vorex charges" },
+      { h2: "How SinoVorex charges" },
       { p: "We charge a commission on the order value. The rate depends on the product and the order size, and we confirm it in writing in your quote before we start. Anything charged separately, like on-site work or samples, is in the quote too. Our shortlists name every supplier, so you can check them yourself. [Ask us for a quote](/quote) to get exact figures for your product." },
     ],
     faqs: [
@@ -416,7 +416,7 @@ const CORE_GUIDES: Article[] = [
       ] },
     ],
     faqs: [
-      { q: "Is Sino Vorex a freight forwarder?", a: "No. We're a sourcing and export partner. We arrange freight with partner forwarders, who carry the goods and issue the transport documents." },
+      { q: "Is SinoVorex a freight forwarder?", a: "No. We're a sourcing and export partner. We arrange freight with partner forwarders, who carry the goods and issue the transport documents." },
       { q: "Can my own forwarder collect goods you sourced?", a: "Yes. We'll agree the pick-up date and paperwork with your forwarder." },
       { q: "Who clears customs in my country?", a: "Your customs broker, or your forwarder's agent. If you ship DDP, the forwarder handles import clearance and pays the duties." },
     ],

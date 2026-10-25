@@ -8,7 +8,7 @@ import type { Block } from "./types";
  *
  * {
  *   slug: "ceramic-mugs-cafe-chain-uk",
- *   title: "Sourcing Ceramic Mugs for a UK Café Chain | Sino Vorex",
+ *   title: "Sourcing Ceramic Mugs for a UK Café Chain | SinoVorex",
  *   h1: "Sourcing 3,000 branded ceramic mugs for a UK café chain",
  *   description: "How we found a ceramics factory, fixed a glaze problem at inspection and delivered 3,000 branded mugs to the UK on time.",
  *   client: "A café chain with 12 sites",          // anonymised is fine

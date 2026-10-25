@@ -20,7 +20,7 @@ export type ServiceContent = {
 const SOURCING_CONTENT: Record<string, ServiceContent> = {
   "product-sourcing": {
     h1: "Product Sourcing: Find the Right Manufacturer in China",
-    seoTitle: "Find Manufacturers in China: Product Sourcing | Sino Vorex",
+    seoTitle: "Find Manufacturers in China: Product Sourcing | SinoVorex",
     description: "We find manufacturers in China for your product, compare quotes, MOQs and lead times against one specification, and send you a shortlist of factories.",
     serviceType: "Product sourcing",
     glance: [
@@ -91,7 +91,7 @@ const SOURCING_CONTENT: Record<string, ServiceContent> = {
 
   "factory-vetting": {
     h1: "Factory Audit & Supplier Verification in China",
-    seoTitle: "Factory Audit & Supplier Verification in China | Sino Vorex",
+    seoTitle: "Factory Audit & Supplier Verification in China | SinoVorex",
     description: "Factory audits in China before you pay a deposit: business licence checks, on-site visits, capacity and quality controls, with a photo report.",
     serviceType: "Factory audit",
     glance: [
@@ -159,7 +159,7 @@ const SOURCING_CONTENT: Record<string, ServiceContent> = {
 
   "quality-inspection": {
     h1: "Pre-shipment Inspection & Quality Control in China",
-    seoTitle: "Pre-shipment Inspection & QC in China (AQL) | Sino Vorex",
+    seoTitle: "Pre-shipment Inspection & QC in China (AQL) | SinoVorex",
     description: "Quality inspection in China before you pay the balance: pre-production, during-production and pre-shipment checks with AQL sampling and photo reports.",
     serviceType: "Quality inspection",
     glance: [
@@ -224,7 +224,7 @@ const SOURCING_CONTENT: Record<string, ServiceContent> = {
 
   "order-follow-up": {
     h1: "Production Follow-up & Order Management in China",
-    seoTitle: "Production Follow-up & Order Management in China | Sino Vorex",
+    seoTitle: "Production Follow-up & Order Management in China | SinoVorex",
     description: "Bilingual production follow-up in China: we confirm specs, artwork and packaging with your factory, track the schedule and report progress with photos.",
     serviceType: "Production follow-up",
     glance: [
@@ -300,7 +300,7 @@ const SOURCING_CONTENT: Record<string, ServiceContent> = {
 
   "shipping-coordination": {
     h1: "Shipping from China: Sea, Air & Rail Freight",
-    seoTitle: "Shipping & Freight from China: Sea, Air, Rail | Sino Vorex",
+    seoTitle: "Shipping & Freight from China: Sea, Air, Rail | SinoVorex",
     description: "Freight from China by sea (FCL/LCL), air and rail with partner forwarders: FOB, CIF and DDP options, export documents and tracking to your door.",
     serviceType: "Freight coordination",
     glance: [
@@ -387,7 +387,7 @@ const SOURCING_CONTENT: Record<string, ServiceContent> = {
 
   "samples-consolidation": {
     h1: "Sample Collection & Shipment Consolidation in China",
-    seoTitle: "Sample Collection & Consolidation in China | Sino Vorex",
+    seoTitle: "Sample Collection & Consolidation in China | SinoVorex",
     description: "We collect samples from several Chinese factories, check them and send them together, and combine orders from multiple suppliers into one shipment.",
     serviceType: "Sample collection and shipment consolidation",
     glance: [

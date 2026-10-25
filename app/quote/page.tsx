@@ -5,7 +5,7 @@ import { QuoteForm } from "@/components/sinovorex/QuoteForm";
 import { Breadcrumbs } from "@/components/sinovorex/PageParts";
 import { JsonLd, ORG_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
-const TITLE = "Request a Quote: Sourcing from China | Sino Vorex";
+const TITLE = "Request a Quote: Sourcing from China | SinoVorex";
 const DESCRIPTION = "Tell us what you want to source from China: product, quantity, target price and destination. We reply within 24 hours with next steps.";
 
 export const metadata: Metadata = pageMeta({ title: TITLE, description: DESCRIPTION, path: "/quote" });

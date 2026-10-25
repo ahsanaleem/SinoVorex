@@ -8,7 +8,7 @@ import { PageHeader } from "@/components/sinovorex/PageParts";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "Case Studies: Real Sourcing Orders from China | Sino Vorex",
+  title: "Case Studies: Real Sourcing Orders from China | SinoVorex",
   description: "Real orders we've sourced, inspected and shipped from China: the problem, the factory, what inspection found and the result.",
   path: "/case-studies",
 });

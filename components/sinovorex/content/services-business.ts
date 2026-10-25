@@ -7,7 +7,7 @@ import type { ServiceContent } from "./services";
 export const BUSINESS_CONTENT: Record<string, ServiceContent> = {
   "china-company-registration": {
     h1: "Register a Company in China (WFOE)",
-    seoTitle: "Register a Company in China: WFOE Setup | Sino Vorex",
+    seoTitle: "Register a Company in China: WFOE Setup | SinoVorex",
     description: "Set up a company in China: WFOE registration, business scope, address, business licence, tax registration and bank account, explained step by step.",
     serviceType: "Company registration",
     glance: [
@@ -83,7 +83,7 @@ export const BUSINESS_CONTENT: Record<string, ServiceContent> = {
 
   "china-visa-help": {
     h1: "China Business & Tourist Visa Help",
-    seoTitle: "China Business Visa (M) & Tourist Visa Help | Sino Vorex",
+    seoTitle: "China Business Visa (M) & Tourist Visa Help | SinoVorex",
     description: "Help with China visas: whether you can enter visa-free, business (M) and tourist (L) visas, invitation letters, documents, and planning your trip.",
     serviceType: "Visa assistance",
     glance: [
@@ -155,7 +155,7 @@ export const BUSINESS_CONTENT: Record<string, ServiceContent> = {
 
   "china-business-trips": {
     h1: "Business Trips to China & Canton Fair Tours",
-    seoTitle: "Business Trips to China & Canton Fair Tours | Sino Vorex",
+    seoTitle: "Business Trips to China & Canton Fair Tours | SinoVorex",
     description: "Plan a business trip to China: Canton Fair visits, factory tours, Yiwu market and trade fairs, with a bilingual guide, booked meetings and help with travel.",
     serviceType: "Business travel planning",
     glance: [

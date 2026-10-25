@@ -37,7 +37,7 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
     <div className="min-h-screen bg-paper font-display text-ink">
       <header className="sticky top-0 z-[150] border-b border-ink/[0.07] bg-paper/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Link href="/" aria-label="Sino Vorex home"><BrandLogo className="h-11 w-auto md:h-12" /></Link>
+          <Link href="/" aria-label="SinoVorex home"><BrandLogo className="h-11 w-auto md:h-12" /></Link>
 
           <nav aria-label="Main" className="hidden lg:block">
             <ul className="flex items-center gap-1">

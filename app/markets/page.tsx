@@ -7,7 +7,7 @@ import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { PageHeader, RelatedLinks } from "@/components/sinovorex/PageParts";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
-const TITLE = "Sourcing & Shipping from China by Country | Sino Vorex";
+const TITLE = "Sourcing & Shipping from China by Country | SinoVorex";
 const DESCRIPTION = "Sourcing and shipping from China for buyers in the UAE, Saudi Arabia, Pakistan, Nigeria and Kenya: ports, customs and product approvals.";
 
 export const metadata: Metadata = pageMeta({ title: TITLE, description: DESCRIPTION, path: "/markets" });

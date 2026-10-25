@@ -5,11 +5,11 @@ import {
 
 /* ── Company & contact details (must match the business licence) ── */
 export const COMPANY = {
-  /** Exactly as on the business licence. "Sino Vorex" is the brand; there is no official English legal name. */
+  /** Exactly as on the business licence. "SinoVorex" is the brand; there is no official English legal name. */
   legalNameZh: "苏州智贸通贸易咨询服务有限公司",
   /** Unofficial English rendering of the legal name, shown as a gloss only. */
   legalNameEnGloss: "Suzhou Zhimaotong Trade Consulting Service Co., Ltd.",
-  brand: "Sino Vorex",
+  brand: "SinoVorex",
   email: "business@sinovorex.com",
   phoneDisplay: "+86 137 7050 4359",
   phoneHref: "tel:+8613770504359",

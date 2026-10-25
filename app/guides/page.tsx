@@ -7,7 +7,7 @@ import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { PageHeader, fmtDate } from "@/components/sinovorex/PageParts";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
-const TITLE = "Guides to Sourcing from China | Sino Vorex";
+const TITLE = "Guides to Sourcing from China | SinoVorex";
 const DESCRIPTION = "Practical guides for importers: what a China sourcing agent costs, low-MOQ orders, factory audit checklists, AQL inspections and freight forwarders.";
 
 export const metadata: Metadata = pageMeta({ title: TITLE, description: DESCRIPTION, path: "/guides" });

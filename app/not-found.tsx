@@ -4,7 +4,7 @@ import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { FOOTER_RESOURCES } from "@/components/sinovorex/links";
 
 // Next.js adds noindex to 404 responses itself, so no robots tag here (avoids a duplicate).
-export const metadata: Metadata = { title: "Page not found | Sino Vorex", alternates: { canonical: null } };
+export const metadata: Metadata = { title: "Page not found | SinoVorex", alternates: { canonical: null } };
 
 export default function NotFound() {
   return (

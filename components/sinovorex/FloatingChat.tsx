@@ -41,7 +41,7 @@ export function FloatingChat({ ready = true }: { ready?: boolean }) {
             transition={{ duration: 0.25, ease: EASE }}
             className="w-[280px] origin-bottom-right rounded-[24px] border border-ink/[0.08] bg-white p-4 shadow-[0_30px_60px_-20px_rgba(14,14,22,0.35)]"
             role="dialog"
-            aria-label="Chat with Sino Vorex"
+            aria-label="Chat with SinoVorex"
           >
             <div className="px-1 pb-3 text-[14px] font-medium text-ink">Chat with us</div>
             <a

@@ -198,7 +198,7 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
             <label className="flex items-start gap-3 pt-1 text-[13px] leading-relaxed text-ink/75">
               <input type="checkbox" name="consent" value="yes" required checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[#FF6B2B]" />
               <span>
-                I agree that Sino Vorex may use these details to reply to my request, as described in the{" "}
+                I agree that SinoVorex may use these details to reply to my request, as described in the{" "}
                 <Link href="/privacy" target="_blank" className="font-medium text-ink underline underline-offset-2 hover:text-flame">privacy policy</Link>.
               </span>
             </label>

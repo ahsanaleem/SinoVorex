@@ -6,14 +6,14 @@ import { SITE_URL } from "@/lib/site";
 import { JsonLd, graph, orgLd, pageMeta, websiteLd } from "@/lib/seo";
 
 const DESCRIPTION =
-  "Sino Vorex is a China sourcing agent in Suzhou. We find factories, audit suppliers, inspect goods before shipment and arrange freight worldwide.";
+  "SinoVorex is a China sourcing agent in Suzhou. We find factories, audit suppliers, inspect goods before shipment and arrange freight worldwide.";
 
 const GSC_TOKEN = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 const BING_TOKEN = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  ...pageMeta({ title: "China Sourcing Agent for Global Buyers | Sino Vorex", description: DESCRIPTION, path: "/" }),
+  ...pageMeta({ title: "China Sourcing Agent for Global Buyers | SinoVorex", description: DESCRIPTION, path: "/" }),
   ...((GSC_TOKEN || BING_TOKEN) && {
     verification: { ...(GSC_TOKEN && { google: GSC_TOKEN }), ...(BING_TOKEN && { other: { "msvalidate.01": BING_TOKEN } }) },
   }),

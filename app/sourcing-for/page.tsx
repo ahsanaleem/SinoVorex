@@ -7,7 +7,7 @@ import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { PageHeader } from "@/components/sinovorex/PageParts";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
-const TITLE = "Who We Help: Sourcing from China by Business Type | Sino Vorex";
+const TITLE = "Who We Help: Sourcing from China by Business Type | SinoVorex";
 const DESCRIPTION = "How we help Amazon and e-commerce sellers, small businesses, and hotels, restaurants and cafés source, check and ship products from China.";
 
 export const metadata: Metadata = pageMeta({ title: TITLE, description: DESCRIPTION, path: "/sourcing-for" });

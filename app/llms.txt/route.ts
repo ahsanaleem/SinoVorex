@@ -11,9 +11,9 @@ export const dynamic = "force-static";
 /** llms.txt (llmstxt.org): a plain-text map of the site for AI assistants. Optional; Google Search ignores it. */
 export function GET() {
   const lines = [
-    "# Sino Vorex",
+    "# SinoVorex",
     "",
-    `> Sino Vorex is a China sourcing agent based in Suzhou, China (brand of ${COMPANY.legalNameZh}). It helps buyers worldwide find factories, audit suppliers, inspect goods before shipment and arrange freight by sea, air or rail. It also helps foreign businesses register companies in China, with business and tourist visas, and with business trips and Canton Fair visits.`,
+    `> SinoVorex is a China sourcing agent based in Suzhou, China (brand of ${COMPANY.legalNameZh}). It helps buyers worldwide find factories, audit suppliers, inspect goods before shipment and arrange freight by sea, air or rail. It also helps foreign businesses register companies in China, with business and tourist visas, and with business trips and Canton Fair visits.`,
     "",
     `Contact: ${COMPANY.email} · ${COMPANY.phoneDisplay} (phone/WhatsApp) · WeChat ${COMPANY.wechatId}. Fees: a commission on the order value, confirmed in writing in each quote.`,
     "",
@@ -33,7 +33,7 @@ export function GET() {
     ...TOOLS.map((t) => `- [${t.h1}](${abs(`/tools/${t.slug}`)}): ${t.description}`),
     "",
     "## Company",
-    `- [About Sino Vorex](${abs("/about")}): company details and how to verify our registration`,
+    `- [About SinoVorex](${abs("/about")}): company details and how to verify our registration`,
     `- [Request a quote](${abs("/quote")}): quote form (product, quantity, target price, destination)`,
     `- [Full text of all pages](${abs("/llms-full.txt")}): every service page and guide as Markdown`,
     `- [Privacy policy](${abs("/privacy")})`,
