@@ -14,6 +14,7 @@ export const FOOTER_RESOURCES: [string, string][] = [
 export const SUBPAGE_NAV: [string, string][] = [
   ["Services", "/services"],
   ["Guides", "/guides"],
+  ["Free tools", "/tools"],
   ["About", "/about"],
   ["FAQ", "/#faq"],
 ];
@@ -41,39 +42,60 @@ export const FOOTER_COLUMNS: { title: string; links: [string, string][]; more?: 
       ["Quality inspection", "/services/quality-inspection"],
       ["Order follow-up", "/services/order-follow-up"],
       ["Samples & consolidation", "/services/samples-consolidation"],
+      ["Sea, air & rail freight", "/services/shipping-coordination"],
     ],
     more: ["All services", "/services"],
+  },
+  {
+    title: "Business in China",
+    links: [
+      ["Company registration", "/services/china-company-registration"],
+      ["Visa help", "/services/china-visa-help"],
+      ["Business trips", "/services/china-business-trips"],
+      ["Canton Fair guide", "/guides/canton-fair-guide"],
+      ["WFOE vs rep office", "/guides/wfoe-vs-representative-office"],
+    ],
   },
   {
     title: "Guides",
     links: [
       ["Sourcing agents explained", "/guides/china-sourcing-agent"],
       ["Sourcing agent costs", "/guides/china-sourcing-agent-cost"],
-      ["Low MOQ sourcing", "/guides/sourcing-from-china-small-business"],
       ["Factory audit checklist", "/guides/factory-audit-checklist"],
       ["Inspection & AQL", "/guides/pre-shipment-inspection-aql"],
+      ["Yiwu market guide", "/guides/yiwu-market-guide"],
+      ["Fabric markets", "/guides/guangzhou-fabric-market"],
     ],
     more: ["All guides", "/guides"],
   },
   {
-    title: "Shipping",
+    title: "Markets",
     links: [
-      ["Sea, air & rail freight", "/services/shipping-coordination"],
-      ["Shipping to the USA", "/guides/shipping-from-china-to-usa"],
-      ["Shipping to the UK", "/guides/shipping-from-china-to-uk"],
-      ["Shipping to Europe", "/guides/shipping-from-china-to-europe"],
-      ["Forwarder vs agent", "/guides/freight-forwarder-vs-sourcing-agent"],
+      ["UAE", "/markets/uae"],
+      ["Saudi Arabia", "/markets/saudi-arabia"],
+      ["Pakistan", "/markets/pakistan"],
+      ["Nigeria", "/markets/nigeria"],
+      ["Kenya", "/markets/kenya"],
+      ["USA, UK & Europe", "/guides/shipping-from-china-to-usa"],
     ],
+    more: ["All markets", "/markets"],
   },
   {
-    title: "Company",
+    title: "Free tools",
     links: [
-      ["About us", "/about"],
-      ["Who we help", "/sourcing-for"],
-      ["Amazon sellers", "/sourcing-for/amazon-sellers"],
-      ["Small businesses", "/sourcing-for/small-businesses"],
-      ["Hotels & restaurants", "/sourcing-for/hotels-restaurants"],
-      ["FAQ", "/#faq"],
+      ["Landed cost calculator", "/tools/landed-cost-calculator"],
+      ["CBM calculator", "/tools/cbm-calculator"],
+      ["Incoterms explained", "/tools/incoterms"],
+      ["AQL calculator", "/tools/aql-calculator"],
     ],
+    more: ["All tools", "/tools"],
   },
+];
+
+/** Company links shown in the footer's bottom bar. */
+export const FOOTER_COMPANY: [string, string][] = [
+  ["About us", "/about"],
+  ["Who we help", "/sourcing-for"],
+  ["FAQ", "/#faq"],
+  ["Request a quote", "/quote"],
 ];

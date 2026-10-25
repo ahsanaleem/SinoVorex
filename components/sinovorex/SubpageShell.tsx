@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { clsx } from "clsx";
-import { COMPANY, SERVICES } from "./data";
+import { ALL_SERVICES, COMPANY } from "./data";
 import { SUBPAGE_NAV } from "./links";
 import { BrandLogo } from "./brand";
 import { SiteFooter } from "./SiteFooter";
@@ -82,7 +82,7 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
         </ul>
         <div className="mt-8 font-mono text-[11px] uppercase tracking-[0.25em] text-white/60">Services</div>
         <ul className="mt-3 grid gap-1 sm:grid-cols-2">
-          {SERVICES.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="block py-1.5 text-[17px] text-white/80 hover:text-white">{s.title}</Link></li>)}
+          {ALL_SERVICES.map((s) => <li key={s.slug}><Link href={`/services/${s.slug}`} className="block py-1.5 text-[17px] text-white/80 hover:text-white">{s.title}</Link></li>)}
         </ul>
         <Link href="/quote" className="mt-10 block w-full rounded-full bg-flame py-4 text-center text-base font-medium">Request a Quote</Link>
       </nav>

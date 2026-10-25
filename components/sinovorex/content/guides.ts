@@ -1,6 +1,8 @@
 import type { Article } from "./types";
 import { PILLAR_GUIDE } from "./guide-pillar";
 import { SHIPPING_GUIDES } from "./guide-shipping";
+import { BUSINESS_GUIDES } from "./guide-business";
+import { MARKET_GUIDES } from "./guide-markets";
 
 /** /guides/[slug]. Educational content; each guide links to the matching service pages. */
 const CORE_GUIDES: Article[] = [
@@ -422,7 +424,7 @@ const CORE_GUIDES: Article[] = [
   },
 ];
 
-/** Pillar guide first, then the practical guides, then the shipping guides. */
-export const GUIDES: Article[] = [PILLAR_GUIDE, ...CORE_GUIDES, ...SHIPPING_GUIDES];
+/** Pillar guide first, then the practical guides, shipping guides and doing-business guides. */
+export const GUIDES: Article[] = [PILLAR_GUIDE, ...CORE_GUIDES, ...SHIPPING_GUIDES, ...MARKET_GUIDES, ...BUSINESS_GUIDES];
 
 export const GUIDE_BY_SLUG = Object.fromEntries(GUIDES.map((g) => [g.slug, g]));

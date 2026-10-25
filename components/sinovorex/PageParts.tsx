@@ -5,8 +5,10 @@ import { RichText, slugify } from "./Blocks";
 import type { Block, QA } from "./content/types";
 import { GUIDES } from "./content/guides";
 import { AUDIENCES } from "./content/audiences";
-import { COMPANY, SERVICES } from "./data";
+import { ALL_SERVICES, COMPANY } from "./data";
 import { SERVICE_CONTENT } from "./content/services";
+import { MARKETS } from "./content/markets";
+import { TOOLS } from "./content/tools";
 import { ReadingProgress, TocMobile, TocSidebar, type Heading } from "./PageNav";
 
 export const fmtDate = (iso: string) =>
@@ -129,10 +131,13 @@ export function ReadingLayout({ heads, children, aside }: { heads: Heading[]; ch
 const TITLE_FOR: Record<string, string> = Object.fromEntries([
   ...GUIDES.map((g) => [`/guides/${g.slug}`, g.h1]),
   ...AUDIENCES.map((a) => [`/sourcing-for/${a.slug}`, a.h1]),
-  ...SERVICES.map((s) => [`/services/${s.slug}`, SERVICE_CONTENT[s.slug]?.h1 ?? s.title]),
+  ...ALL_SERVICES.map((s) => [`/services/${s.slug}`, SERVICE_CONTENT[s.slug]?.h1 ?? s.title]),
+  ...MARKETS.map((m) => [`/markets/${m.slug}`, m.h1]),
+  ...TOOLS.map((t) => [`/tools/${t.slug}`, t.h1]),
 ]);
 
-const KIND_FOR = (p: string) => (p.startsWith("/guides") ? "Guide" : p.startsWith("/services") ? "Service" : "Who we help");
+const KIND_FOR = (p: string) =>
+  p.startsWith("/guides") ? "Guide" : p.startsWith("/services") ? "Service" : p.startsWith("/tools") ? "Free tool" : p.startsWith("/markets") ? "Market" : "Who we help";
 
 export function RelatedLinks({ paths, heading = "Keep reading" }: { paths: string[]; heading?: string }) {
   const items = paths.filter((p) => TITLE_FOR[p]);

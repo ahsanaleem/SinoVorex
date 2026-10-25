@@ -135,6 +135,9 @@ export function QualityControl() {
             );
           })}
         </div>
+        <Link href="/tools/aql-calculator" className="mt-6 inline-flex items-center gap-1.5 text-[15px] font-medium text-flame underline-offset-4 hover:underline">
+          Work out your inspection sample size with our free AQL calculator <ArrowUpRight size={15} />
+        </Link>
       </div>
     </section>
   );
@@ -208,6 +211,11 @@ export function Shipping() {
               <Link href="/services/shipping-coordination" className="mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline">
                 Shipping from China: transit times, FCL vs LCL and documents <ArrowUpRight size={14} className="text-flame" />
               </Link>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {[["CBM & container calculator", "/tools/cbm-calculator"], ["Interactive Incoterms chart", "/tools/incoterms"]].map(([label, href]) => (
+                  <Link key={href} href={href} className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white/10 px-4 text-[14px] font-medium text-white hover:bg-white/20">{label} <ArrowUpRight size={14} className="text-flame" /></Link>
+                ))}
+              </div>
             </div>
           </Reveal>
         </div>
@@ -239,6 +247,9 @@ export function FeesAndFaq() {
             )}
             <Link href="/guides/china-sourcing-agent-cost" className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-medium text-flame underline-offset-4 hover:underline">
               How sourcing agents charge, with a worked example <ArrowUpRight size={15} />
+            </Link>
+            <Link href="/tools/landed-cost-calculator" className="mt-2 flex items-center gap-1.5 text-[15px] font-medium text-flame underline-offset-4 hover:underline">
+              Work out your landed cost per unit <ArrowUpRight size={15} />
             </Link>
             <div className="mt-6 rounded-[24px] border border-ink/[0.08] bg-paper p-6">
               <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/70">Accepted payment</div>

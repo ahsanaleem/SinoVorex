@@ -68,6 +68,7 @@ export const AUDIENCES: (Article & { label: string })[] = [
       { p: "Testing is done by accredited labs. We can collect samples for the lab from the factory, and check that what's produced matches the sample that was tested." },
 
       { h2: "Getting started" },
+      { p: "Prefer to see suppliers yourself? We also plan [factory visits and Canton Fair trips](/services/china-business-trips)." },
       { p: "Send us the product, your target quantity and price, which marketplace you sell on and, if you have one, a link to a similar listing. We'll get back to you within 24 hours with what we need for a quote. Our [guide to pre-shipment inspection and AQL](/guides/pre-shipment-inspection-aql) shows what an inspection covers." },
     ],
     faqs: [

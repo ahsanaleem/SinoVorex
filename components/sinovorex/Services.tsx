@@ -5,7 +5,7 @@ import { motion, useMotionTemplate, useMotionValue, useMotionValueEvent, useScro
 import { ArrowUpRight } from "lucide-react";
 import { clsx } from "clsx";
 import Link from "next/link";
-import { PROCESS, SERVICES } from "./data";
+import { BUSINESS_SERVICES, PROCESS, SERVICES } from "./data";
 import { EASE, Eyebrow, Reveal, SplitWords } from "./primitives";
 
 /* Gentle looping motion per step icon, played once the timeline reaches it. */
@@ -226,6 +226,33 @@ export function Services() {
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s, i) => <ServiceCard key={s.num} s={s} i={i} />)}
+        </div>
+
+        {/* Beyond sourcing: company set-up, visas and business trips. */}
+        <div className="mt-16 rounded-[32px] border border-ink/[0.07] bg-white p-6 md:p-10">
+          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-flame">Also</div>
+              <h3 className="mt-2 font-display text-[clamp(26px,3vw,38px)] font-medium leading-tight tracking-[-0.035em] text-ink">Doing business in China</h3>
+            </div>
+            <Link href="/services#business" className="inline-flex items-center gap-1.5 text-[15px] font-medium text-flame hover:underline">See all services <ArrowUpRight size={15} /></Link>
+          </div>
+          <ul className="mt-8 grid gap-3 md:grid-cols-3">
+            {BUSINESS_SERVICES.map((s) => {
+              const Icon = s.icon;
+              return (
+                <li key={s.slug}>
+                  <Link href={`/services/${s.slug}`} className="group flex h-full gap-4 rounded-2xl bg-paper p-5 transition-colors hover:bg-flame/[0.08]">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-flame text-white"><Icon size={20} strokeWidth={1.7} /></span>
+                    <span>
+                      <span className="flex items-center gap-1.5 font-display text-[18px] font-medium text-ink">{s.title}<ArrowUpRight size={15} className="text-flame transition-transform group-hover:rotate-45" /></span>
+                      <span className="mt-1 block text-[14px] leading-relaxed text-ink/70">{s.desc}</span>
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </section>

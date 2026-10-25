@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://sinovorex.com").replace(/\/$/, "");
 
 // Indexable page routes. Each gets an HTTP canonical (Link header) matching its <link rel="canonical">.
-const PAGE = /^\/(?:$|(?:services|guides|sourcing-for)(?:\/[a-z0-9-]+)?$|(?:about|quote|privacy|terms)$)/;
+const PAGE = /^\/(?:$|(?:services|guides|sourcing-for|markets|tools|case-studies)(?:\/[a-z0-9-]+)?$|(?:about|quote|privacy|terms)$)/;
 
 /**
  * Next.js fetches pages as data at `?_rsc=…` URLs during client-side navigation. Those responses carry no

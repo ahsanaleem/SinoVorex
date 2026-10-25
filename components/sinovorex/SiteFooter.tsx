@@ -4,7 +4,8 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowUp, ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { COMPANY } from "./data";
-import { FOOTER_COLUMNS } from "./links";
+import { FOOTER_COLUMNS, FOOTER_COMPANY } from "./links";
+import { CASE_STUDIES } from "./content/case-studies";
 import { BrandLogo } from "./brand";
 
 /**
@@ -20,7 +21,7 @@ export function SiteFooter({ onQuote, onTop, className = "", children }: {
   return (
     <footer data-theme="dark" className={`relative overflow-hidden bg-ink px-4 pt-16 text-white sm:px-6 md:pt-20 ${className}`}>
       <div className="mx-auto max-w-[1280px]">
-        <div className="grid gap-12 border-b border-white/10 pb-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,2.2fr)] lg:gap-16">
+        <div className="grid gap-12 border-b border-white/10 pb-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,2.6fr)] lg:gap-14">
           {/* Brand and contact */}
           <div>
             <BrandLogo dark className="h-14 w-auto md:h-16" />
@@ -45,7 +46,7 @@ export function SiteFooter({ onQuote, onTop, className = "", children }: {
           </div>
 
           {/* Link columns: same width, same type, short labels */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-5">
             {FOOTER_COLUMNS.map((col) => (
               <div key={col.title}>
                 <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/45">{col.title}</p>
@@ -78,7 +79,9 @@ export function SiteFooter({ onQuote, onTop, className = "", children }: {
               </p>
             )}
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+            {FOOTER_COMPANY.map(([label, href]) => <Link key={href} href={href} className="py-2 hover:text-white">{label}</Link>)}
+            {CASE_STUDIES.length > 0 && <Link href="/case-studies" className="py-2 hover:text-white">Case studies</Link>}
             <Link href="/privacy" className="py-2 hover:text-white">Privacy</Link>
             <Link href="/terms" className="py-2 hover:text-white">Terms</Link>
             <button onClick={toTop} aria-label="Back to top" className="grid h-11 w-11 place-items-center rounded-full border border-white/15 text-white transition-all duration-500 hover:-translate-y-1 hover:border-flame hover:bg-flame">

@@ -104,7 +104,7 @@ export const PILLAR_GUIDE: Article = {
       "Make sure the company name on their invoices and bank account matches the registration.",
       "Ask for references from buyers in your country, and actually call one or two.",
       "Ask to join a video call from a factory they work with.",
-      "If you can, visit them. A real agent will be glad to show you around.",
+      "If you can, visit them. A real agent will be glad to show you around. Our [business trips](/services/china-business-trips) page explains how we plan visits.",
     ] },
     { p: "We explain how to check us on our [About page](/about), and our [factory audit checklist](/guides/factory-audit-checklist) covers the same kind of checks for factories." },
 

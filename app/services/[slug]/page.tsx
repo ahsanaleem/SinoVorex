@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, Check } from "lucide-react";
-import { PROCESS, SERVICES } from "@/components/sinovorex/data";
+import { ALL_SERVICES, BUSINESS_SERVICES, PROCESS, SERVICES } from "@/components/sinovorex/data";
 import { SERVICE_CONTENT } from "@/components/sinovorex/content/services";
 import { GUIDES } from "@/components/sinovorex/content/guides";
 import { SubpageShell } from "@/components/sinovorex/SubpageShell";
@@ -13,7 +13,7 @@ import { JsonLd, ORG_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return SERVICES.map((s) => ({ slug: s.slug }));
+  return ALL_SERVICES.map((s) => ({ slug: s.slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
@@ -23,12 +23,14 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 }
 
 export default function ServicePage({ params }: { params: { slug: string } }) {
-  const s = SERVICES.find((x) => x.slug === params.slug);
+  const s = ALL_SERVICES.find((x) => x.slug === params.slug);
   const c = SERVICE_CONTENT[params.slug];
   if (!s || !c) notFound();
   const Icon = s.icon;
   const path = `/services/${s.slug}`;
-  const others = SERVICES.filter((x) => x.slug !== s.slug);
+  const isBusiness = BUSINESS_SERVICES.includes(s);
+  const group = isBusiness ? BUSINESS_SERVICES : SERVICES;
+  const others = ALL_SERVICES.filter((x) => x.slug !== s.slug);
   const step = PROCESS.find((p) => p.step === c.processStep);
   const guides = GUIDES.filter((g) => g.related?.includes(path)).map((g) => `/guides/${g.slug}`);
   const crumbs = [{ name: "Home", path: "/" }, { name: "Services", path: "/services" }, { name: s.title, path }];
@@ -56,7 +58,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
           <PageHeader
             crumbs={crumbs.map((x, i) => (i === crumbs.length - 1 ? { name: x.name } : x))}
             h1={c.h1} summary={s.desc} updated={c.updated}
-            eyebrow={`Service ${s.num} of ${SERVICES.length}`}
+            eyebrow={isBusiness ? "Doing business in China" : `Sourcing service ${group.indexOf(s) + 1} of ${group.length}`}
             icon={<Icon size={22} strokeWidth={1.7} />}
             minutes={readMinutes(c.body, c.faqs)}
             quoteHref={`/quote?service=${s.slug}`}
@@ -101,7 +103,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
           <section className="mt-16">
             <h2 className="font-display text-[clamp(24px,2.6vw,30px)] font-medium tracking-[-0.03em]">Other services</h2>
-            <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {others.map((o) => {
                 const OIcon = o.icon;
                 return (

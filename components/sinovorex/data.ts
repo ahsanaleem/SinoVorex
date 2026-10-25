@@ -1,6 +1,6 @@
 import {
   Search, Factory, ClipboardCheck, ListChecks, Ship, Package, MessageSquareText,
-  MapPin, Workflow, UserRound, Languages, UtensilsCrossed, Box, Shirt, CookingPot, type LucideIcon,
+  MapPin, Workflow, UserRound, Languages, UtensilsCrossed, Box, Shirt, CookingPot, Building2, Stamp, PlaneTakeoff, type LucideIcon,
 } from "lucide-react";
 
 /* ── Company & contact details (must match the business licence) ── */
@@ -33,12 +33,14 @@ export const TEAM: { name: string; role: string; bio: string; photo?: string; li
 
 /** Date each standalone page's content last changed (ISO). Used for sitemap lastmod and visible "Updated" dates. */
 export const PAGE_UPDATED = {
-  home: "2026-10-23",
-  services: "2026-10-23",
-  guides: "2026-10-23",
+  home: "2026-10-25",
+  services: "2026-10-25",
+  guides: "2026-10-25",
   about: "2026-10-20",
   quote: "2026-10-23",
   sourcingFor: "2026-10-23",
+  markets: "2026-10-25",
+  tools: "2026-10-25",
   privacy: "2026-10-16",
   terms: "2026-10-16",
 };
@@ -83,6 +85,25 @@ export const SERVICES: Service[] = [
     includes: ["Ordering and collecting samples from several factories", "Checking and photographing samples before forwarding", "Receiving goods from multiple suppliers", "Combining them into one shipment"],
     youReceive: "Samples sent to you together, and one consolidated shipment instead of several." },
 ];
+
+/** Services for doing business in China, beyond sourcing. Same page template as SERVICES, shown as their own group. */
+export const BUSINESS_SERVICES: Service[] = [
+  { slug: "china-company-registration", num: "07", title: "Company Registration", detail: ["WFOE", "Business licence", "Bank account"], icon: Building2,
+    desc: "We help you set up your own company in China, usually a WFOE, from choosing the structure and address to the business licence, tax registration and bank account.",
+    includes: ["Advice on the right structure for what you plan to do", "Checking your business scope against the rules for foreign investors", "Preparing and filing the registration documents in Chinese", "Tax registration, company seals and opening a bank account"],
+    youReceive: "A registered company with its business licence, seals, tax registration and a corporate bank account." },
+  { slug: "china-visa-help", num: "08", title: "Business & Tourist Visa Help", detail: ["M visa", "L visa", "Invitation letters"], icon: Stamp,
+    desc: "We help you work out whether you need a visa for China, which one, and what to send with it, including the invitation letter for a business visa.",
+    includes: ["Checking whether you can enter visa-free or need a visa", "Explaining the right visa type for your trip", "An invitation letter for business visits we arrange", "Checking your documents before you apply"],
+    youReceive: "A clear answer on what you need, and a complete, checked set of documents for your application." },
+  { slug: "china-business-trips", num: "09", title: "Business Trips & Canton Fair", detail: ["Factory visits", "Canton Fair", "Interpreter"], icon: PlaneTakeoff,
+    desc: "We plan and run business trips to China: factory visits, the Canton Fair and other trade fairs, markets such as Yiwu, with a bilingual guide alongside you.",
+    includes: ["Planning an itinerary around the factories and fairs you want to see", "Booking factory visits and meetings in advance", "A bilingual guide and interpreter for your visits", "Help with hotels, trains and getting around"],
+    youReceive: "A planned trip with meetings booked, someone beside you who speaks Chinese, and notes from every visit." },
+];
+
+/** Every service with its own page (sourcing services first). */
+export const ALL_SERVICES: Service[] = [...SERVICES, ...BUSINESS_SERVICES];
 
 /* How it works: replaces the old numeric stats strip; describes the service, makes no claims. */
 export const PROCESS: { step: string; title: string; desc: string; we: string; you: string; icon: LucideIcon; href: string }[] = [

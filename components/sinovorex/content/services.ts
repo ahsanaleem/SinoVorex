@@ -1,4 +1,5 @@
 import type { Block, QA } from "./types";
+import { BUSINESS_CONTENT } from "./services-business";
 
 /**
  * Long-form copy for /services/[slug]. Short card copy (title, desc, includes, youReceive) stays in data.ts.
@@ -16,7 +17,7 @@ export type ServiceContent = {
   faqs: QA[];
 };
 
-export const SERVICE_CONTENT: Record<string, ServiceContent> = {
+const SOURCING_CONTENT: Record<string, ServiceContent> = {
   "product-sourcing": {
     h1: "Product Sourcing: Find the Right Manufacturer in China",
     seoTitle: "Find Manufacturers in China: Product Sourcing | Sino Vorex",
@@ -370,6 +371,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
         "[Shipping from China to the USA](/guides/shipping-from-china-to-usa), including the ISF, customs bonds and duties.",
         "[Shipping from China to the UK](/guides/shipping-from-china-to-uk), including EORI numbers and import VAT.",
         "[Shipping from China to Europe](/guides/shipping-from-china-to-europe), including rail freight, EORI and TARIC.",
+        "The Gulf and Africa: [UAE](/markets/uae), [Saudi Arabia](/markets/saudi-arabia), [Pakistan](/markets/pakistan), [Nigeria](/markets/nigeria) and [Kenya](/markets/kenya), including each country's product approvals.",
       ] },
 
       { h2: "Documents and tracking you'll get" },
@@ -442,3 +444,6 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ],
   },
 };
+
+/** Long-form copy for every service page: sourcing services plus the "doing business in China" services. */
+export const SERVICE_CONTENT: Record<string, ServiceContent> = { ...SOURCING_CONTENT, ...BUSINESS_CONTENT };

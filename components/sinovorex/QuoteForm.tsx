@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Loader2, Paperclip, X } from "lucide-react";
-import { COMPANY, SERVICES } from "./data";
+import { ALL_SERVICES, COMPANY } from "./data";
 import { EASE } from "./primitives";
 import { track } from "./analytics";
 
@@ -13,7 +13,7 @@ const EMPTY = {
   product: "", quantity: "", targetPrice: "", destination: "", incoterm: "Not sure", message: "",
 };
 /** "What do you need?" chips. Service pages link to /quote?service=<slug> to preselect one. */
-const SERVICE_OPTIONS = SERVICES.map((s) => ({ slug: s.slug, label: s.title }));
+const SERVICE_OPTIONS = ALL_SERVICES.map((s) => ({ slug: s.slug, label: s.title }));
 export const MAX_FILES = 3;
 export const MAX_TOTAL_BYTES = 8 * 1024 * 1024;
 // Images, PDFs and spreadsheets (multi-item procurement lists). Keep in sync with app/api/contact/route.ts.
@@ -138,8 +138,8 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
             </fieldset>
 
             <fieldset className="space-y-3 pt-2">
-              <legend className="mb-2 text-[14px] font-semibold text-ink">Your product</legend>
-              <Field label="Product" name="product" required value={form.product} onChange={set("product")} hint="what you want to buy, inspect or ship" />
+              <legend className="mb-2 text-[14px] font-semibold text-ink">Your request</legend>
+              <Field label="What you need" name="product" required value={form.product} onChange={set("product")} hint="a product, or e.g. company set-up, visa, trip" />
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Quantity" name="quantity" value={form.quantity} onChange={set("quantity")} hint="e.g. 2,000 pcs" />
                 <Field label="Target price" name="targetPrice" value={form.targetPrice} onChange={set("targetPrice")} hint="per unit, USD" />
