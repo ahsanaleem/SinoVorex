@@ -43,6 +43,8 @@ const nextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" },
         ],
       },
+      // Client-side navigation data (?_rsc=…) is never a page to index; the canonical Link header comes from middleware.ts.
+      { source: "/:path*", has: [{ type: "query", key: "_rsc" }], headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
       { source: "/brand/:file*", headers: [assetCache] },
       { source: "/products/:file*", headers: [assetCache] },
       { source: "/world-dots.svg", headers: [assetCache] },
