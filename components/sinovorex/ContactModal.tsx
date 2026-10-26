@@ -3,15 +3,15 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { EASE, useLenis } from "./primitives";
+import { EASE } from "./primitives";
+import { getLenis } from "./islands";
 import { track } from "./analytics";
 import { QuoteForm } from "./QuoteForm";
 
 export function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const lenis = useLenis();
-
   useEffect(() => {
     if (!open) return;
+    const lenis = getLenis();
     lenis?.stop();
     track("quote_form_open");
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -20,7 +20,7 @@ export function ContactModal({ open, onClose }: { open: boolean; onClose: () => 
       lenis?.start();
       window.removeEventListener("keydown", onKey);
     };
-  }, [open, onClose, lenis]);
+  }, [open, onClose]);
 
   return (
     <AnimatePresence>

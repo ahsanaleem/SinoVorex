@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Check, Copy, MessageCircle, X } from "lucide-react";
 import { clsx } from "clsx";
 import { COMPANY } from "./data";
-import { EASE } from "./primitives";
 import { track } from "./analytics";
 import { WeChatGlyph, useCopy, waHref } from "./ChatButtons";
 
-/** Floating chat launcher, bottom-right on phones and tablets (desktop uses HeaderWhatsApp). */
-export function FloatingChat({ ready = true }: { ready?: boolean }) {
+/** Floating chat launcher, bottom-right on phones and tablets (desktop uses HeaderWhatsApp). CSS animations only. */
+export function FloatingChat() {
   const [open, setOpen] = useState(false);
   const { copied, copy } = useCopy();
   const ref = useRef<HTMLDivElement>(null);
@@ -25,21 +23,13 @@ export function FloatingChat({ ready = true }: { ready?: boolean }) {
   }, [open]);
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, scale: 0.6, y: 20 }}
-      animate={ready ? { opacity: 1, scale: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: 1.2, ease: EASE }}
-      className="fixed bottom-4 right-4 z-[130] flex flex-col items-end gap-3 md:bottom-6 md:right-6 xl:hidden"
+      className="sv-fade fixed bottom-4 right-4 z-[130] flex flex-col items-end gap-3 md:bottom-6 md:right-6 xl:hidden"
     >
-      <AnimatePresence>
         {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 12, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.97 }}
-            transition={{ duration: 0.25, ease: EASE }}
-            className="w-[280px] origin-bottom-right rounded-[24px] border border-ink/[0.08] bg-white p-4 shadow-[0_30px_60px_-20px_rgba(14,14,22,0.35)]"
+          <div
+            className="sv-fade-quick w-[280px] origin-bottom-right rounded-[24px] border border-ink/[0.08] bg-white p-4 shadow-[0_30px_60px_-20px_rgba(14,14,22,0.35)]"
             role="dialog"
             aria-label="Chat with SinoVorex"
           >
@@ -67,9 +57,8 @@ export function FloatingChat({ ready = true }: { ready?: boolean }) {
               {copied ? <Check size={18} /> : <Copy size={18} />}
             </button>
             <p className="px-1 pt-2 text-[12px] text-ink/65">{copied ? "WeChat ID copied. Add us in WeChat." : "Tap WeChat to copy our ID."}</p>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
 
       <button
         type="button"
@@ -79,12 +68,10 @@ export function FloatingChat({ ready = true }: { ready?: boolean }) {
         className="relative grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_14px_30px_-8px_rgba(37,211,102,0.7)] transition-transform duration-300 hover:scale-105"
       >
         {!open && <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366] opacity-30" />}
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span key={open ? "x" : "c"} initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }} className="relative">
-            {open ? <X size={22} /> : <MessageCircle size={24} />}
-          </motion.span>
-        </AnimatePresence>
+        <span key={open ? "x" : "c"} className="sv-fade-quick relative">
+          {open ? <X size={22} /> : <MessageCircle size={24} />}
+        </span>
       </button>
-    </motion.div>
+    </div>
   );
 }

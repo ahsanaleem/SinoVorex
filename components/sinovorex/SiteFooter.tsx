@@ -1,5 +1,3 @@
-"use client";
-
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowUp, ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
@@ -7,16 +5,16 @@ import { COMPANY } from "./data";
 import { FOOTER_COLUMNS, FOOTER_COMPANY } from "./links";
 import { CASE_STUDIES } from "./content/case-studies";
 import { BrandLogo } from "./brand";
+import { BackToTop, QuoteTrigger } from "./islands";
 
 /**
- * One footer for every page. `onQuote` opens the quote modal where the page has one (otherwise /quote),
- * `onTop` lets the homepage use its smooth scroller, and `children` renders under the bottom bar.
+ * One footer for every page (no client code of its own). `quoteModal` opens the quote modal where the page
+ * has a QuoteModalHost (otherwise it links to /quote), and `children` renders under the bottom bar.
  */
-export function SiteFooter({ onQuote, onTop, className = "", children }: {
-  onQuote?: () => void; onTop?: () => void; className?: string; children?: ReactNode;
+export function SiteFooter({ quoteModal = false, className = "", children }: {
+  quoteModal?: boolean; className?: string; children?: ReactNode;
 }) {
   const quoteCls = "group inline-flex items-center gap-2 rounded-full bg-flame px-5 py-3 text-[15px] font-medium text-white transition-transform hover:scale-[1.03]";
-  const toTop = () => (onTop ? onTop() : window.scrollTo({ top: 0, behavior: "smooth" }));
 
   return (
     <footer data-theme="dark" className={`relative overflow-hidden bg-ink px-4 pt-16 text-white sm:px-6 md:pt-20 ${className}`}>
@@ -39,8 +37,8 @@ export function SiteFooter({ onQuote, onTop, className = "", children }: {
               </li>
             </ul>
             <div className="mt-6">
-              {onQuote
-                ? <button onClick={onQuote} className={quoteCls}>Get a free quote <ArrowUpRight size={16} className="transition-transform group-hover:rotate-45" /></button>
+              {quoteModal
+                ? <QuoteTrigger className={quoteCls}>Get a free quote <ArrowUpRight size={16} className="transition-transform group-hover:rotate-45" /></QuoteTrigger>
                 : <Link href="/quote" className={quoteCls}>Get a free quote <ArrowUpRight size={16} className="transition-transform group-hover:rotate-45" /></Link>}
             </div>
           </div>
@@ -84,9 +82,9 @@ export function SiteFooter({ onQuote, onTop, className = "", children }: {
             {CASE_STUDIES.length > 0 && <Link href="/case-studies" className="py-2 hover:text-white">Case studies</Link>}
             <Link href="/privacy" className="py-2 hover:text-white">Privacy</Link>
             <Link href="/terms" className="py-2 hover:text-white">Terms</Link>
-            <button onClick={toTop} aria-label="Back to top" className="grid h-11 w-11 place-items-center rounded-full border border-white/15 text-white transition-all duration-500 hover:-translate-y-1 hover:border-flame hover:bg-flame">
+            <BackToTop className="grid h-11 w-11 place-items-center rounded-full border border-white/15 text-white transition-all duration-500 hover:-translate-y-1 hover:border-flame hover:bg-flame">
               <ArrowUp size={16} />
-            </button>
+            </BackToTop>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,19 +11,15 @@ import { SUBPAGE_NAV } from "./links";
 import { BrandLogo } from "./brand";
 import { SiteFooter } from "./SiteFooter";
 import { HeaderWhatsApp } from "./ChatButtons";
+import { QuoteModalHost, openQuote } from "./islands";
 
 // Animated widgets (framer-motion) load after the page, keeping subpages light.
 const FloatingChat = dynamic(() => import("./FloatingChat").then((m) => m.FloatingChat), { ssr: false });
-const ContactModal = dynamic(() => import("./ContactModal").then((m) => m.ContactModal), { ssr: false });
 
 /** Lightweight layout for service, guide, legal and other subpages (no intro screen, no heavy animation). */
 export function SubpageShell({ children, quoteCta = true }: { children: ReactNode; quoteCta?: boolean }) {
-  const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const openQuote = useCallback(() => { setMounted(true); setOpen(true); }, []);
-  const close = useCallback(() => setOpen(false), []);
 
   useEffect(() => setMenuOpen(false), [pathname]);
   useEffect(() => {
@@ -109,9 +105,9 @@ export function SubpageShell({ children, quoteCta = true }: { children: ReactNod
         </section>
       )}
 
-      <SiteFooter onQuote={openQuote} className="pb-24 lg:pb-0" />
+      <SiteFooter quoteModal className="pb-24 lg:pb-0" />
 
-      {mounted && <ContactModal open={open} onClose={close} />}
+      <QuoteModalHost />
       {/* Not on the quote pages, where it would cover form fields on phones. */}
       {idle && !pathname.startsWith("/quote") && <FloatingChat />}
     </div>

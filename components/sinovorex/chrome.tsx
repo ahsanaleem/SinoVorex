@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
 
 /* ── Custom cursor (fine pointers only) ────────────────────── */
 export function CustomCursor() {
@@ -59,11 +58,4 @@ export function CustomCursor() {
       <div ref={ringRef} className="pointer-events-none fixed left-0 top-0 z-[99998] h-9 w-9 rounded-full border-[1.5px] transition-[background,border-color] duration-300 will-change-transform" />
     </>
   );
-}
-
-/* ── Scroll progress bar ───────────────────────────────────── */
-export function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.3 });
-  return <motion.div style={{ scaleX }} className="fixed inset-x-0 top-0 z-[200] h-[3px] origin-left bg-gradient-to-r from-flame via-[#FF9A5C] to-flame" />;
 }

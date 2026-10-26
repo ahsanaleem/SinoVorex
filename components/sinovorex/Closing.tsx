@@ -1,26 +1,17 @@
-"use client";
-
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { ChatButtons } from "./ChatButtons";
 import { COMPANY } from "./data";
 import { SiteFooter } from "./SiteFooter";
-import { EASE, Magnetic, PillButton, Reveal, SplitWords, useScrollTo } from "./primitives";
+import { QuotePill } from "./islands";
+import { Reveal, SplitWords } from "./lite";
 
-export function CTA({ onContact }: { onContact: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [0.88, 1]);
-  const radius = useTransform(scrollYProgress, [0, 1], [80, 40]);
-
+/* Server-rendered; the zoom-in on scroll is a CSS scroll-driven animation (.sv-zoom). */
+export function CTA() {
   return (
-    <section id="contact" className="bg-white px-2 py-24 sm:px-3 md:py-32">
-      <motion.div
-        ref={ref}
+    <section id="contact" className="cv-auto bg-white px-2 py-24 sm:px-3 md:py-32">
+      <div
         data-theme="dark"
-        style={{ scale, borderRadius: radius }}
-        className="relative mx-auto max-w-[1400px] overflow-hidden bg-gradient-to-br from-[#FF7A3D] via-flame to-flame-deep px-6 py-24 text-center text-white md:py-36"
+        className="sv-zoom relative rounded-[40px] mx-auto max-w-[1400px] overflow-hidden bg-gradient-to-br from-[#FF7A3D] via-flame to-flame-deep px-6 py-24 text-center text-white md:py-36"
       >
         {/* Orbiting rings */}
         {[520, 760, 1000].map((s, i) => (
@@ -49,9 +40,7 @@ export function CTA({ onContact }: { onContact: () => void }) {
             </p>
           </Reveal>
           <Reveal delay={0.3} className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Magnetic>
-              <PillButton variant="light" onClick={onContact} icon={<ArrowUpRight size={18} />}>Request a Quote</PillButton>
-            </Magnetic>
+            <QuotePill variant="light" icon={<ArrowUpRight size={18} />}>Request a Quote</QuotePill>
             <ChatButtons tone="onFlame" />
             <a href={`mailto:${COMPANY.email}`} className="group inline-flex items-center gap-2 text-[16px] font-medium text-white">
               <Mail size={18} />
@@ -64,25 +53,21 @@ export function CTA({ onContact }: { onContact: () => void }) {
             </div>
           </Reveal>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
 
-export function Footer({ onContact }: { onContact: () => void }) {
-  const scrollTo = useScrollTo();
+export function Footer() {
   return (
-    <SiteFooter onQuote={onContact} onTop={() => scrollTo("top")}>
-      <motion.div
-        initial={{ y: "40%", opacity: 0 }}
-        whileInView={{ y: "0%", opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.4, ease: EASE }}
+    <SiteFooter quoteModal>
+      {/* Static: it sits at the very bottom of the page, below where a scroll reveal would trigger. */}
+      <div
         className="pointer-events-none select-none text-center font-display text-[19vw] font-semibold leading-[0.75] tracking-[-0.06em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.12)]"
         aria-hidden
       >
         SinoVorex
-      </motion.div>
+      </div>
     </SiteFooter>
   );
 }

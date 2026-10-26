@@ -376,10 +376,15 @@ export function HeroGlobe({ ready }: { ready: boolean }) {
     size();
     addEventListener("resize", onResize);
     let io: IntersectionObserver | null = null;
-    if (reduce) {
+    let idleT = 0;
+    // Phones and tablets: a constant animation loop keeps the main thread busy, so draw one still frame
+    // and animate only while the globe is being touched (stopping again a few seconds after).
+    const onTouch = () => { clearTimeout(idleT); play(); idleT = window.setTimeout(pause, 6000); };
+    if (reduce || light) {
       t0 = performance.now() - 4000;
       ROUTES.forEach((rt) => (rt.glow = 0.6));
       frame(performance.now());
+      if (light && !reduce) cv.addEventListener("pointerdown", onTouch);
     } else {
       io = new IntersectionObserver((es) => (es[0].isIntersecting ? play() : pause()), { threshold: 0.05 });
       const start = () => { io!.observe(host); document.addEventListener("visibilitychange", onVis); };
@@ -389,6 +394,8 @@ export function HeroGlobe({ ready }: { ready: boolean }) {
 
     return () => {
       pause();
+      clearTimeout(idleT);
+      cv.removeEventListener("pointerdown", onTouch);
       io?.disconnect();
       removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVis);

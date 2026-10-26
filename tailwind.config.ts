@@ -30,7 +30,7 @@ const config: Config = {
         sans: ["var(--font-display)", "Inter", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "Inter", "system-ui", "sans-serif"],
         serif: ["var(--font-serif)", "Georgia", "serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", "monospace"],
       },
       fontSize: {
         "display-2xl": ["clamp(3rem,8vw,8rem)", { lineHeight: "1", letterSpacing: "-0.04em" }],

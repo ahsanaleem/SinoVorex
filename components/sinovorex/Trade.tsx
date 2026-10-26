@@ -1,14 +1,12 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ArrowUpRight, Camera, Check, ClipboardCheck, Factory, Plane, Plus, Ship, TrainFront } from "lucide-react";
 import { clsx } from "clsx";
-import { FAQ, FEES, INCOTERMS, PRODUCTS, QC_POINTS, SHIPPING_MODES } from "./data";
+import { FAQ, FEES, PRODUCTS, QC_POINTS, SHIPPING_MODES } from "./data";
 import { FOOTER_GUIDES } from "./links";
-import { EASE, Eyebrow, PillButton, Reveal, SplitWords } from "./primitives";
+import { Eyebrow, Reveal, SplitWords, rvStyle } from "./lite";
+import { QuotePill } from "./islands";
+import { IncotermTabs } from "./IncotermTabs";
 
 function SectionHead({ eyebrow, line1, line2, intro, dark = false }: { eyebrow: string; line1: string; line2: string; intro: string; dark?: boolean }) {
   return (
@@ -29,7 +27,7 @@ function SectionHead({ eyebrow, line1, line2, intro, dark = false }: { eyebrow: 
 }
 
 /* ── Products & industries ─────────────────────────────────── */
-export function Products({ onQuote }: { onQuote: () => void }) {
+export function Products() {
   return (
     <section id="products" className="cv-auto scroll-mt-24 bg-white px-4 py-24 sm:px-6 md:py-32">
       <div className="mx-auto max-w-[1280px]">
@@ -38,13 +36,10 @@ export function Products({ onQuote }: { onQuote: () => void }) {
           {PRODUCTS.map((p, i) => {
             const Icon = p.icon;
             return (
-              <motion.article
+              <article
                 key={p.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.9, delay: i * 0.08, ease: EASE }}
-                className="group flex flex-col overflow-hidden rounded-[28px] border border-ink/[0.07] bg-paper transition-shadow duration-500 hover:shadow-[0_30px_60px_-30px_rgba(14,14,22,0.3)]"
+                style={rvStyle(i * 0.08)}
+                className="rv group flex flex-col overflow-hidden rounded-[28px] border border-ink/[0.07] bg-paper transition-shadow duration-500 hover:shadow-[0_30px_60px_-30px_rgba(14,14,22,0.3)]"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-[#FFE9DD] via-[#FFF4EE] to-paper">
                   {p.photo ? (
@@ -80,7 +75,7 @@ export function Products({ onQuote }: { onQuote: () => void }) {
                     ))}
                   </ul>
                 </div>
-              </motion.article>
+              </article>
             );
           })}
         </div>
@@ -99,7 +94,7 @@ export function Products({ onQuote }: { onQuote: () => void }) {
           ))}
         </ul>
         <Reveal className="mt-8 flex justify-center">
-          <PillButton onClick={onQuote} icon={<Plus size={18} />}>Request a quote for your product</PillButton>
+          <QuotePill icon={<Plus size={18} />}>Request a quote for your product</QuotePill>
         </Reveal>
       </div>
     </section>
@@ -117,13 +112,10 @@ export function QualityControl() {
           {QC_POINTS.map((q, i) => {
             const Icon = icons[i];
             return (
-              <motion.div
+              <div
                 key={q.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.9, delay: i * 0.1, ease: EASE }}
-                className="group relative overflow-hidden rounded-[28px] border border-ink/[0.07] bg-white p-8"
+                style={rvStyle(i * 0.1)}
+                className="rv group relative overflow-hidden rounded-[28px] border border-ink/[0.07] bg-white p-8"
               >
                 <span className="grid h-14 w-14 place-items-center rounded-2xl bg-flame/10 text-flame transition-colors duration-500 group-hover:bg-flame group-hover:text-white">
                   <Icon size={24} strokeWidth={1.6} />
@@ -131,7 +123,7 @@ export function QualityControl() {
                 <h3 className="mt-8 font-display text-[24px] font-medium tracking-[-0.03em] text-ink">{q.title}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-ink/70">{q.desc}</p>
                 <span className="absolute right-6 top-6 font-mono text-xs text-ink/50">0{i + 1}</span>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -145,7 +137,6 @@ export function QualityControl() {
 
 /* ── Shipping & logistics ──────────────────────────────────── */
 export function Shipping() {
-  const [term, setTerm] = useState(0);
   const icons = [Ship, Plane, TrainFront];
   return (
     <section id="shipping" className="cv-auto scroll-mt-24 bg-paper px-2 pb-24 sm:px-3 md:pb-32">
@@ -158,13 +149,10 @@ export function Shipping() {
             {SHIPPING_MODES.map((m, i) => {
               const Icon = icons[i];
               return (
-                <motion.div
+                <div
                   key={m.mode}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.9, delay: i * 0.1, ease: EASE }}
-                  className="rounded-[24px] border border-white/10 bg-white/[0.04] p-7"
+                  style={rvStyle(i * 0.1)}
+                  className="rv rounded-[24px] border border-white/10 bg-white/[0.04] p-7"
                 >
                   <div className="flex items-center justify-between">
                     <span className="grid h-12 w-12 place-items-center rounded-2xl bg-flame text-white"><Icon size={22} strokeWidth={1.6} /></span>
@@ -172,42 +160,14 @@ export function Shipping() {
                   </div>
                   <h3 className="mt-6 font-display text-[24px] font-medium tracking-[-0.03em]">{m.mode}</h3>
                   <p className="mt-2 text-[15px] leading-relaxed text-white/70">{m.desc}</p>
-                </motion.div>
+                </div>
               );
             })}
           </div>
 
           <Reveal className="mt-14">
             <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-6 md:p-8">
-              <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">Incoterms we quote on</div>
-                  <h3 className="mt-2 font-display text-[28px] font-medium tracking-[-0.03em]">Who pays for what</h3>
-                </div>
-                <div role="tablist" aria-label="Incoterms" className="flex gap-1 rounded-full bg-white/[0.06] p-1">
-                  {INCOTERMS.map((t, i) => (
-                    <button
-                      key={t.term}
-                      role="tab"
-                      id={`incoterm-tab-${t.term}`}
-                      aria-controls={`incoterm-${t.term}`}
-                      aria-selected={term === i}
-                      onClick={() => setTerm(i)}
-                      className={clsx("relative rounded-full px-5 py-2 font-mono text-[13px] transition-colors", term === i ? "text-white" : "text-white/70 hover:text-white")}
-                    >
-                      {term === i && <motion.span layoutId="incoterm-pill" className="absolute inset-0 rounded-full bg-flame" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
-                      <span className="relative">{t.term}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-              {/* Every panel is in the HTML (crawlers and AI engines read all three); only the selected one is shown. */}
-              {INCOTERMS.map((t, i) => (
-                <div key={t.term} id={`incoterm-${t.term}`} role="tabpanel" aria-labelledby={`incoterm-tab-${t.term}`} hidden={term !== i}>
-                  <h4 className="font-display text-[20px] font-medium text-flame">{t.term} · {t.name}</h4>
-                  <p className="mt-2 max-w-[760px] text-[16px] leading-relaxed text-white/80">{t.desc}</p>
-                </div>
-              ))}
+              <IncotermTabs />
               <Link href="/services/shipping-coordination" className="mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline">
                 Shipping from China: transit times, FCL vs LCL and documents <ArrowUpRight size={14} className="text-flame" />
               </Link>
@@ -226,7 +186,6 @@ export function Shipping() {
 
 /* ── Fees & payment + FAQ ──────────────────────────────────── */
 export function FeesAndFaq() {
-  const [open, setOpen] = useState<number | null>(0);
   return (
     <section id="faq" className="cv-auto scroll-mt-24 bg-white px-4 py-24 sm:px-6 md:py-32">
       <div className="mx-auto grid max-w-[1280px] gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
@@ -265,34 +224,20 @@ export function FeesAndFaq() {
         <div>
           <Eyebrow>Frequently asked</Eyebrow>
           <h2 className="sr-only">Frequently asked questions</h2>
-          <ul className="divide-y divide-ink/10 border-y border-ink/10">
-            {FAQ.map((f, i) => {
-              const isOpen = open === i;
-              return (
-                <li key={f.q}>
-                  <h3>
-                    <button
-                      onClick={() => setOpen(isOpen ? null : i)}
-                      aria-expanded={isOpen}
-                      aria-controls={`faq-${i}`}
-                      className="flex w-full items-center justify-between gap-6 py-6 text-left"
-                    >
-                      <span className="font-display text-[19px] font-medium tracking-[-0.02em] text-ink md:text-[21px]">{f.q}</span>
-                      <span className={clsx("grid h-9 w-9 shrink-0 place-items-center rounded-full border transition-all duration-500 ease-apple", isOpen ? "rotate-45 border-flame bg-flame text-white" : "border-ink/15 text-ink")}>
-                        <Plus size={16} />
-                      </span>
-                    </button>
-                  </h3>
-                  {/* Answers are always rendered (so crawlers see them) and collapsed with CSS. */}
-                  <div id={`faq-${i}`} className={clsx("grid transition-[grid-template-rows,opacity] duration-500 ease-apple", isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
-                    <div className="overflow-hidden">
-                      <p className="max-w-[640px] pb-6 text-[16px] leading-relaxed text-ink/75">{f.a}</p>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          {/* Native <details>: answers are in the HTML for crawlers, and opening one needs no JavaScript. */}
+          <div className="divide-y divide-ink/10 border-y border-ink/10">
+            {FAQ.map((f, i) => (
+              <details key={f.q} className="group" open={i === 0} {...{ name: "faq" }}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left [&::-webkit-details-marker]:hidden">
+                  <h3 className="font-display text-[19px] font-medium tracking-[-0.02em] text-ink md:text-[21px]">{f.q}</h3>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink/15 text-ink transition-all duration-500 ease-apple group-open:rotate-45 group-open:border-flame group-open:bg-flame group-open:text-white">
+                    <Plus size={16} />
+                  </span>
+                </summary>
+                <p className="max-w-[640px] pb-6 text-[16px] leading-relaxed text-ink/75">{f.a}</p>
+              </details>
+            ))}
+          </div>
           <div className="mt-10">
             <h3 className="font-display text-[20px] font-medium tracking-[-0.02em] text-ink">Guides for buyers</h3>
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
