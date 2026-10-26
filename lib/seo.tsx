@@ -5,7 +5,8 @@ import { SITE_URL } from "./site";
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
-const OG_IMAGE = { url: "/opengraph-image.png", width: 1200, height: 630, alt: "SinoVorex, a China sourcing agent helping buyers source, inspect and ship products from China" };
+// Bump ?v= whenever the image changes, so WhatsApp, Facebook and LinkedIn fetch the new one.
+const OG_IMAGE = { url: "/opengraph-image.png?v=2", width: 1200, height: 630, alt: "SinoVorex, a China sourcing agent helping buyers source, inspect and ship products from China" };
 
 export const abs = (path: string) => (path === "/" ? SITE_URL : `${SITE_URL}${path}`);
 
