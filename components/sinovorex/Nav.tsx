@@ -16,12 +16,22 @@ export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    let prev = window.scrollY, raf = 0;
+    // Smooth scrolling and touch momentum produce tiny back-and-forth movements, so the header only
+    // hides/shows after a deliberate run in one direction, and the compact style has a dead band.
+    const HIDE_AFTER = 400, TRAVEL = 24;
+    let prev = window.scrollY, anchor = prev, raf = 0;
     const update = () => {
       raf = 0;
-      const y = window.scrollY;
-      setScrolled(y > 40);
-      setHidden(y > prev && y > 400);
+      // Clamp out iOS rubber-band overscroll, which reports negative / past-the-end positions.
+      const y = Math.min(Math.max(window.scrollY, 0), document.documentElement.scrollHeight - window.innerHeight);
+      setScrolled((s) => (s ? y > 20 : y > 60));
+      if (y < HIDE_AFTER) { setHidden(false); anchor = y; }
+      else if (y !== prev) {
+        // Reset the anchor whenever the direction changes, then measure travel from it.
+        if ((y > prev) !== (prev > anchor)) anchor = prev;
+        if (y - anchor > TRAVEL) setHidden(true);
+        else if (anchor - y > TRAVEL) setHidden(false);
+      }
       prev = y;
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
@@ -75,13 +85,13 @@ export function Nav() {
     <>
       <header
         className={clsx(
-          "sv-fade fixed inset-x-0 top-0 z-[150] flex justify-center px-3 pt-3 transition-transform duration-700 ease-apple md:pt-4",
+          "fixed inset-x-0 top-0 z-[150] flex justify-center px-3 pt-3 transition-transform duration-500 ease-apple will-change-transform md:pt-4",
           hidden && !menuOpen && "-translate-y-[110px]",
         )}
       >
         <nav
           className={clsx(
-            "flex w-full items-center justify-between rounded-full transition-all duration-700 ease-apple",
+            "sv-fade flex w-full items-center justify-between rounded-full transition-[max-width,padding,background-color,border-color,box-shadow] duration-500 ease-apple",
             scrolled
               ? "max-w-[1240px] border border-ink/[0.07] bg-white/70 py-2 pl-5 pr-2 shadow-[0_10px_40px_-12px_rgba(14,14,22,0.18)] backdrop-blur-xl"
               : "max-w-[1400px] border border-transparent bg-transparent py-3 pl-4 pr-3 md:px-6",

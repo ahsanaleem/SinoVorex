@@ -68,7 +68,7 @@ async function handle(req: NextRequest) {
   if (!INCOTERMS.has(data.incoterm)) data.incoterm = "Not sure";
 
   if (!data.name || !data.email || !data.product) {
-    return fail("Please fill in your name, email and product.", 400);
+    return fail("Please tell us what you need, your name and your email.", 400);
   }
   if (!EMAIL_RE.test(data.email)) return fail("Please enter a valid email address.", 400);
   if (clean(fields.consent, 10) !== "yes") return fail("Please agree to the privacy policy so we can reply to you.", 400);

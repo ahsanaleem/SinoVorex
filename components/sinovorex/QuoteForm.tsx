@@ -43,7 +43,6 @@ const fmtSize = (b: number) => (b > 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1
 export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void; showHeader?: boolean }) {
   const [form, setForm] = useState(EMPTY);
   const [files, setFiles] = useState<File[]>([]);
-  const [consent, setConsent] = useState(false);
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
@@ -82,7 +81,7 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
       const body = new FormData();
       Object.entries(form).forEach(([k, v]) => body.append(k, v));
       body.append("website", honeypot);
-      body.append("consent", consent ? "yes" : "");
+      body.append("consent", "yes");
       services.forEach((s) => body.append("services", s));
       if (fba) body.append("fba", "yes");
       files.forEach((f) => body.append("files", f, f.name));
@@ -110,7 +109,7 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
               <h2 className="mt-3 pr-12 font-display text-[clamp(28px,5vw,40px)] font-medium leading-[1] tracking-[-0.04em] text-ink">
                 Request a free <span className="font-serif font-normal italic text-flame">quote</span>
               </h2>
-              <p className="mt-3 text-[14px] text-ink/70">The more you tell us, the more accurate our quote will be.</p>
+              <p className="mt-3 text-[14px] text-ink/70">Takes 30 seconds. Just tell us what you need and we&apos;ll handle the rest.</p>
             </>
           )}
 
@@ -121,25 +120,39 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
               className="absolute -left-[9999px] h-0 w-0 opacity-0"
             />
 
-            <fieldset>
-              <legend className="mb-3 text-[14px] font-semibold text-ink">What do you need help with? <span className="font-normal text-ink/55">(pick any)</span></legend>
-              <div className="flex flex-wrap gap-2">
-                {SERVICE_OPTIONS.map((o) => (
-                  <label key={o.slug} className="cursor-pointer">
-                    <input type="checkbox" name="services" value={o.label} checked={services.includes(o.label)} onChange={() => toggleService(o.label)} className="peer sr-only" />
-                    <span className="inline-flex min-h-[44px] items-center rounded-full border border-ink/15 bg-paper px-4 text-[14px] text-ink/80 transition-colors hover:border-ink/40 peer-checked:border-flame peer-checked:bg-flame peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-flame peer-focus-visible:ring-offset-2">{o.label}</span>
-                  </label>
-                ))}
-              </div>
-              <label className="mt-3 flex min-h-[44px] cursor-pointer items-center gap-3 text-[15px] text-ink/80">
-                <input type="checkbox" name="fba" value="yes" checked={fba} onChange={(e) => setFba(e.target.checked)} className="h-5 w-5 shrink-0 accent-[#FF6B2B]" />
-                The goods are going to Amazon FBA
-              </label>
-            </fieldset>
+            <input type="hidden" name="consent" value="yes" />
 
-            <fieldset className="space-y-3 pt-2">
-              <legend className="mb-2 text-[14px] font-semibold text-ink">Your request</legend>
-              <Field label="What you need" name="product" required value={form.product} onChange={set("product")} hint="a product, or e.g. company set-up, visa, trip" />
+            <Field label="What do you need?" name="product" required value={form.product} onChange={set("product")} hint="e.g. 2,000 LED lamps" />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Your name" name="name" required autoComplete="name" value={form.name} onChange={set("name")} />
+              <Field label="Email" name="email" type="email" required autoComplete="email" inputMode="email" value={form.email} onChange={set("email")} />
+            </div>
+            <Field label="WhatsApp" name="phone" type="tel" autoComplete="tel" inputMode="tel" value={form.phone} onChange={set("phone")} hint="fastest reply" />
+
+            <details className="group rounded-2xl border border-ink/10 bg-paper/60 px-4 [&_summary::-webkit-details-marker]:hidden">
+              <summary className="flex min-h-[48px] cursor-pointer list-none items-center justify-between gap-3 text-[14px] font-medium text-ink/80 hover:text-ink">
+                <span>
+                  + Add more details <span className="font-normal text-ink/55">(optional: quantity, price, files…)</span>
+                  {services.length > 0 && <span className="ml-2 rounded-full bg-flame/10 px-2 py-0.5 text-[12px] text-flame">{services.length} service{services.length > 1 ? "s" : ""} selected</span>}
+                </span>
+                <span className="text-ink/60 transition-transform group-open:rotate-180">▾</span>
+              </summary>
+              <div className="space-y-3 pb-4 pt-1">
+              <fieldset>
+                <legend className="mb-2 text-[13px] font-semibold text-ink/80">Services <span className="font-normal text-ink/55">(pick any)</span></legend>
+                <div className="flex flex-wrap gap-2">
+                  {SERVICE_OPTIONS.map((o) => (
+                    <label key={o.slug} className="cursor-pointer">
+                      <input type="checkbox" name="services" value={o.label} checked={services.includes(o.label)} onChange={() => toggleService(o.label)} className="peer sr-only" />
+                      <span className="inline-flex min-h-[40px] items-center rounded-full border border-ink/15 bg-white px-3.5 text-[13px] text-ink/80 transition-colors hover:border-ink/40 peer-checked:border-flame peer-checked:bg-flame peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-flame peer-focus-visible:ring-offset-2">{o.label}</span>
+                    </label>
+                  ))}
+                </div>
+                <label className="mt-2 flex min-h-[44px] cursor-pointer items-center gap-3 text-[14px] text-ink/80">
+                  <input type="checkbox" name="fba" value="yes" checked={fba} onChange={(e) => setFba(e.target.checked)} className="h-5 w-5 shrink-0 accent-[#FF6B2B]" />
+                  The goods are going to Amazon FBA
+                </label>
+              </fieldset>
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Quantity" name="quantity" value={form.quantity} onChange={set("quantity")} hint="e.g. 2,000 pcs" />
                 <Field label="Target price" name="targetPrice" value={form.targetPrice} onChange={set("targetPrice")} hint="per unit, USD" />
@@ -181,27 +194,9 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
                   </ul>
                 )}
               </div>
-            </fieldset>
-
-            <fieldset className="space-y-3 pt-2">
-              <legend className="mb-2 text-[14px] font-semibold text-ink">Your details</legend>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Field label="Full name" name="name" required autoComplete="name" value={form.name} onChange={set("name")} />
-                <Field label="Company" name="company" autoComplete="organization" value={form.company} onChange={set("company")} />
+              <Field label="Company" name="company" autoComplete="organization" value={form.company} onChange={set("company")} />
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Field label="Email address" name="email" type="email" required autoComplete="email" value={form.email} onChange={set("email")} />
-                <Field label="Phone / WhatsApp" name="phone" type="tel" autoComplete="tel" value={form.phone} onChange={set("phone")} />
-              </div>
-            </fieldset>
-
-            <label className="flex items-start gap-3 pt-1 text-[13px] leading-relaxed text-ink/75">
-              <input type="checkbox" name="consent" value="yes" required checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[#FF6B2B]" />
-              <span>
-                I agree that SinoVorex may use these details to reply to my request, as described in the{" "}
-                <Link href="/privacy" target="_blank" className="font-medium text-ink underline underline-offset-2 hover:text-flame">privacy policy</Link>.
-              </span>
-            </label>
+            </details>
 
             <AnimatePresence>
               {error && (
@@ -217,9 +212,12 @@ export function QuoteForm({ onClose, showHeader = true }: { onClose?: () => void
               type="submit" disabled={sending}
               className="group mt-2 flex w-full items-center justify-center gap-3 rounded-full bg-ink py-4 text-[16px] font-medium text-white transition-all duration-500 hover:bg-flame hover:shadow-[0_18px_40px_-12px_rgba(255,107,43,0.6)] disabled:opacity-70"
             >
-              {sending ? <><Loader2 size={18} className="animate-spin" /> Sending…</> : <>Send quote request <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:rotate-45" /></>}
+              {sending ? <><Loader2 size={18} className="animate-spin" /> Sending…</> : <>Get my free quote <ArrowUpRight size={18} className="transition-transform duration-500 group-hover:rotate-45" /></>}
             </button>
-            <p className="pt-1 text-center text-[13px] text-ink/70">We typically respond within 24 hours.</p>
+            <p className="pt-1 text-center text-[12px] leading-relaxed text-ink/65">
+              Reply within 24 hours. By sending, you agree we may use these details to reply, per our{" "}
+              <Link href="/privacy" target="_blank" className="underline underline-offset-2 hover:text-flame">privacy policy</Link>.
+            </p>
           </form>
         </motion.div>
       ) : (
