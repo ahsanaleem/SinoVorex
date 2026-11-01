@@ -3,13 +3,12 @@ import { SITE_URL } from "@/lib/site";
 export const dynamic = "force-static";
 
 /**
- * robots.txt as plain text so it can carry a Content-Signal line (contentsignals.org): search engines and AI
- * answer engines may use the content (search, ai-input). No preference is stated for AI training.
+ * robots.txt: every crawler, including AI answer engines, may crawl everything except the API.
+ * No Content-Signal line: it only restated the default (search and AI answers allowed) and Lighthouse flags it as invalid.
  */
 export function GET() {
   const body = [
     "User-agent: *",
-    "Content-Signal: search=yes, ai-input=yes",
     "Allow: /",
     "Disallow: /api/",
     "",

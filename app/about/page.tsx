@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { COMPANY, PAGE_UPDATED, TEAM } from "@/components/sinovorex/data";
 import { SubpageShell } from "@/components/sinovorex/SubpageShell";
 import { Blocks } from "@/components/sinovorex/Blocks";
-import { PageHeader, RelatedLinks } from "@/components/sinovorex/PageParts";
+import { PageHeader, RelatedLinks, fmtDate } from "@/components/sinovorex/PageParts";
 import type { Block } from "@/components/sinovorex/content/types";
 import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph, pageMeta } from "@/lib/seo";
 
@@ -39,7 +39,8 @@ const BODY: Block[] = [
   ] },
 
   { h2: "How to verify us" },
-  { p: `Every company in China is listed on the National Enterprise Credit Information Publicity System. Search for our registered name, ${COMPANY.legalNameZh}, on [gsxt.gov.cn](https://www.gsxt.gov.cn) and you'll see our registration, status and registered address.${COMPANY.licenceNo ? ` Our Unified Social Credit Code is ${COMPANY.licenceNo}.` : ""}` },
+  { p: `Every company in China is listed on the National Enterprise Credit Information Publicity System. Search [gsxt.gov.cn](https://www.gsxt.gov.cn) for our Unified Social Credit Code, **${COMPANY.licenceNo}**, or our registered name, ${COMPANY.legalNameZh}, and you'll see our registration, status, legal representative and registered address.` },
+  { note: `SinoVorex has been trading since ${COMPANY.foundedYear}. The company behind it today, ${COMPANY.legalNameZh}, was registered in Suzhou on ${fmtDate(COMPANY.registeredDate)}, so that's the date the public record shows. The business and the people running it are the same.`, label: "Why the record shows 2026" },
   { p: "We're also happy to send you a copy of our business licence. Just ask." },
 ];
 
@@ -49,8 +50,9 @@ export default function AboutPage() {
     ["Registered name", COMPANY.legalNameZh],
     ["English rendering (unofficial)", COMPANY.legalNameEnGloss],
     ["Brand", COMPANY.brand],
-    ...(COMPANY.licenceNo ? [["Unified Social Credit Code", COMPANY.licenceNo] as [string, string]] : []),
-    ...(COMPANY.foundedYear ? [["Established", COMPANY.foundedYear] as [string, string]] : []),
+    ["Unified Social Credit Code", COMPANY.licenceNo],
+    ["Trading since", COMPANY.foundedYear],
+    ["Current entity registered", fmtDate(COMPANY.registeredDate)],
     ["Registered address", `${COMPANY.addressZh} · ${COMPANY.address}`],
     ["Email", COMPANY.email],
     ["Phone / WhatsApp", COMPANY.phoneDisplay],
@@ -92,6 +94,11 @@ export default function AboutPage() {
                     </div>
                   ))}
                 </dl>
+                <a href="https://www.gsxt.gov.cn" target="_blank" rel="noopener noreferrer" className="mt-5 inline-block rounded-full bg-white/10 px-4 py-2 text-[13px] hover:bg-flame">Check our record on gsxt.gov.cn</a>
+                {COMPANY.licenceImage && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={COMPANY.licenceImage} alt={`Business licence of ${COMPANY.legalNameZh}, watermarked for sinovorex.com`} loading="lazy" className="mt-5 w-full rounded-2xl" />
+                )}
                 {COMPANY.sameAs.length > 0 && (
                   <ul className="mt-6 flex flex-wrap gap-2 border-t border-white/10 pt-5 text-[13px]">
                     {COMPANY.sameAs.map((u) => (
@@ -104,7 +111,7 @@ export default function AboutPage() {
           </div>
 
           {TEAM.length > 0 && (
-            <section className="mt-16">
+            <section id="team" className="mt-16 scroll-mt-28">
               <h2 className="font-display text-[clamp(26px,3vw,34px)] font-medium tracking-[-0.03em]">Our team</h2>
               <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {TEAM.map((t) => (

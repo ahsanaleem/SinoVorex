@@ -9,10 +9,10 @@ import { JsonLd, ORG_ID, WEBSITE_ID, abs, breadcrumbLd, graph } from "@/lib/seo"
 export function ArticleView({ a, path, crumbs, kind, eyebrow }: {
   a: Article; path: string; crumbs: { name: string; path: string }[]; kind: "guide" | "page"; eyebrow?: string;
 }) {
-  // The first TEAM member is the named author of guides; until one is added, the company is the author.
-  const author = TEAM[0];
+  // The first TEAM member is the named author of guides and the second, if any, reviews them; with no team, the company is the author.
+  const [author, reviewer] = TEAM;
   const authorLd = author
-    ? { "@type": "Person", name: author.name, jobTitle: author.role, worksFor: { "@id": ORG_ID }, url: abs("/about"), ...(author.linkedin ? { sameAs: [author.linkedin] } : {}) }
+    ? { "@type": "Person", name: author.name, jobTitle: author.role, worksFor: { "@id": ORG_ID }, url: abs("/about#team"), ...(author.linkedin ? { sameAs: [author.linkedin] } : {}) }
     : { "@id": ORG_ID };
   const page = kind === "guide"
     ? {
@@ -29,6 +29,7 @@ export function ArticleView({ a, path, crumbs, kind, eyebrow }: {
         author: authorLd,
         publisher: { "@id": ORG_ID },
         isPartOf: { "@id": WEBSITE_ID },
+        ...(a.sources ? { citation: a.sources.map((s) => ({ "@type": "WebPage", name: s.name, url: s.url })) } : {}),
       }
     : {
         "@type": "WebPage",
@@ -55,17 +56,39 @@ export function ArticleView({ a, path, crumbs, kind, eyebrow }: {
             eyebrow={eyebrow}
             minutes={readMinutes(a.body, a.faqs)}
             byline={kind === "guide" && author ? `${author.name}, ${author.role}` : undefined}
+            reviewedBy={kind === "guide" && reviewer ? `${reviewer.name}, ${reviewer.role}` : undefined}
           />
           <div className="mt-10"><InShort title={kind === "guide" ? "Key takeaways" : "At a glance"} points={a.takeaways} /></div>
           <div className="mt-10">
-            <ReadingLayout heads={headsOf(a.body, a.faqs ? [{ id: "faq", text: "Common questions" }] : [])}>
+            <ReadingLayout heads={headsOf(a.body, [
+              ...(a.faqs ? [{ id: "faq", text: "Common questions" }] : []),
+              ...(a.sources ? [{ id: "sources", text: "Sources" }] : []),
+            ])}>
               <Blocks blocks={a.body} />
               {a.faqs && <FaqList items={a.faqs} heading="Common questions" />}
+              {a.sources && <SourceList items={a.sources} />}
             </ReadingLayout>
           </div>
           {a.related && <RelatedLinks paths={a.related} />}
         </div>
       </article>
     </SubpageShell>
+  );
+}
+
+/** Primary sources behind the guide's rules, rates and dates. */
+function SourceList({ items }: { items: { name: string; url: string }[] }) {
+  return (
+    <section id="sources" className="mt-10 scroll-mt-28">
+      <h2 className="font-display text-[clamp(23px,2.6vw,30px)] font-medium tracking-[-0.03em] text-ink">Sources</h2>
+      <ul className="mt-4 space-y-2 text-[16px] leading-relaxed text-ink/75">
+        {items.map((s) => (
+          <li key={s.url}>
+            <a href={s.url} target="_blank" rel="noopener noreferrer" className="font-medium text-ink underline decoration-flame/40 underline-offset-4 hover:text-flame">{s.name}</a>
+            <span className="ml-2 text-[14px] text-ink/60">{new URL(s.url).hostname.replace(/^www\./, "")}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

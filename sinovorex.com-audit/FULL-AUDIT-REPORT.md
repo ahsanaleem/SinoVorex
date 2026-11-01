@@ -1,176 +1,128 @@
-# SEO Audit — sinovorex.com
+# Full SEO Audit: sinovorex.com, 2026-11-01
 
-**Date:** 2026-10-22 (re-audit; previous 2026-10-19) · **Business type:** B2B service / sourcing agency (China sourcing, inspection & export for buyers worldwide, Suzhou) · **Stack:** Next.js App Router on Vercel (hkg1) · **Pages crawled:** 21 (20 in sitemap + 2 noindex utility pages excluded; `/api/` disallowed)
+**SEO Health Score: 85/100** (2026-10-22: 81, before that: 59)
+**Business type:** B2B service, a China sourcing agent (Suzhou), selling to buyers worldwide. Hybrid: a physical office, but no local-pack intent.
+**Scope:** all 45 URLs in `sitemap.xml` crawled (45 × 200, all server-rendered); homepage Lighthouse 12.6 mobile (local run, lab data only). PageSpeed Insights hit its daily quota. No Google/Moz credentials, so there is no field CWV, GSC or backlink data.
 
-## SEO Health Score: 81 / 100 (was 59)
-
-| Category | Weight | Score | Was | Source |
-|---|---|---|---|---|
-| Technical SEO | 22% | 88 | 78 | findings/technical.md, sitemap.md |
-| Content Quality | 23% | 74 | 42 | findings/content.md, sxo.md |
-| On-Page SEO | 20% | 86 | 61 | findings/content.md |
-| Schema / Structured Data | 10% | 80 | 48 | findings/schema.md |
-| Performance (CWV) | 10% | 82 | 60 | findings/performance.md (lab only) |
-| AI Search Readiness | 10% | 70 | 56 | findings/geo.md (64) + agentic.md (84), weighted 70/30 |
-| Images | 5% | 78 | 78 | findings/performance.md (Images section) |
-
-Supporting scores (not weighted): SXO Gap 68 (was ~46/30) · Visual/mobile 80 · E-E-A-T 52.
-
-### Data limitations
-- **No field data.** No Google API key → no CrUX / Search Console / GA4. PageSpeed Insights quota exhausted (HTTP 429), so no Lighthouse Agentic Browsing fraction. Performance numbers are single-run Playwright lab measurements (mobile = 4× CPU, 1.6 Mbps, 150 ms RTT) — directional only.
-- **No backlink data.** No Moz/Bing keys. Backlinks not scored; `findings/backlinks.md` is from 2026-10-19 and was not re-run.
-- **SERP analysis** used web search (US), not a live Google SERP — no PAA / AI Overview / positions.
-- **Bing indexation** was checked by scraping `site:` queries — directional; confirm in Bing Webmaster Tools.
-- **Skipped:** local SEO (worldwide B2B, no local SERP intent), drift (no baseline), e-commerce, Google/Matomo agents (no credentials).
-- Environment note: this machine's system proxy (127.0.0.1:7890) had to be bypassed (`NO_PROXY='*'`) for the audit scripts.
-
----
-
-## Executive Summary
-
-In three days the site went from 9 thin pages to 21 substantive ones, and nearly every technical and on-page issue from the last audit is fixed. **No Critical issues.** What remains is almost entirely **proof and presence**: the site still cannot show who is behind it or that it has done real work, and it is invisible to Bing (and therefore to ChatGPT Search and Copilot).
-
-**Fixed since 2026-10-19:** www → apex 308 · full security headers (CSP, nosniff, XFO, Referrer-Policy, Permissions-Policy) · real per-page sitemap lastmod · IndexNow key + script · homepage H1 now "China Sourcing Agent for Global Buyers" · service pages 147–194 → 1,106–1,658 words, overlap 0.45 → 0.05–0.07 · 5 guides, 3 audience pages, /about, /services hub, /quote · FAQ + Incoterm answers in server HTML · Service/Article/Breadcrumb schema · llms.txt · intro loader no longer hides the H1 (LCP 4.3/6.6 s → 1.35/3.08 s) · server-rendered, agent-submittable quote form.
-
-**Top 5 issues**
-1. **No proof of real work or people (High).** `licenceNo`, `foundedYear`, `sameAs`, `TEAM` are empty in `components/sinovorex/data.ts:22,26,28,32`; all case studies are labelled "Illustrative example" (`content/services.ts:79,147,212`); no reviews, sample reports or real photos. Trust scores 12–14/25 on every page in the SXO persona review. The display code already exists — only the data is missing.
-2. **Not indexed in Bing; no off-site brand presence (High).** Bing `site:` and brand searches return nothing; no LinkedIn/YouTube/directory profiles; no Bing/Google verification meta set (`app/layout.tsx:11-18`, env vars unset). This caps ChatGPT and Copilot visibility.
-3. **Guides are under-linked and authorless (Medium).** Guides get 5–9 internal links vs 21 for nav pages; homepage links one guide; `order-follow-up` and `samples-consolidation` link none (`app/services/[slug]/page.tsx:33`). Article author is the Organization (`ArticleView.tsx:23`).
-4. **Head-term cannibalisation + page-type gaps (Medium).** Homepage and `/services/product-sourcing` both target "China Sourcing Agent" (`content/services.ts:22`). "china sourcing agent" and "shipping from china" SERPs are dominated by long guides the site doesn't have.
-5. **Homepage mobile experience (Medium).** Mobile TBT 705 ms (framer-motion scroll/parallax, 1,707 DOM nodes); globe pushes H1 to y=509 and the CTA to the fold edge; quote inputs at 15 px trigger iOS zoom; 10 px labels; small tap targets.
-
-**Top 5 quick wins**
-1. Fill `licenceNo`, `foundedYear`, `sameAs`, `commissionRange`, `inspectionRate` in `data.ts` — footer, /about, schema and pricing UI already render them. (~30 min once you have the data)
-2. Verify in Bing Webmaster Tools + Google Search Console, submit the sitemap, run `npm run indexnow`. (~1 h)
-3. Add `alternates: { canonical: null }` to `/quote/thanks`, `/quote/problem`, `not-found` (they currently canonicalise to `/`). (~10 min)
-4. Link all 5 guides from the footer/homepage and add `related` guides for the two orphaned services. (~1 h)
-5. Quote form: 16 px inputs, ≥12 px labels, hide the floating chat button on /quote. (~30 min)
-
----
-
-## Technical SEO — 88
-
-**Works:** all 21 pages 200 + SSR; robots.txt valid (allow `/`, disallow `/api/`, sitemap declared); sitemap = exactly the 20 indexable URLs, all 200 + self-canonical; lastmod matches git; http→https single 308; trailing slash → 308 slashless; www → apex 308; real 404; self-canonicals; viewport OK; `lang="en"`; full security header set incl. prod CSP without `unsafe-eval`; IndexNow key live; form endpoints → noindex pages.
-
-| Sev | Finding | Fix |
-|---|---|---|
-| Medium | `/quote/problem`, `/quote/thanks` and the 404 emit `canonical=https://sinovorex.com` (inherited from root layout `pageMeta(path:"/")`, `app/layout.tsx:16`, `lib/seo.tsx:22`). Mixed signal with noindex. | `alternates: { canonical: null }` in `app/quote/problem/page.tsx:7`, `app/quote/thanks/page.tsx:7`, `app/not-found.tsx:6`. |
-| Medium | `http://www` takes 2 hops (→ https www → apex). | Configure www→apex redirect at the Vercel domain level instead of `next.config.mjs:45`. |
-| Medium | Sitemap lastmod is hand-maintained (`data.ts:35-43`, `content/*.ts` `updated`). | Bump on edit, or derive from git at build. |
-| Low | 404 has two robots metas. | Drop `robots` in `app/not-found.tsx:6`. |
-| Low | HSTS lacks `includeSubDomains; preload`. | Extend header in `next.config.mjs`. |
-| Low | IndexNow only manual. | Run post-deploy (Vercel deploy hook / CI). |
-| Low | Prod CSP allows `vercel.live`, `wss://ws-us3.pusher.com`. | Gate to preview/dev. |
-| Low | `/sourcing-for` returns 404 though 3 children + breadcrumbs imply a hub. | Add a hub page. |
-| Info | hreflang not needed (single locale). | — |
-
-## Content Quality — 74
-
-**Works:** content is accurate and specific (AQL table verified against ISO 2859-1 Level II; worked 3,000-bag example correct; fee ranges, Incoterms, transit times); service pages 80–84 % unique, sourcing-for 75–81 %, guides pairwise overlap 0.05–0.06 — **no thin or duplicate pages**; /about explains verification via gsxt.gov.cn; readability Flesch 43–62 (fits B2B); almost no AI-typical phrasing. E-E-A-T 52 (Experience 30, Expertise 72, Authority 18, Trust 72).
-
-| Sev | Finding | Fix |
-|---|---|---|
-| High | No proof of real work or people (see Top issue 1). | Fill `data.ts` fields; add one named person; replace illustrative cases with real anonymised ones; publish a redacted sample inspection/audit report. |
-| Medium | Guides have no human author/byline. | Person author + "Written by X, role, date" once TEAM populated. |
-| Medium | Guides shorter than ranking competitors (1.2–1.5k vs 2.5–4k words); sourcing-for pages 841–953 words. | Extend cost guide and Amazon page (FBA prep, DDP-to-FBA cost example). |
-| Medium | Market figures in guides unsourced ("5–10 %", "US$200–350/day", MOQs). | 1–3 named sources per guide, attribution in the same sentence. |
-| Medium | Own rates blank (`data.ts:125` `commissionRange`, `:127` `inspectionRate`). | Fill; UI already renders (`Trade.tsx:233-235`). |
-| Low | AI-generated product photos (`data.ts:96`). | Replace with real photos as available. |
-| Low | No office/address evidence. | Office/team photo or GBP link on /about. |
-
-## On-Page SEO — 86
-
-**Works:** 21 unique titles (42–61 chars) and descriptions; one intent-matched H1 per page; self-canonical, OG and Twitter tags everywhere; real breadcrumbs; templated-metadata risk low.
-
-| Sev | Finding | Fix |
-|---|---|---|
-| Medium | Guides under-linked (5–9 inlinks); homepage links 1 guide; footer only links /guides (`links.ts:4`); 2 services have no related guides (`app/services/[slug]/page.tsx:33`). | Footer + homepage guide links, `related` entries, in-body contextual links. |
-| Medium | 4 titles start "China Sourcing Agent…" — homepage vs product-sourcing compete. | Retitle product-sourcing e.g. "Find Manufacturers in China: Supplier Sourcing" (`content/services.ts:22`). |
-| Low | Duplicate H2s: "What you receive" ×2 on order-follow-up/shipping (`services.ts:282,366` + `page.tsx:88`); "How we help" ×2 on amazon-sellers (`audiences.ts:25`, `ArticleView.tsx:52`). | Rename. |
-| Low | Hotels description 160 chars; /terms 61, /privacy 90. | Trim / extend. |
-| Low | Marquee repeats 6 service names ×8 in accessible text (`Hero.tsx:150`). | `aria-hidden` on the MarqueeBands wrapper. |
-
-## Schema & Structured Data — 80
-
-**Works:** all JSON-LD valid, server-rendered, absolute URLs; consistent `@id` graph (#organization, #website, per-page #service/#article/#webpage); BreadcrumbList on 19/21 pages matching visible crumbs; Service on all 6 services; Article on all 5 guides with dates matching visible "Updated"; CollectionPage/AboutPage/ContactPage/ItemList; logo as ImageObject.
-
-**FAQPage is correctly absent.** Google stopped showing FAQ rich results for all sites on 2026-05-07 (after restricting them to government/health sites in Aug 2023). Keep visible FAQs unmarked; the markup itself isn't harmful if added later for other engines.
-
-| Sev | Finding | Fix |
-|---|---|---|
-| Medium | Organization has no `taxID`, `foundingDate`, `sameAs` — data empty (`data.ts:22,26,28`); code at `lib/seo.tsx:51-53` already emits them when set. | Fill data. |
-| Medium | Article `author` = Organization (`ArticleView.tsx:23`). | Person author with `sameAs` once TEAM populated. |
-| Low | /services hub builds id-less Service objects with different names (`app/services/page.tsx:24`). | Reference `{"@id": ".../services/<slug>#service"}`. |
-| Low | Logo is the 180 px apple-icon (`lib/seo.tsx:42`). | ≥512 px wordmark PNG; optionally `["Organization","ProfessionalService"]`, `alternateName`. |
-| Low | Homepage has no WebPage node / dateModified. (The "2026-01-01" date the audit tool reported was a heuristic guess, not on the site.) | WebPage node with `dateModified: PAGE_UPDATED.home` in `app/page.tsx`. |
-| Low | /privacy, /terms lack BreadcrumbList/WebPage; guides share the OG image as Article image. | Cosmetic. |
-
-## Performance — 82
-
-| Page (lab) | Desktop LCP | Mobile LCP | CLS | Mobile TBT |
-|---|---|---|---|---|
-| Home | 1.35 s | 3.08 s | 0 | 705 ms |
-| /services/product-sourcing | 0.94 s | 2.20 s | 0 | 135 ms |
-| /guides/china-sourcing-agent-cost | 0.90 s | 2.58 s | 0 | 241 ms |
-
-TTFB 340–430 ms. **Loader fix confirmed** (was 4.3 s / 6.6 s). **Works:** CLS 0 everywhere; globe is `dynamic({ssr:false})` 2D canvas, honours reduced-motion; ~210 KB brotli JS/page; no third-party scripts unless env vars set; self-hosted fonts; immutable `/_next/static`.
-
-| Sev | Finding | Fix |
-|---|---|---|
-| Medium | Homepage mobile TBT 705 ms / LCP 3.1 s — framer-motion `useScroll`, springs, mouse parallax (`Hero.tsx:26-45`), 1,707 DOM nodes. | Lazy-mount below-fold sections; disable parallax on touch; dedupe marquee. |
-| Medium | Intro curtain still delays first-visit paint ~0.75–1.3 s (`globals.css:61,72-73`, `chrome.tsx:12-21`). | Remove, or ≤300 ms and drop the 0.8 s H1 delay. |
-| Low | `world-dots.svg` (200 KB, below fold) + logo SVGs preloaded on every page (`GlobalReach.tsx:38`). | Remove preload. |
-| Low | `/brand/*`, `/products/*`, `/world-dots.svg`, OG PNG served `max-age=0`. | Long `Cache-Control` via `headers()`. |
-| Low | Unused `app/fonts/Geist*.woff` (134 KB). | Delete. |
-
-## Images — 78
-
-**Works:** no missing alt text or dimensions; descriptive product alts, decorative `alt=""`; `next/image` AVIF/WebP with `sizes` (~6 KB delivered vs 97–143 KB source); 1200×630 OG/Twitter image.
-
-| Sev | Finding | Fix |
-|---|---|---|
-| Medium | Subpages carry only logo images; guides have none; no real photos, sample reports or video. | Real factory/inspection photos with descriptive alts, redacted report images, short videos. |
-| Low | One shared 184 KB OG PNG for all pages. | Re-encode (~60 KB); optional per-page OG. |
-| Low | Logo SVGs 24–28 KB. | SVGO. |
-
-## AI Search Readiness — 70 (GEO 64 · Agentic 84)
-
-**Works:** all AI crawlers (GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot, bingbot) get 200 with identical HTML — no WAF/challenge; all content incl. FAQs and tables in server HTML; good llms.txt; guides open with 40–60-word direct answers, key takeaways, real tables; clear entity on /about; clean accessibility tree (0 unnamed controls on / and /quote); quote form is native POST, submittable without JS.
-
-Estimated platform readiness: Google AIO 62 · Perplexity 58 · ChatGPT 45 · Copilot 40 (the last two held back by Bing).
-
-| Sev | Finding | Fix |
-|---|---|---|
-| High | Not in Bing; no off-site brand mentions/profiles; `sameAs: []`. | Bing WMT + sitemap + IndexNow; LinkedIn, GBP, YouTube, B2B directories → `sameAs`. |
-| Medium | Guide statistics unsourced; no named experts. | See Content. |
-| Low | Homepage FAQ answers vague ("a few weeks", "most countries"). | Concrete ranges + links to guides (`Trade.tsx:258-280`). |
-| Low | Tables rendered twice (desktop table + mobile cards, `Blocks.tsx:72-104`) — duplicated rows in extracted text. | Single `<table>` stacked with CSS. |
-| Low | No Content-Signal, Markdown delivery, WebMCP, `.well-known` files, llms-full.txt. | Optional drafts — no known ranking effect. |
-| Info | Lighthouse Agentic Browsing fraction not measured (PSI 429). | Run `npx lighthouse --only-categories=agentic-browsing`. |
-
-## Search Experience (SXO) — 68
-
-| Query | SERP page type | Sino Vorex page | Fit |
+| Category | Weight | Score | Δ vs 10-22 |
 |---|---|---|---|
-| china sourcing agent | ~75 % informational guides | Homepage + product-sourcing | Medium — add `/guides/china-sourcing-agent` pillar (2,500+ words) |
-| pre-shipment inspection china | Guides + service pages | QI service + AQL guide | Aligned |
-| factory audit china | Guides + service pages | Factory-vetting + checklist | Aligned |
-| sourcing agent for amazon sellers | Seller-tool blog guides | /sourcing-for/amazon-sellers (910 w) | Medium — deepen |
-| china sourcing agent cost | Guides | Cost guide (1,537 w) | Aligned — add own rates, deepen |
-| shipping from china | "Shipping to US/UK" guides | Shipping service page | Medium — destination guides; retarget service page to "freight forwarding" |
+| Technical SEO | 22% | 92 | +2 |
+| Content Quality | 23% | 70 | +4 |
+| On-Page SEO | 20% | 90 | +3 |
+| Schema / Structured Data | 10% | 88 | +3 |
+| Performance (CWV, lab) | 10% | 95 | +10 |
+| AI Search Readiness | 10% | 78 | +3 |
+| Images | 5% | 85 | 0 |
 
-Persona scores (home / QI service / cost guide / quote): Amazon FBA seller 60/70/62/55 · Hotel procurement 66/62/59/74 · First-time importer 73/72/78/70. `/quote` doesn't fit inspection-only, audit-only or FBA buyers (`QuoteForm.tsx:111-124`) → add service chips, FBA toggle, `?service=` prefill.
+## Executive summary
 
-## Visual & Mobile — 80
+The technical base is very strong. Every page returns 200 and is server-rendered, with its own canonical, a unique title, meta description and H1, and full schema. The sitemap is complete. Mobile Lighthouse scores Performance 99 (LCP 1.5 s, TBT 30 ms, CLS 0). Since the last audit the site has grown from about 25 to 45 pages: a China sourcing agent pillar guide, guides on shipping to the USA, UK and Europe, five market pages, and four tools. It also fixed the canonicals on its noindex pages and removed the intro curtain.
 
-**Works:** no horizontal overflow at 1366 or 390 px; H1 in first viewport and opacity 1 on all pages; 16 px body; header CTA everywhere; chat button hidden ≥xl.
+The score is now held back by **trust and proof, not code**. The licence number, founding year, team, `sameAs` profiles, commission range and inspection rate are all still empty. Articles are authored by the Organization rather than a person. The guides cite no external sources. All three service case stories are still labelled "Illustrative example".
 
-| Sev | Finding | Fix |
+### Top 5 issues
+1. **Trust data empty** (High): in `components/sinovorex/data.ts`, `licenceNo` (:22), `foundedYear` (:26), `sameAs: []` (:28), `TEAM = []` (:32), `commissionRange` (:147) and `inspectionRate` (:149) are all empty. The UI and schema are already wired to show them.
+2. **No named author or byline** (High): Article JSON-LD has `author: {"@id": "#organization"}`. A YMYL-adjacent topic (money, suppliers, customs) needs a person who is accountable.
+3. **No cited sources in any guide** (High): the only off-site links in `/guides/china-sourcing-agent-cost` are WhatsApp links. Duty rates, freight ranges and AQL tables have no source.
+4. **Proof is illustrative** (High): there are 3 "Illustrative example" cases (`content/services.ts:82,150,215`), and `/case-studies` is still deliberately 404 because `CASE_STUDIES` is empty.
+5. **No off-site entity** (High): `sameAs` is empty, and there are no LinkedIn, Google Business Profile or directory profiles that AI engines and Google can use to confirm the brand. Search Console and Bing verification can't be confirmed from the HTML (no meta tags in the markup; it may have been done through DNS).
+
+### Top 5 quick wins
+1. Darken the flame colour used for text and buttons: `#FF6B2B` on white has a contrast ratio of 2.84:1 (it needs 4.5:1, or 3:1 for large text). Use `flame.deep #E8501A` or darker for text. The footer's `#7a7a7f` on `#0e0e16` is 4.49:1 and needs a slightly lighter shade. *15 min.*
+2. Remove the `<div>` children inside `<ol>` in `#how-it-works` (`components/sinovorex/Services.tsx:32`). *10 min.*
+3. Redirect `http://www` to apex in one hop: it currently takes 2 hops. Set the www→apex redirect on the Vercel domain. *10 min.*
+4. Trim 6 titles over 60 characters (`/services`, `/sourcing-for`, `/guides/yiwu-market-guide`, `/markets/uae`, `/markets/saudi-arabia`, `/markets/pakistan`). *15 min.*
+5. Add internal links to weakly linked pages. `/guides/keqiao-textile-market` has 3 inlinks, `/sourcing-for/*` has 4–5, `/guides/shipping-from-china-to-uk` and `-europe` have 6 each, and `/guides/sourcing-from-china-small-business` has 8. Most other pages have 45, because the footer and nav link them. *30 min.*
+
+---
+
+## Technical SEO: 92
+
+**What works**
+- HTTPS on everything; HSTS `max-age=63072000; includeSubDomains`; a strict CSP; `X-Frame-Options`, `nosniff`, `Referrer-Policy` and `Permissions-Policy` headers.
+- `http://` → `https://` takes 1 hop, and trailing slashes 308 to the version without them. Real 404s return 404 with `noindex`.
+- `robots.txt` allows everything except `/api/` and lists the sitemap. AI crawlers are not blocked.
+- The sitemap has 45 URLs and matches the crawl exactly. Every internal link that isn't a query string is in the sitemap, and `lastmod` values vary by page (10-16 → 10-25).
+- Every canonical is self-referencing. `/quote?service=*` canonicalises to `/quote`. `/quote/thanks` is `noindex, follow` and has no stray canonical (fixed since 10-22).
+- Vercel edge (hkg1) is serving from cache; the root document TTFB in Lighthouse is 170 ms.
+
+**Findings**
+| Severity | Finding | Fix |
 |---|---|---|
-| Medium | Mobile home: globe takes ~430 px; H1 at y=509, "Get a Quote" at y=796/844. | Shrink globe below `md` or move CTA up. |
-| Medium | Quote inputs/submit 15 px → iOS zoom; labels/placeholders 10 px. | 16 px inputs, ≥12 px labels (`QuoteForm.tsx`). |
-| Medium | Small tap targets: breadcrumbs 21 px high, /quote email/phone 20 px, checkbox 16×16, footer links 17 px. | ≥44 px hit areas (padding). |
-| Low | Floating chat button overlaps form fields on /quote and guides (mobile). | Hide on /quote; add bottom padding. |
-| Low | /quote form below the fold on mobile. | Form first, explainer after. |
+| Medium | Search Console and Bing verification not visible in the HTML (`NEXT_PUBLIC_*_SITE_VERIFICATION` unset in production) | Confirm it was done through DNS. If not, set the env vars in Vercel, submit the sitemap and run `npm run indexnow` |
+| Low | `http://www.sinovorex.com` takes 2 redirect hops | Add a www→apex redirect at the domain level in Vercel |
+| Low | Lighthouse SEO flags `robots.txt` as invalid because of the unknown directive `Content-Signal: search=yes, ai-input=yes` | Google ignores unknown lines, so there's no ranking impact. Keep it if you want the AI-use signal; otherwise remove it to get Lighthouse SEO to 100 |
+| Low | Some first fetches were slow (2–13 s on cold ISR paths, measured from the audit location) | Make sure all sitemap routes are statically generated (`generateStaticParams`) and warm the cache after deploy |
 
-Screenshots: `screenshots/{home,product-sourcing,guide-cost,quote}-{desktop,mobile}[-full].png`, `home-*-t0.png` (loader frame), `quote-mobile-form.png`.
+## Content Quality: 70
+
+**What works**
+- Pages are substantial: guides run 1,000–2,650 words, service pages 1,160–1,620, market pages 980–1,170. The new pillar guide `/guides/china-sourcing-agent` has 2,653 words.
+- There is no templated duplication. Shared 5-word shingles between sibling pages are 9–15% (UK vs Europe shipping is 24%), so the market and audience pages are genuinely distinct.
+- The writing is clear and specific (AQL sample sizes, the SABER and customs process, Incoterms), and every page has a strong quote CTA.
+
+**Findings**
+| Severity | Finding | Fix |
+|---|---|---|
+| High | Experience and trust signals are absent: no licence number, founding year, team, photos of people or office | Fill in `data.ts`. Add 2–3 real people with photos and LinkedIn profiles to `TEAM` |
+| High | No author: Articles are attributed to the Organization, and there is no byline or reviewer | Add a Person as `author` in `ArticleView.tsx` (around :29), show a byline with credentials and add a "Reviewed by" line |
+| High | No external citations in any guide | Add 1–3 primary sources per guide (USTR or CBP for US duties, HMRC, EU TARIC, SASO/SABER, ISO 2859-1 for AQL, the Canton Fair official site) |
+| High | All proof is illustrative, and `/case-studies` is hidden | Publish 2–3 real anonymised orders with numbers, plus a redacted sample inspection report and factory-audit PDF |
+| Medium | Pricing is vague: "commission on order value" with no range (`commissionRange` empty) | Publish a range (for example 5–10%) and a per-man-day inspection rate. Pricing is a top query for this niche, and the cost guide would back it up |
+| Medium | Market pages have about 620–800 words of main content each | Add country-specific detail: ports and transit times, a top-HS-code duty table, local certification steps and payment methods |
+
+## On-Page SEO: 90
+
+**What works**: there are no duplicate titles, descriptions or H1s across 45 pages. Each page has one H1, and descriptions run 120–160 characters on almost every page. Breadcrumbs appear on every non-home page. Service CTAs deep-link to `/quote?service=…`.
+
+**Findings**
+| Severity | Finding | Fix |
+|---|---|---|
+| Medium | Weak internal linking to 8 pages (3–9 inlinks; others have 45) | Link the market-hub guides (Keqiao, Guangzhou fabric), the UK and Europe shipping guides and the audience pages from the homepage, `/guides`, related service pages and in-body copy. Consider adding `/sourcing-for/*` to the footer |
+| Low | 6 titles are 61–65 characters and get truncated | Drop the "\| SinoVorex" suffix or shorten, e.g. "China Sourcing Agent for UAE Buyers \| Dubai Shipping" |
+| Low | `/privacy` and `/terms` titles are under 30 characters | Fine for legal pages, no action needed |
+
+## Schema / Structured Data: 88
+
+**What works**: every page has an `@graph` with Organization + ProfessionalService (PostalAddress, ContactPoint, a 512 px logo ImageObject), BreadcrumbList, page-specific types (Article, CollectionPage, AboutPage, ContactPage, ItemList, Service, and SoftwareApplication with an Offer on the tools), and `datePublished` and `dateModified` on articles. All JSON-LD parses.
+
+**Findings**
+| Severity | Finding | Fix |
+|---|---|---|
+| Medium | Article `author` is the Organization | Add a `Person` node (name, jobTitle, `sameAs` LinkedIn, `worksFor` → `#organization`) |
+| Medium | Organization has no `sameAs`, `taxID` or `foundingDate` (empty data) | These fill in automatically once `data.ts` is completed |
+| Info | Do not add FAQPage expecting rich results. Google retired them for all sites on 2026-05-07 | No action |
+
+## Performance: 95 (lab)
+
+Lighthouse 12.6, mobile, homepage: **Performance 99, Accessibility 93, Best Practices 100, SEO 92.**
+LCP 1.5 s (the hero subheading `p.sv-rise`), FCP 1.2 s, TBT 30 ms, CLS 0, TTI 2.0 s, Speed Index 3.7 s, transfer 292 KB.
+
+| Severity | Finding | Fix |
+|---|---|---|
+| Low | Speed Index is 3.7 s, held up by the hero animations and globe paint | Fine for now. Shorten the `sv-rise` and `sv-fade` (0.9 s) durations on mobile, or skip them when `prefers-reduced-motion` is set |
+| Low | The homepage HTML is 328 KB (about 172 KB is the RSC flight payload, about 50 KB inline SVG), and the DOM has 1,479 elements | Move the large inline SVGs (world dots, marquee logos) to cached `/public` files, and keep below-the-fold sections as server components to shrink the payload |
+| Low | About 11 KB of legacy JS polyfills | Set a modern `browserslist` |
+| Info | No field data (CrUX/PSI quota). | Re-run with a PSI API key once traffic builds up |
+
+## Images: 85
+
+All `<img>` elements have `alt`. The four homepage product tiles use `next/image` `fill` (no width or height attributes, but they sit in sized containers, so CLS is 0). Images are served as AVIF/WebP through `/_next/image`. The remaining gap is that the photography is generic product imagery. There are no real photos of the team, the office, an inspection in progress or a factory visit, which would also strengthen E-E-A-T.
+
+## AI Search Readiness: 78
+
+**What works**: `robots.txt` allows all crawlers and sets `Content-Signal: search=yes, ai-input=yes`. `/llms.txt` and `/llms-full.txt` are live and accurate. Pages are server-rendered with clear H2/H3 structure, definitional openings, tables and FAQs. Entity facts (the legal Chinese name, address and contacts) are consistent across llms.txt, the footer and the schema.
+
+| Severity | Finding | Fix |
+|---|---|---|
+| High | No brand corroboration off-site (`sameAs` empty, no known profiles or mentions) | Create a LinkedIn company page, a Google Business Profile (Suzhou), 1–2 B2B directory listings and a YouTube channel, and get mentioned on Reddit or in trade forums |
+| Medium | Claims can't be cited because they have no sources or first-party data | Publish original data (e.g. "AQL failure rates across our inspections, 2026") so engines can quote it |
+| Low | No `/.well-known/ai-catalog.json` and no WebMCP annotations on the quote form | Optional; low priority |
+
+## Accessibility (Lighthouse 93)
+- **Colour contrast** fails on flame `#FF6B2B` text and buttons on white (2.84:1), and on white text over flame buttons. It also fails on the footer's `#7a7a7f` on `#0e0e16` (4.49:1). Tailwind `flame` is defined at `tailwind.config.ts:16`.
+- **List semantics**: `section#how-it-works ol` has `<div>` children (`Services.tsx:32`).
+
+## Progress since 2026-10-22
+Fixed or done: noindex-page canonicals; `/guides/china-sourcing-agent` pillar (2,653 words); shipping guides for the USA, UK and Europe; `/sourcing-for` hub (was 404); five market pages; four tools; 512 px logo; varied sitemap lastmod; intro curtain removed (mobile Performance now 99); HSTS `includeSubDomains`; service CTAs prefill `?service=`.
+Still open: trust data, a named author, real case studies, off-site profiles, the www double hop, source citations.

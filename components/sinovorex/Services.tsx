@@ -29,10 +29,11 @@ export function HowItWorks() {
           </Reveal>
         </div>
 
-        <ol className="relative grid gap-8 lg:grid-cols-6 lg:grid-rows-[auto_auto_auto_1fr_1fr] lg:gap-x-4 lg:gap-y-0">
-          {/* Track: horizontal on desktop, vertical on mobile */}
+        <div className="relative">
+          {/* Track: horizontal on desktop, vertical on mobile. Outside the <ol> so the list only holds <li>s. */}
           <div className="pointer-events-none absolute left-[8.33%] right-[8.33%] top-[36px] hidden h-[2px] rounded bg-gradient-to-r from-flame via-flame/60 to-flame/20 lg:block" />
           <div className="pointer-events-none absolute bottom-10 left-[35px] top-10 w-[2px] rounded bg-gradient-to-b from-flame via-flame/60 to-flame/20 lg:hidden" />
+        <ol className="relative grid gap-8 lg:grid-cols-6 lg:grid-rows-[auto_auto_auto_1fr_1fr] lg:gap-x-4 lg:gap-y-0">
 
           {PROCESS.map((p, i) => {
             const Icon = p.icon;
@@ -64,6 +65,7 @@ export function HowItWorks() {
             );
           })}
         </ol>
+        </div>
       </div>
     </section>
   );

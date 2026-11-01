@@ -4,7 +4,7 @@ import type { Article } from "./types";
 export const MARKET_GUIDES: Article[] = [
   {
     slug: "yiwu-market-guide",
-    title: "Yiwu Market Guide for Buyers: Districts, Tips & Getting There",
+    title: "Yiwu Market Guide: Districts, Buying Tips & Getting There",
     h1: "Yiwu market guide for buyers",
     description: "A buyer's guide to Yiwu International Trade City: what's in each district, MOQs and prices, how to get there from Shanghai and Hangzhou, and how to buy safely.",
     summary: "Yiwu International Trade City in Zhejiang province is the world's largest wholesale market for small commodities: toys, gifts, jewellery, stationery, household goods, decorations and more. It's spread over five districts, opens daily, and is about two hours from Shanghai by high-speed train. Most sellers accept smaller orders than factories, which makes it popular with small businesses and mixed-product buyers.",
@@ -63,7 +63,11 @@ export const MARKET_GUIDES: Article[] = [
       { q: "Is Yiwu open every day?", a: "Yes, most of the year, roughly 9 am to 5 pm. It closes for about a month around Chinese New Year." },
       { q: "Do I need an agent in Yiwu?", a: "Not strictly, but most buyers use one to translate, track orders from many booths, check goods and arrange consolidation and shipping." },
     ],
-    related: ["/services/samples-consolidation", "/guides/sourcing-from-china-small-business", "/services/china-business-trips"],
+    related: ["/services/samples-consolidation", "/guides/sourcing-from-china-small-business", "/sourcing-for/small-businesses", "/services/china-business-trips"],
+    sources: [
+      { name: "Chinagoods, official platform of Yiwu China Commodity City", url: "https://www.chinagoods.com/" },
+      { name: "ICC Incoterms® rules", url: "https://iccwbo.org/business-solutions/incoterms-rules/" },
+    ],
   },
 
   {
@@ -89,7 +93,7 @@ export const MARKET_GUIDES: Article[] = [
       { p: "Zhongda isn't one building but a whole district of markets, spread over several square kilometres. The central buildings, such as the Guangzhou China Fabrics and Accessories Center, have higher-end shops and prices. Surrounding markets often have more affordable options. Shops tend to group by type, so ask at the entrance or follow the signs for the fabric you need." },
 
       { h2: "MOQs and prices" },
-      { p: "Many shops sell from stock by the roll, and some by the metre, which is why Zhongda is popular with small businesses. For custom colours or special finishes, the shop usually orders from a mill, and the minimum rises to hundreds or thousands of metres per colour." },
+      { p: "Many shops sell from stock by the roll, and some by the metre, which is why Zhongda is [popular with small businesses](/sourcing-for/small-businesses). For custom colours or special finishes, the shop usually orders from a mill, and the minimum rises to hundreds or thousands of metres per colour." },
       { p: "Prices are usually quoted per metre, per yard or per kilogram for knits. Make sure you know which, and check the width, because a cheaper price on a narrower fabric can cost more per garment." },
 
       { h2: "How to buy fabric at Zhongda" },
@@ -121,6 +125,9 @@ export const MARKET_GUIDES: Article[] = [
       { q: "How do I check fabric before shipping?", a: "Check shade against the approved sample, width, weight and visible defects on a sample of rolls, and test a cutting for shrinkage and colour-fastness." },
     ],
     related: ["/guides/keqiao-textile-market", "/services/product-sourcing", "/services/quality-inspection"],
+    sources: [
+      { name: "ASTM D5430: Visually inspecting and grading fabrics (the 4-point system)", url: "https://www.astm.org/d5430-13r17.html" },
+    ],
   },
 
   {
@@ -175,6 +182,9 @@ export const MARKET_GUIDES: Article[] = [
       { q: "How far is Keqiao from Hangzhou?", a: "Very close. Keqiao is about 20 to 25 km from Hangzhou Xiaoshan airport, and Shaoxing's metro connects with Hangzhou's." },
       { q: "What MOQ should I expect from Keqiao mills?", a: "For custom colours, often thousands of metres per colour. Stock fabrics in the market can be bought in smaller quantities." },
     ],
-    related: ["/guides/guangzhou-fabric-market", "/services/product-sourcing", "/guides/factory-audit-checklist"],
+    related: ["/guides/guangzhou-fabric-market", "/sourcing-for/hotels-restaurants", "/services/product-sourcing", "/guides/factory-audit-checklist"],
+    sources: [
+      { name: "China Shaoxing Keqiao International Textile Expo, official site", url: "https://www.ctcte.com/" },
+    ],
   },
 ];

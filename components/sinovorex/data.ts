@@ -18,18 +18,25 @@ export const COMPANY = {
   /** Registered address, exactly as on the licence, plus an English rendering. */
   addressZh: "苏州市姑苏区山塘街504号G239",
   address: "G239, No. 504 Shantang Street, Gusu District, Suzhou, Jiangsu, China",
-  /** 统一社会信用代码 (18 characters). Shown in the footer, About and schema `taxID` once filled in. FILL THIS IN. */
-  licenceNo: "",
+  /** 统一社会信用代码 (18 characters). Shown in the footer, About and schema `taxID`. */
+  licenceNo: "91320508MAKCJ7B745",
   /** ICP 备案号. Only needed if the site is hosted on a mainland-China server. */
   icp: "",
-  /** Year the company was established (from the business licence), e.g. "2024". Shown on /about once filled in. */
-  foundedYear: "",
+  /** Year SinoVorex started trading. Shown on /about and as schema `foundingDate`. */
+  foundedYear: "2020",
+  /** Registration date of the current Suzhou entity (成立日期 on the licence and gsxt.gov.cn). Explained on /about because it's later than foundedYear. */
+  registeredDate: "2026-05-18",
+  /** Watermarked scan of the business licence in public/, e.g. "/licence-watermarked.jpg". Shown on /about once added. */
+  licenceImage: "",
   /** Official profile URLs (LinkedIn company page, Google Business Profile, Made-in-China, Global Sources…). Feeds schema `sameAs` and the About page. */
   sameAs: [] as string[],
 };
 
-/** Named team members for /about. Real people only; leave empty until you have names and (ideally) photos in public/team/. */
-export const TEAM: { name: string; role: string; bio: string; photo?: string; linkedin?: string }[] = [];
+/** Named team members for /about. Real people only. TEAM[0] is the author of guides; TEAM[1], if present, is shown as their reviewer. */
+export const TEAM: { name: string; role: string; bio: string; photo?: string; linkedin?: string }[] = [
+  { name: "Aleem Muhammad Ashraf", role: "Legal Representative",
+    bio: `Legal representative of ${COMPANY.legalNameZh}, the company behind SinoVorex, and author of our buying guides.` },
+];
 
 /** Date each standalone page's content last changed (ISO). Used for sitemap lastmod and visible "Updated" dates. */
 export const PAGE_UPDATED = {

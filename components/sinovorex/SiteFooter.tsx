@@ -47,7 +47,7 @@ export function SiteFooter({ quoteModal = false, className = "", children }: {
           <nav aria-label="Footer" className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-5">
             {FOOTER_COLUMNS.map((col) => (
               <div key={col.title}>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/45">{col.title}</p>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/60">{col.title}</p>
                 <ul className="mt-4 space-y-0.5">
                   {col.links.map(([label, href]) => (
                     <li key={href}>
@@ -66,7 +66,7 @@ export function SiteFooter({ quoteModal = false, className = "", children }: {
         </div>
 
         {/* Legal bar */}
-        <div className="flex flex-col gap-5 py-7 text-[13px] text-white/55 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-5 py-7 text-[13px] text-white/65 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1.5">
             <p>© {new Date().getFullYear()} {COMPANY.brand}, a brand of {COMPANY.legalNameZh} ({COMPANY.legalNameEnGloss})</p>
             <p className="flex items-start gap-2"><MapPin size={14} className="mt-0.5 shrink-0 text-flame" />{COMPANY.address}</p>

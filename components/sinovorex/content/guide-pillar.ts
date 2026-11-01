@@ -159,5 +159,10 @@ export const PILLAR_GUIDE: Article = {
     { q: "Do sourcing agents handle shipping?", a: "Many do, usually by booking freight through partner forwarders. Others hand over to your own forwarder once the goods are ready." },
     { q: "Will the factory charge me more if I use an agent?", a: "It shouldn't. An honest agent gets factory prices for you and charges you a visible fee. If an agent's fee is unusually low, check whether the factory price has been marked up." },
   ],
-  related: ["/guides/china-sourcing-agent-cost", "/guides/factory-audit-checklist", "/services/product-sourcing", "/services/order-follow-up", "/services/samples-consolidation"],
+  related: ["/guides/china-sourcing-agent-cost", "/guides/factory-audit-checklist", "/services/product-sourcing", "/services/order-follow-up", "/services/samples-consolidation", "/guides/sourcing-from-china-small-business", "/guides/freight-forwarder-vs-sourcing-agent"],
+  sources: [
+    { name: "National Enterprise Credit Information Publicity System (China)", url: "https://www.gsxt.gov.cn/" },
+    { name: "ICC Incoterms® rules", url: "https://iccwbo.org/business-solutions/incoterms-rules/" },
+    { name: "ISO 2859-1: Sampling procedures for inspection by attributes", url: "https://www.iso.org/standard/1141.html" },
+  ],
 };

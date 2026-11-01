@@ -13,7 +13,8 @@ const config: Config = {
         foreground: "var(--foreground)",
         ink: "#0E0E16",
         paper: "#F7F5F0",
-        flame: { DEFAULT: "#FF6B2B", deep: "#E8501A" },
+        // DEFAULT is theme-aware (app/globals.css): #C2410C on light surfaces for AA contrast, #FF6B2B inside [data-theme="dark"].
+        flame: { DEFAULT: "rgb(var(--flame) / <alpha-value>)", deep: "#E8501A" },
         brand: {
           cyan: "var(--brand-cyan)",
           "cyan-light": "var(--brand-cyan-light)",

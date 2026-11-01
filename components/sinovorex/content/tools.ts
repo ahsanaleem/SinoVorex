@@ -90,7 +90,7 @@ export const TOOLS: Tool[] = [
       { q: "What is the air freight volumetric weight?", a: "For most airlines, length × width × height in centimetres ÷ 6,000 per carton. You pay on whichever is greater, the actual or the volumetric weight." },
       { q: "When is LCL cheaper than a full container?", a: "Usually below about 13 to 15 CBM. Above that, a 20-foot container is often cheaper and your goods are handled less." },
     ],
-    related: ["/services/shipping-coordination", "/tools/landed-cost-calculator", "/services/samples-consolidation"],
+    related: ["/services/shipping-coordination", "/tools/landed-cost-calculator", "/guides/shipping-from-china-to-uk", "/guides/shipping-from-china-to-europe"],
   },
 
   {

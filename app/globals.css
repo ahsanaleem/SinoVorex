@@ -4,6 +4,8 @@
 
 /* ── Brand Design Tokens ─────────────────────────────────── */
 :root {
+  /* Brand orange as RGB channels. #C2410C is 5.2:1 on white; the brighter #FF6B2B is kept for dark surfaces (6.8:1 on ink). */
+  --flame: 194 65 12;
   --background: #020617;
   --foreground: #f1f5f9;
 
@@ -21,6 +23,10 @@
   --cursor-ring-size: 36px;
   --spotlight-x: 50%;
   --spotlight-y: 50%;
+}
+
+[data-theme="dark"] {
+  --flame: 255 107 43;
 }
 
 /* ── Base Reset ───────────────────────────────────────────── */

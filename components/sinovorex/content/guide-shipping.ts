@@ -82,7 +82,13 @@ export const SHIPPING_GUIDES: Article[] = [
       { q: "Do I need a customs broker?", a: "For commercial shipments over US$2,500, you'll almost always need one, plus a customs bond. On DDP terms, the forwarder's broker handles this for you." },
       { q: "Is there still a duty-free limit for goods from China?", a: "Not in the way there used to be. The US$800 de minimis exemption no longer applies to goods from China, so budget for duty on every shipment." },
     ],
-    related: ["/services/shipping-coordination", "/sourcing-for/amazon-sellers", "/guides/freight-forwarder-vs-sourcing-agent"],
+    related: ["/services/shipping-coordination", "/sourcing-for/amazon-sellers", "/guides/shipping-from-china-to-uk", "/guides/shipping-from-china-to-europe", "/guides/freight-forwarder-vs-sourcing-agent"],
+    sources: [
+      { name: "Harmonized Tariff Schedule of the United States (USITC)", url: "https://hts.usitc.gov/" },
+      { name: "U.S. Customs and Border Protection: Importer Security Filing (10+2)", url: "https://www.cbp.gov/border-security/ports-entry/cargo-security/importer-security-filing-102" },
+      { name: "U.S. Customs and Border Protection: Basic import and export", url: "https://www.cbp.gov/trade/basic-import-export" },
+      { name: "USTR: Section 301 tariff actions on China", url: "https://ustr.gov/issue-areas/enforcement/section-301-investigations/tariff-actions" },
+    ],
   },
 
   {
@@ -162,7 +168,13 @@ export const SHIPPING_GUIDES: Article[] = [
       { q: "Do I pay VAT on goods from China?", a: "Yes, import VAT is charged on most goods, usually at 20%. VAT-registered businesses can normally reclaim it." },
       { q: "What is an EORI number?", a: "A free registration number you need to import goods into Great Britain. You apply for one on GOV.UK." },
     ],
-    related: ["/services/shipping-coordination", "/guides/shipping-from-china-to-europe", "/guides/freight-forwarder-vs-sourcing-agent"],
+    related: ["/services/shipping-coordination", "/guides/shipping-from-china-to-europe", "/sourcing-for/amazon-sellers", "/guides/freight-forwarder-vs-sourcing-agent"],
+    sources: [
+      { name: "UK Trade Tariff (HMRC)", url: "https://www.trade-tariff.service.gov.uk/" },
+      { name: "GOV.UK: Get an EORI number", url: "https://www.gov.uk/eori" },
+      { name: "GOV.UK: VAT on imports, acquisitions and purchases from abroad", url: "https://www.gov.uk/guidance/vat-imports-acquisitions-and-purchases-from-abroad" },
+      { name: "GOV.UK: Product safety for manufacturers", url: "https://www.gov.uk/guidance/product-safety-for-manufacturers" },
+    ],
   },
 
   {
@@ -235,6 +247,12 @@ export const SHIPPING_GUIDES: Article[] = [
       { q: "Do I need an EORI number to import into the EU?", a: "Yes. You get one from the customs authority in the EU country where you're based, and it works across the whole EU." },
       { q: "How much VAT will I pay on goods from China?", a: "Import VAT is charged at your country's rate, which for standard goods is roughly 17% to 27% depending on the country. VAT-registered businesses can usually reclaim it." },
     ],
-    related: ["/services/shipping-coordination", "/guides/shipping-from-china-to-uk", "/guides/freight-forwarder-vs-sourcing-agent"],
+    related: ["/services/shipping-coordination", "/guides/shipping-from-china-to-uk", "/sourcing-for/amazon-sellers", "/guides/freight-forwarder-vs-sourcing-agent"],
+    sources: [
+      { name: "EU TARIC database (European Commission)", url: "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp?Lang=en" },
+      { name: "European Commission: EORI number", url: "https://taxation-customs.ec.europa.eu/customs-4/customs-procedures-import-and-export-0/customs-procedures/economic-operators-registration-and-identification-number-eori_en" },
+      { name: "European Commission: CE marking", url: "https://single-market-economy.ec.europa.eu/single-market/ce-marking_en" },
+      { name: "Regulation (EU) 2023/988 on general product safety (EUR-Lex)", url: "https://eur-lex.europa.eu/eli/reg/2023/988/oj" },
+    ],
   },
 ];

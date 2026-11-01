@@ -76,7 +76,7 @@ export const AUDIENCES: (Article & { label: string })[] = [
       { q: "Can you put FBA labels on in China?", a: "The factory normally puts them on while packing. We send the factory your labels and check them during the pre-shipment inspection." },
       { q: "Do you work with small first orders?", a: "Yes, where the product allows it. Our [guide to low MOQ sourcing](/guides/sourcing-from-china-small-business) explains how." },
     ],
-    related: ["/services/quality-inspection", "/guides/pre-shipment-inspection-aql", "/guides/sourcing-from-china-small-business"],
+    related: ["/services/quality-inspection", "/guides/pre-shipment-inspection-aql", "/guides/shipping-from-china-to-uk", "/guides/shipping-from-china-to-europe", "/guides/sourcing-from-china-small-business"],
   },
 
   {
@@ -183,7 +183,7 @@ export const AUDIENCES: (Article & { label: string })[] = [
       { q: "Can everything be delivered at the same time?", a: "That's exactly what combining shipments is for. Each supplier delivers to a warehouse in China and everything ships together." },
       { q: "Do you supply furniture and fixtures?", a: "Tell us what you need. We focus on the categories above, and we'll be honest if a request is outside what we do well." },
     ],
-    related: ["/services/samples-consolidation", "/services/product-sourcing", "/sourcing-for/small-businesses"],
+    related: ["/services/samples-consolidation", "/services/product-sourcing", "/guides/keqiao-textile-market", "/sourcing-for/small-businesses"],
   },
 ];
 

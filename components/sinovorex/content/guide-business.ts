@@ -89,6 +89,11 @@ export const BUSINESS_GUIDES: Article[] = [
       { q: "Do I need an interpreter?", a: "Many exhibitors speak some English, but detailed questions about materials, prices and production are much easier with someone who speaks Chinese." },
     ],
     related: ["/services/china-business-trips", "/services/china-visa-help", "/guides/factory-audit-checklist"],
+    sources: [
+      { name: "China Import and Export Fair (Canton Fair), official site", url: "https://www.cantonfair.org.cn/en-US" },
+      { name: "Canton Fair buyer registration", url: "https://buyer.cantonfair.org.cn/" },
+      { name: "National Immigration Administration of China", url: "https://en.nia.gov.cn/" },
+    ],
   },
 
   {
@@ -156,5 +161,10 @@ export const BUSINESS_GUIDES: Article[] = [
       { q: "Can I convert a representative office into a WFOE?", a: "Not directly. You set up a new WFOE and then close the representative office, which has its own deregistration process." },
     ],
     related: ["/services/china-company-registration", "/guides/china-sourcing-agent", "/services/product-sourcing"],
+    sources: [
+      { name: "Ministry of Commerce of the People's Republic of China", url: "https://www.mofcom.gov.cn/" },
+      { name: "State Administration for Market Regulation (China)", url: "https://www.samr.gov.cn/" },
+      { name: "National Enterprise Credit Information Publicity System (China)", url: "https://www.gsxt.gov.cn/" },
+    ],
   },
 ];

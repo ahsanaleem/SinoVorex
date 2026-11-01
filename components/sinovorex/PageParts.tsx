@@ -43,8 +43,8 @@ export function Breadcrumbs({ items }: { items: { name: string; path?: string }[
 }
 
 /** Title block for inner pages: breadcrumb, H1, a plain-language lead, reading time and a quote CTA. */
-export function PageHeader({ crumbs, h1, summary, updated, eyebrow, minutes, icon, quoteHref = "/quote", byline }: {
-  crumbs: { name: string; path?: string }[]; h1: string; summary: string; updated?: string; eyebrow?: string; minutes?: number; icon?: ReactNode; quoteHref?: string; byline?: string;
+export function PageHeader({ crumbs, h1, summary, updated, eyebrow, minutes, icon, quoteHref = "/quote", byline, reviewedBy }: {
+  crumbs: { name: string; path?: string }[]; h1: string; summary: string; updated?: string; eyebrow?: string; minutes?: number; icon?: ReactNode; quoteHref?: string; byline?: string; reviewedBy?: string;
 }) {
   return (
     <header className="max-w-[880px]">
@@ -62,7 +62,8 @@ export function PageHeader({ crumbs, h1, summary, updated, eyebrow, minutes, ico
         </Link>
         {(updated || minutes) && (
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[14px] text-ink/60">
-            {byline && <span>By <Link href="/about" className="font-medium text-ink hover:text-flame">{byline}</Link></span>}
+            {byline && <span>By <Link href="/about#team" className="font-medium text-ink hover:text-flame">{byline}</Link></span>}
+            {reviewedBy && <span>Reviewed by <Link href="/about#team" className="font-medium text-ink hover:text-flame">{reviewedBy}</Link></span>}
             {minutes && <span className="inline-flex items-center gap-1.5"><Clock size={15} className="text-flame" />{minutes} min read</span>}
             {updated && <span>Updated <time dateTime={updated}>{fmtDate(updated)}</time></span>}
           </p>

@@ -1,280 +1,242 @@
 {
   "summary": {
-    "health_score": 81,
-    "previous_score": 59,
-    "audit_date": "2026-10-22",
-    "business_type": "B2B service / China sourcing agency (Suzhou), worldwide buyers",
+    "health_score": 85,
+    "business_type": "B2B service: China sourcing agent (Suzhou), global buyers",
+    "audit_date": "2026-11-01",
+    "previous_score": 81,
     "top_findings": [
-      "No proof of real work or people: licenceNo, foundedYear, sameAs, TEAM empty in data.ts; all case studies illustrative",
-      "Not indexed in Bing and no off-site brand presence (caps ChatGPT/Copilot visibility)",
-      "Guides under-linked (5-9 inlinks) and authored by the Organization, not a person",
-      "Homepage and product-sourcing both target 'China Sourcing Agent'; guide-dominated SERPs lack a pillar guide",
-      "Homepage mobile: 705 ms TBT, CTA at fold edge, 15px quote inputs, small tap targets"
+      "Trust data empty in data.ts (licence, founded year, team, sameAs, pricing)",
+      "Articles authored by Organization; no named person/byline",
+      "No external source citations in any guide",
+      "All case proof is 'Illustrative example'; /case-studies hidden",
+      "No off-site entity profiles; GSC/Bing verification not visible"
     ],
     "quick_wins": [
-      "Fill licenceNo/foundedYear/sameAs/rates in data.ts",
-      "Verify Bing WMT + GSC, submit sitemap, run IndexNow",
-      "canonical: null on /quote/thanks, /quote/problem, 404",
-      "Link all guides from footer/homepage and orphaned services",
-      "Quote form: 16px inputs, 12px+ labels, hide floating chat on /quote"
+      "Darken flame text/button colour (2.84:1 contrast)",
+      "Fix <ol> with <div> children in Services.tsx:32",
+      "Single-hop http://www redirect",
+      "Trim 6 titles over 60 chars",
+      "Internal links to 8 under-linked pages"
     ]
   },
   "categories": [
     {
       "name": "Technical SEO",
-      "score": 88,
+      "score": 92,
       "what_works": [
-        "All 21 pages 200 + SSR",
-        "Valid robots.txt and sitemap (20 URLs, accurate lastmod)",
-        "Single-hop https and www redirects (https), real 404",
-        "Full security headers incl. CSP",
-        "IndexNow key live"
+        "45/45 URLs 200, SSR",
+        "Self-canonicals; noindex pages correct",
+        "Full security headers + HSTS",
+        "Sitemap matches crawl, varied lastmod",
+        "TTFB 170 ms (edge cache)"
       ],
       "findings": [
         {
-          "title": "Noindex pages canonicalise to homepage",
+          "title": "Search Console/Bing verification not visible",
           "severity": "Medium",
-          "description": "/quote/problem, /quote/thanks and 404 inherit canonical=https://sinovorex.com from app/layout.tsx:16",
-          "recommendation": "alternates: { canonical: null } on those routes"
+          "description": "No verification meta tags in production HTML.",
+          "recommendation": "Confirm DNS verification or set NEXT_PUBLIC_*_SITE_VERIFICATION; submit sitemap."
         },
         {
-          "title": "http://www takes two hops",
-          "severity": "Medium",
-          "description": "http://www -> https://www -> apex",
-          "recommendation": "Redirect www at Vercel domain level"
-        },
-        {
-          "title": "Hand-maintained sitemap lastmod",
-          "severity": "Medium",
-          "description": "data.ts:35-43 and content updated fields",
-          "recommendation": "Derive from git at build"
-        },
-        {
-          "title": "Duplicate robots meta on 404",
+          "title": "http://www takes 2 hops",
           "severity": "Low",
-          "description": "Next adds noindex; not-found.tsx:6 adds another",
-          "recommendation": "Remove robots in not-found.tsx"
+          "description": "http://www → https://www → apex.",
+          "recommendation": "Vercel domain-level redirect to apex."
         },
         {
-          "title": "HSTS without includeSubDomains/preload",
+          "title": "robots.txt Content-Signal flagged by Lighthouse",
           "severity": "Low",
-          "description": "max-age=63072000 only",
-          "recommendation": "Extend header"
+          "description": "Unknown directive lowers Lighthouse SEO to 92; Google ignores it.",
+          "recommendation": "Keep or remove by preference."
         },
         {
-          "title": "/sourcing-for hub 404",
+          "title": "Cold ISR fetches slow",
           "severity": "Low",
-          "description": "3 child pages, no hub",
-          "recommendation": "Add hub page"
+          "description": "2-13 s first fetch on some routes from audit location.",
+          "recommendation": "Pre-render all sitemap routes; warm cache on deploy."
         }
       ]
     },
     {
       "name": "Content Quality",
-      "score": 74,
+      "score": 70,
       "what_works": [
-        "Accurate, specific content (AQL table verified vs ISO 2859-1)",
-        "No thin or duplicate pages (service overlap 0.05-0.07)",
-        "Readability fits B2B",
-        "Verification guide via gsxt.gov.cn on /about"
+        "1,000-2,650-word guides",
+        "Low duplication between sibling pages (9-24%)",
+        "Specific, practical writing"
       ],
       "findings": [
         {
-          "title": "No proof of real work or people",
+          "title": "Trust signals absent",
           "severity": "High",
-          "description": "data.ts:22,26,28,32 empty; cases labelled Illustrative; no reviews or sample reports",
-          "recommendation": "Fill data, add named person, real anonymised cases, redacted sample reports"
+          "description": "licenceNo, foundedYear, TEAM, sameAs empty.",
+          "recommendation": "Fill data.ts; add real people with photos."
         },
         {
-          "title": "Guides have no human author",
-          "severity": "Medium",
-          "description": "ArticleView.tsx:23 author = Organization",
-          "recommendation": "Person author + byline"
+          "title": "No named author",
+          "severity": "High",
+          "description": "Article author = Organization.",
+          "recommendation": "Person author, byline, reviewer."
         },
         {
-          "title": "Guides shorter than competitors",
-          "severity": "Medium",
-          "description": "1.2-1.5k vs 2.5-4k words",
-          "recommendation": "Deepen cost guide and Amazon page"
+          "title": "No cited sources",
+          "severity": "High",
+          "description": "Guides link to no external sources.",
+          "recommendation": "1-3 primary sources per guide."
         },
         {
-          "title": "Unsourced statistics",
-          "severity": "Medium",
-          "description": "Fee and day-rate ranges have no citations",
-          "recommendation": "1-3 named sources per guide"
+          "title": "Illustrative-only proof",
+          "severity": "High",
+          "description": "3 illustrative cases; case studies 404.",
+          "recommendation": "Publish real anonymised cases and sample reports."
         },
         {
-          "title": "Own rates blank",
+          "title": "Vague pricing",
           "severity": "Medium",
-          "description": "data.ts:125,127 empty",
-          "recommendation": "Fill commissionRange and inspectionRate"
+          "description": "commissionRange/inspectionRate empty.",
+          "recommendation": "Publish ranges."
+        },
+        {
+          "title": "Market pages moderately thin",
+          "severity": "Medium",
+          "description": "620-800 main-content words.",
+          "recommendation": "Add ports, transit, duty tables, certification steps."
         }
       ]
     },
     {
       "name": "On-Page SEO",
-      "score": 86,
+      "score": 90,
       "what_works": [
-        "Unique titles and descriptions on all 21 pages",
-        "One intent-matched H1 per page",
-        "Canonical, OG, Twitter tags everywhere"
+        "No duplicate titles/descriptions/H1s",
+        "One H1 per page",
+        "Breadcrumbs everywhere"
       ],
       "findings": [
         {
-          "title": "Guides under-linked",
+          "title": "Under-linked pages",
           "severity": "Medium",
-          "description": "5-9 inlinks vs 21 for nav pages; 2 services link no guides",
-          "recommendation": "Footer/homepage guide links, related entries"
+          "description": "8 pages have 3-9 inlinks vs 45 for others.",
+          "recommendation": "Add contextual/footer links."
         },
         {
-          "title": "Head-term cannibalisation",
-          "severity": "Medium",
-          "description": "Homepage and product-sourcing both 'China Sourcing Agent'",
-          "recommendation": "Retitle product-sourcing (services.ts:22)"
-        },
-        {
-          "title": "Duplicate H2s",
+          "title": "6 titles over 60 chars",
           "severity": "Low",
-          "description": "'What you receive', 'How we help' repeated",
-          "recommendation": "Rename"
-        },
-        {
-          "title": "Marquee repeats text for screen readers",
-          "severity": "Low",
-          "description": "Hero.tsx:150",
-          "recommendation": "aria-hidden wrapper"
+          "description": "/services, /sourcing-for, yiwu guide, 3 market pages.",
+          "recommendation": "Shorten."
         }
       ]
     },
     {
       "name": "Schema / Structured Data",
-      "score": 80,
+      "score": 88,
       "what_works": [
-        "Valid connected @id graph",
-        "Service on all services, Article on all guides",
-        "BreadcrumbList on 19/21",
-        "FAQPage correctly absent (Google ended FAQ rich results 2026-05-07)"
+        "Organization+ProfessionalService graph",
+        "BreadcrumbList, Article, Service, SoftwareApplication",
+        "512 px logo",
+        "All JSON-LD valid"
       ],
       "findings": [
         {
-          "title": "Organization missing taxID, foundingDate, sameAs",
+          "title": "Article author not a Person",
           "severity": "Medium",
-          "description": "Data empty in data.ts",
-          "recommendation": "Fill data; lib/seo.tsx already emits"
+          "description": "author → #organization.",
+          "recommendation": "Add Person node."
         },
         {
-          "title": "Article author is Organization",
+          "title": "Organization missing sameAs/taxID/foundingDate",
           "severity": "Medium",
-          "description": "ArticleView.tsx:23",
-          "recommendation": "Person author"
-        },
-        {
-          "title": "Services hub duplicates Service entities",
-          "severity": "Low",
-          "description": "app/services/page.tsx:24",
-          "recommendation": "Reference @id"
-        },
-        {
-          "title": "Small logo",
-          "severity": "Low",
-          "description": "180px apple-icon",
-          "recommendation": "512px+ wordmark PNG"
+          "description": "Driven by empty data.ts.",
+          "recommendation": "Fill data.ts."
         }
       ]
     },
     {
       "name": "Performance (CWV)",
-      "score": 82,
+      "score": 95,
       "what_works": [
-        "CLS 0 everywhere",
-        "Loader fixed: home LCP 4.3/6.6s -> 1.35/3.08s",
-        "~210 KB brotli JS per page",
-        "next/image AVIF/WebP"
+        "Lighthouse mobile Perf 99",
+        "LCP 1.5 s, TBT 30 ms, CLS 0"
       ],
       "findings": [
         {
-          "title": "Homepage mobile main-thread cost",
-          "severity": "Medium",
-          "description": "TBT 705 ms, LCP 3.08 s (lab); framer-motion parallax, 1,707 DOM nodes",
-          "recommendation": "Lazy-mount, no parallax on touch"
-        },
-        {
-          "title": "Intro curtain delays first paint",
-          "severity": "Medium",
-          "description": "~0.75-1.3 s on first visit",
-          "recommendation": "Remove or <=300 ms"
-        },
-        {
-          "title": "Below-fold SVG preloaded",
+          "title": "Speed Index 3.7 s",
           "severity": "Low",
-          "description": "world-dots.svg 200 KB",
-          "recommendation": "Remove preload"
+          "description": "Hero animations/globe.",
+          "recommendation": "Shorten animations on mobile."
         },
         {
-          "title": "Static assets not cached",
+          "title": "Homepage HTML 328 KB, 1,479 DOM nodes",
           "severity": "Low",
-          "description": "max-age=0 on /brand, /products",
-          "recommendation": "Long Cache-Control"
+          "description": "172 KB RSC payload, 50 KB inline SVG.",
+          "recommendation": "Externalise SVGs, reduce client components."
+        },
+        {
+          "title": "No field data",
+          "severity": "Info",
+          "description": "PSI quota exhausted; no CrUX.",
+          "recommendation": "Add API key."
         }
       ]
     },
     {
       "name": "AI Search Readiness",
-      "score": 70,
+      "score": 78,
       "what_works": [
-        "All AI crawlers get 200",
-        "All content in server HTML",
-        "Good llms.txt",
-        "Direct-answer openings and tables in guides",
-        "Agent-UX 100 on / and /quote"
+        "AI crawlers allowed",
+        "llms.txt + llms-full.txt",
+        "SSR, structured headings, tables"
       ],
       "findings": [
         {
-          "title": "Not in Bing; no off-site presence",
+          "title": "No off-site brand corroboration",
           "severity": "High",
-          "description": "Bing site: empty; sameAs []; no verification meta",
-          "recommendation": "Bing WMT, IndexNow, profiles"
+          "description": "sameAs empty.",
+          "recommendation": "LinkedIn, GBP, directories, mentions."
         },
         {
-          "title": "Guide figures unsourced, no named experts",
+          "title": "No citable first-party data",
           "severity": "Medium",
-          "description": "Only outbound source is gsxt.gov.cn",
-          "recommendation": "Add sources and author"
-        },
-        {
-          "title": "Tables duplicated in HTML",
-          "severity": "Low",
-          "description": "Blocks.tsx:72-104",
-          "recommendation": "Single responsive table"
-        },
-        {
-          "title": "Lighthouse agentic fraction not measured",
-          "severity": "Info",
-          "description": "PSI 429",
-          "recommendation": "Run Lighthouse locally"
+          "description": "No sources/original stats.",
+          "recommendation": "Publish an original data asset."
         }
       ]
     },
     {
       "name": "Images",
-      "score": 78,
+      "score": 85,
       "what_works": [
-        "No missing alt or dimensions",
+        "All images have alt",
         "AVIF/WebP via next/image",
-        "OG image 1200x630"
+        "CLS 0"
       ],
       "findings": [
         {
-          "title": "No real photos, reports or video",
+          "title": "Generic imagery only",
           "severity": "Medium",
-          "description": "Subpages only carry logos; guides have no images",
-          "recommendation": "Real photos with descriptive alts"
+          "description": "No team/office/inspection photos.",
+          "recommendation": "Add real photography."
+        }
+      ]
+    },
+    {
+      "name": "Accessibility",
+      "score": 93,
+      "what_works": [
+        "Lighthouse a11y 93"
+      ],
+      "findings": [
+        {
+          "title": "Colour contrast",
+          "severity": "Medium",
+          "description": "#FF6B2B on white 2.84:1; footer #7a7a7f on #0e0e16 4.49:1.",
+          "recommendation": "Use #E8501A or darker; lighten footer grey."
         },
         {
-          "title": "Heavy shared OG image",
+          "title": "Invalid list markup",
           "severity": "Low",
-          "description": "184 KB PNG for all pages",
-          "recommendation": "Re-encode ~60 KB"
+          "description": "ol#how-it-works has div children.",
+          "recommendation": "Use li children."
         }
       ]
     }
@@ -286,33 +248,30 @@
         "timeframe": "Week 1",
         "items": [
           "Fill trust data in data.ts",
-          "Bing WMT + GSC verification, sitemap, IndexNow",
-          "canonical: null on noindex pages and 404",
-          "Quote form 16px inputs / labels / hide chat"
+          "Confirm GSC/Bing verification, submit sitemap",
+          "Contrast + list markup fixes"
         ]
       },
       {
         "name": "Phase 2: High-Impact Improvements",
         "timeframe": "Weeks 2-3",
         "items": [
-          "Off-site profiles + sameAs",
-          "Guide internal links",
-          "Retitle product-sourcing",
-          "Homepage mobile perf + intro curtain",
-          "Mobile hero layout and tap targets",
-          "Quote form service chips / FBA toggle"
+          "Named author + bylines",
+          "Cite sources in all guides",
+          "Internal links to under-linked pages",
+          "Publish pricing ranges",
+          "www single-hop redirect, title trims"
         ]
       },
       {
         "name": "Phase 3: Content & Authority",
         "timeframe": "Month 2",
         "items": [
-          "Real anonymised case studies + sample reports",
-          "Named author on guides",
-          "China sourcing agent pillar guide",
-          "Shipping-to-USA/UK/EU guides",
-          "Deepen Amazon page and cost guide; cite sources",
-          "Real photos and video"
+          "Real case studies + sample reports",
+          "Off-site profiles → sameAs",
+          "Deepen market pages",
+          "Real photography",
+          "Original data asset"
         ]
       },
       {
@@ -320,15 +279,15 @@
         "timeframe": "Ongoing",
         "items": [
           "Drift baseline",
-          "PSI/Lighthouse with API key",
-          "Automate lastmod and IndexNow on deploy",
-          "Re-audit in ~6 weeks with GSC/Bing data"
+          "PSI/Google API field data",
+          "Re-audit in ~6 weeks"
         ]
       }
     ]
   },
   "artifacts": {
     "findings_dir": "findings/",
-    "screenshots_dir": "screenshots/"
+    "screenshots_dir": "screenshots/",
+    "raw": "run-2026-11-01/"
   }
 }

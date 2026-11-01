@@ -1,42 +1,37 @@
-# Action Plan — sinovorex.com (2026-10-22)
+# Action Plan: sinovorex.com (2026-11-01)
 
-SEO Health Score **81/100** (was 59). No Critical items. Ordered by impact ÷ effort.
+SEO Health Score **85/100** (10-22: 81). No Critical items. Ordered by impact ÷ effort.
 
 ## Critical
-None — every indexable page is 200, server-rendered, canonicalised and in the sitemap.
+None. All 45 indexable pages return 200, are server-rendered, canonicalised and in the sitemap.
 
 ## High (this week)
-1. **Fill the trust data** — `components/sinovorex/data.ts`: `licenceNo` (:22), `foundedYear` (:26), `sameAs` (:28), `TEAM` (:32), `commissionRange` (:125), `inspectionRate` (:127). Footer, /about, Organization schema and pricing UI already render them. *Effort: 30 min + gathering the data.*
-2. **Get into Bing (and confirm Google)** — verify in Bing Webmaster Tools and Google Search Console (set `NEXT_PUBLIC_BING_SITE_VERIFICATION` / `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, `app/layout.tsx:11-18`, or use DNS), submit `https://sinovorex.com/sitemap.xml`, run `npm run indexnow`. *1 h.*
-3. **Create off-site profiles** — LinkedIn company page, Google Business Profile (Suzhou office), YouTube, 1–2 B2B directories; add URLs to `sameAs`. *1–2 days.*
-4. **Real proof** — replace "Illustrative example" cases (`content/services.ts:79,147,212`) with 2–3 real anonymised orders; publish a redacted sample inspection report and factory-audit report. *1–3 days.*
+1. **Fill in the trust data** in `components/sinovorex/data.ts`: `licenceNo` (:22), `foundedYear` (:26), `sameAs` (:28), `TEAM` (:32), `commissionRange` (:147), `inspectionRate` (:149). *30 min, plus gathering the data.*
+2. **Named author**: put a real person in `TEAM`, change the Article `author` to a Person in `ArticleView.tsx` (~:29), and show a byline and "Reviewed by" on guides. *2 h.*
+3. **Cite sources** in every guide: 1–3 primary sources each (CBP/USITC, HMRC, EU TARIC, SASO/SABER, ISO 2859-1, the Canton Fair official site). *1 day.*
+4. **Real proof**: replace the 3 "Illustrative example" notes (`content/services.ts:82,150,215`) with real anonymised orders, fill `content/case-studies.ts` so `/case-studies` goes live, and publish a redacted inspection and audit report. *1–3 days.*
+5. **Off-site entity and verification**: LinkedIn page, Google Business Profile, 1–2 B2B directories → `sameAs`. Confirm GSC and Bing verification (no meta tags live), submit the sitemap and run `npm run indexnow`. *1–2 days.*
 
 ## Medium (within a month)
-5. Name an author: add a real person to `TEAM`, switch Article `author` to Person (`ArticleView.tsx:23`), show a byline. *2 h.*
-6. Internal links to guides: footer + homepage guide list, `related` guides for order-follow-up and samples-consolidation (`app/services/[slug]/page.tsx:33`), in-body links from service pages. *1 h.*
-7. Fix noindex-page canonicals: `alternates: { canonical: null }` in `app/quote/thanks/page.tsx:7`, `app/quote/problem/page.tsx:7`, `app/not-found.tsx:6` (also drop the duplicate robots there). *10 min.*
-8. De-cannibalise: retitle product-sourcing away from "China Sourcing Agent" (`content/services.ts:22`); write a 2,500+ word `/guides/china-sourcing-agent` pillar. *1 day.*
-9. Shipping intent: add "shipping from China to USA / UK / EU" guides; retarget the service page to "freight forwarding from China". *2–3 days.*
-10. Deepen the Amazon page and cost guide toward 2,000+ words; source the market figures in all guides (1–3 named sources each). *1–2 days.*
-11. Homepage mobile performance: drop parallax/`useScroll` springs on touch, lazy-mount below-fold sections, `aria-hidden` + dedupe the marquee (`Hero.tsx:26-45,150`). *0.5 day.*
-12. Intro curtain: remove or cut to ≤300 ms and remove the 0.8 s H1 delay (`globals.css:61,72-73`). *30 min.*
-13. Mobile UX: shrink the globe below `md` so H1 + CTA sit in the first screen; quote inputs 16 px, labels ≥12 px; ≥44 px tap targets; hide floating chat on /quote; form above explainer on mobile. *0.5 day.*
-14. Quote form fit: "What do you need?" service chips, Amazon FBA toggle, `?service=` prefill from service-page CTAs (`QuoteForm.tsx:111-124`). *0.5 day.*
-15. Real photos / video on service pages and guides with descriptive alt text. *Ongoing.*
-16. `http://www` single hop: set www→apex redirect at the Vercel domain level. *10 min.*
-17. Automate sitemap lastmod (git-derived) and IndexNow on deploy. *1 h.*
+6. **Contrast**: use `flame.deep` (#E8501A) or darker for flame text and button backgrounds behind white text, and lighten the footer's `#7a7a7f` slightly (`tailwind.config.ts:16`). *15 min.*
+7. **Internal links** to under-linked pages: Keqiao (3 inlinks), `/sourcing-for/*` (4–5), the UK and Europe shipping guides (6), the small-business guide (8), freight-forwarder-vs-agent (9). *30 min.*
+8. **Publish pricing ranges** (commission %, inspection per man-day) on the service pages and in the cost guide. *1 h.*
+9. **Deepen the market pages** (620–800 main words) with ports, transit times, duty tables for top HS codes and local certification steps. *1–2 days.*
+10. **Real photography** of the team, office, inspections and factory visits, with descriptive alt text. *Ongoing.*
+11. **Original data asset**, e.g. inspection failure-rate statistics, so AI engines and journalists have something to cite. *1–2 days.*
 
 ## Low (backlog)
-- HSTS `includeSubDomains; preload`; gate `vercel.live`/pusher CSP entries to preview.
-- `/sourcing-for` hub page (currently 404).
-- Remove `world-dots.svg` preload (`GlobalReach.tsx:38`); long cache headers for `/brand`, `/products`, OG image; delete unused Geist fonts; SVGO logos; re-encode OG PNG (~60 KB).
-- Schema: /services hub reference Service `@id`s (`app/services/page.tsx:24`); ≥512 px logo (`lib/seo.tsx:42`); homepage WebPage `dateModified`; breadcrumbs on /privacy, /terms.
-- Rename duplicate H2s (`services.ts:282,366`, `audiences.ts:25`); trim hotels description; lengthen /terms and /privacy descriptions.
-- Single responsive `<table>` instead of table + card duplicate (`Blocks.tsx:72-104`); concrete homepage FAQ answers.
-- Optional agent-readiness drafts: Content-Signal, llms-full.txt, WebMCP annotations on the quote form.
-- Do **not** add FAQPage markup expecting rich results — Google ended them for all sites on 2026-05-07.
+- Redirect `http://www` to apex in a single hop (it currently takes 2) via the Vercel domain redirect.
+- Shorten 6 titles over 60 characters (/services, /sourcing-for, /guides/yiwu-market-guide, /markets/uae, /markets/saudi-arabia, /markets/pakistan).
+- Fix `<ol>` with `<div>` children in `Services.tsx:32`.
+- Decide on `Content-Signal` in robots.txt. Lighthouse SEO flags it (92 → 100 if removed), but Google ignores it.
+- Shrink the homepage HTML (328 KB): move the large inline SVGs to static files and cut the client-component payload; set a modern `browserslist` (11 KB of polyfills).
+- Shorten the hero `sv-rise`/`sv-fade` animations on mobile (Speed Index 3.7 s).
+- Make sure every sitemap route is pre-rendered and warm it after deploy (several cold fetches took 2–13 s).
+- Optional: `/.well-known/ai-catalog.json`, WebMCP annotations on the quote form.
+- Don't add FAQPage markup expecting rich results (Google retired them on 2026-05-07).
 
 ## Monitoring
-- Run Lighthouse / PSI with an API key for real CWV and the Agentic Browsing fraction.
-- Capture a drift baseline (`/claude-seo:seo-drift baseline https://sinovorex.com`) so future deploys can be diffed.
-- After Bing/GSC verification, re-audit in ~6 weeks with field data and backlink data.
+- Capture a drift baseline: `/claude-seo:seo-drift baseline https://sinovorex.com`.
+- Add a PSI API key (the daily quota was exhausted today) and Google API credentials to get CrUX, GSC and GA4 data at the next audit.
+- Re-audit in about 6 weeks, after the trust data and off-site profiles are live.

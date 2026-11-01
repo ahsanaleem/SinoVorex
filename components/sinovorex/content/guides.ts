@@ -111,6 +111,10 @@ const CORE_GUIDES: Article[] = [
       { q: "Should a sourcing agent tell me who the factory is?", a: "Yes. Knowing the factory lets you check its registration, and protects you if you stop working with the agent." },
     ],
     related: ["/services/product-sourcing", "/guides/freight-forwarder-vs-sourcing-agent", "/guides/sourcing-from-china-small-business"],
+    sources: [
+      { name: "ICC Incoterms® rules", url: "https://iccwbo.org/business-solutions/incoterms-rules/" },
+      { name: "ISO 2859-1: Sampling procedures for inspection by attributes", url: "https://www.iso.org/standard/1141.html" },
+    ],
   },
 
   {
@@ -176,6 +180,11 @@ const CORE_GUIDES: Article[] = [
       { q: "Is it worth inspecting a small order?", a: "Usually, yes. An inspection is a fixed cost, but finding a fault after the goods arrive can cost you the whole order." },
     ],
     related: ["/sourcing-for/small-businesses", "/services/product-sourcing", "/services/samples-consolidation", "/guides/china-sourcing-agent-cost"],
+    sources: [
+      { name: "National Enterprise Credit Information Publicity System (China)", url: "https://www.gsxt.gov.cn/" },
+      { name: "ICC Incoterms® rules", url: "https://iccwbo.org/business-solutions/incoterms-rules/" },
+      { name: "U.S. Customs and Border Protection: Basic import and export", url: "https://www.cbp.gov/trade/basic-import-export" },
+    ],
   },
 
   {
@@ -270,6 +279,11 @@ const CORE_GUIDES: Article[] = [
       { q: "Is a factory audit the same as a BSCI or SMETA audit?", a: "No. Those are formal social compliance audits done by accredited firms. A buyer's factory audit is a practical check that the supplier is genuine and capable." },
     ],
     related: ["/services/factory-vetting", "/guides/pre-shipment-inspection-aql", "/guides/china-sourcing-agent-cost"],
+    sources: [
+      { name: "National Enterprise Credit Information Publicity System (China)", url: "https://www.gsxt.gov.cn/" },
+      { name: "State Administration for Market Regulation (China)", url: "https://www.samr.gov.cn/" },
+      { name: "ISO 2859-1: Sampling procedures for inspection by attributes", url: "https://www.iso.org/standard/1141.html" },
+    ],
   },
 
   {
@@ -351,6 +365,9 @@ const CORE_GUIDES: Article[] = [
       { q: "Can an inspection replace lab testing?", a: "No. Certification tests such as CE, UKCA or CPSIA are done by accredited labs. An inspection checks that production matches the specification and the sample that was tested." },
     ],
     related: ["/services/quality-inspection", "/services/order-follow-up", "/guides/factory-audit-checklist", "/sourcing-for/amazon-sellers"],
+    sources: [
+      { name: "ISO 2859-1: Sampling procedures for inspection by attributes", url: "https://www.iso.org/standard/1141.html" },
+    ],
   },
 
   {
@@ -421,6 +438,10 @@ const CORE_GUIDES: Article[] = [
       { q: "Who clears customs in my country?", a: "Your customs broker, or your forwarder's agent. If you ship DDP, the forwarder handles import clearance and pays the duties." },
     ],
     related: ["/services/shipping-coordination", "/guides/china-sourcing-agent-cost", "/services/product-sourcing"],
+    sources: [
+      { name: "ICC Incoterms® rules", url: "https://iccwbo.org/business-solutions/incoterms-rules/" },
+      { name: "U.S. Customs and Border Protection: Basic import and export", url: "https://www.cbp.gov/trade/basic-import-export" },
+    ],
   },
 ];
 

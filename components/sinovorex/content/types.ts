@@ -23,4 +23,5 @@ export type Article = {
   body: Block[];
   faqs?: QA[];
   related?: string[];   // internal paths
+  sources?: { name: string; url: string }[]; // primary sources, listed under the article and as schema `citation`
 };

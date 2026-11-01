@@ -9,7 +9,7 @@ export const MARKETS: (Article & { label: string; country: string })[] = [
     slug: "uae",
     label: "UAE",
     country: "United Arab Emirates",
-    title: "China Sourcing Agent for UAE Buyers: Sourcing & Shipping to Dubai",
+    title: "China Sourcing Agent for UAE Buyers: Shipping to Dubai",
     h1: "China sourcing agent for UAE buyers",
     description: "Sourcing from China for buyers in the UAE: finding factories, inspection, shipping to Jebel Ali and Abu Dhabi, the 5% customs duty, VAT and product approvals.",
     summary: "We help UAE importers, traders and retailers buy from Chinese factories: finding suppliers, checking them, inspecting goods and shipping them to Jebel Ali or Khalifa Port. Sea freight from China to Dubai usually takes about 15 to 25 days. Most goods pay 5% customs duty plus 5% VAT, and goods kept in a free zone can defer duty until they enter the mainland.",
@@ -69,13 +69,17 @@ export const MARKETS: (Article & { label: string; country: string })[] = [
       { q: "Can you ship to a free zone?", a: "Yes. Partner forwarders can deliver to free zones such as JAFZA, where duty is deferred until goods enter the mainland." },
     ],
     related: ["/tools/landed-cost-calculator", "/services/shipping-coordination", "/markets/saudi-arabia"],
+    sources: [
+      { name: "Dubai Customs", url: "https://www.dubaicustoms.gov.ae/" },
+      { name: "UAE Ministry of Industry and Advanced Technology", url: "https://moiat.gov.ae/en" },
+    ],
   },
 
   {
     slug: "saudi-arabia",
     label: "Saudi Arabia",
     country: "Saudi Arabia",
-    title: "Shipping from China to Saudi Arabia: Sourcing, SABER & Customs",
+    title: "Shipping from China to Saudi Arabia: SABER & Customs",
     h1: "Sourcing and shipping from China to Saudi Arabia",
     description: "Buying from China for Saudi Arabia: finding factories, inspection, shipping to Jeddah and Dammam, SABER certificates, customs duty and 15% VAT explained.",
     summary: "We help Saudi importers buy from Chinese factories and ship to Jeddah, Dammam or Riyadh. Sea freight from China usually takes about 18 to 30 days. Every shipment needs a shipment certificate through the SABER platform, and regulated products also need a product certificate. Import VAT is 15%, on top of customs duty.",
@@ -136,13 +140,18 @@ export const MARKETS: (Article & { label: string; country: string })[] = [
       { q: "What VAT do I pay on goods from China?", a: "Import VAT in Saudi Arabia is 15%, charged on the customs value plus duty." },
     ],
     related: ["/markets/uae", "/tools/landed-cost-calculator", "/services/quality-inspection"],
+    sources: [
+      { name: "SABER, Saudi product conformity platform", url: "https://saber.sa/" },
+      { name: "Saudi Standards, Metrology and Quality Organization (SASO)", url: "https://www.saso.gov.sa/en" },
+      { name: "Zakat, Tax and Customs Authority (ZATCA)", url: "https://zatca.gov.sa/en" },
+    ],
   },
 
   {
     slug: "pakistan",
     label: "Pakistan",
     country: "Pakistan",
-    title: "Import from China to Pakistan: Sourcing & Shipping to Karachi",
+    title: "Import from China to Pakistan: Shipping to Karachi",
     h1: "Importing from China to Pakistan",
     description: "Importing from China to Pakistan: finding factories, inspection, shipping to Karachi and Port Qasim, WeBOC clearance, duties and the China-Pakistan FTA.",
     summary: "We help Pakistani importers and traders buy from Chinese factories and ship to Karachi or Port Qasim. Sea freight usually takes about 15 to 25 days. Customs clearance runs through the WeBOC system, and many goods qualify for lower duty under the China-Pakistan Free Trade Agreement with a proper certificate of origin.",
@@ -198,6 +207,11 @@ export const MARKETS: (Article & { label: string; country: string })[] = [
       { q: "Do I need an NTN to import from China?", a: "For commercial imports, yes. You'll also need an electronic import form through your bank and a customs agent to file the goods declaration." },
     ],
     related: ["/tools/landed-cost-calculator", "/guides/china-sourcing-agent-cost", "/services/quality-inspection"],
+    sources: [
+      { name: "Pakistan Customs WeBOC", url: "https://www.weboc.gov.pk/" },
+      { name: "Federal Board of Revenue, Pakistan", url: "https://www.fbr.gov.pk/" },
+      { name: "Pakistan Standards and Quality Control Authority (PSQCA)", url: "https://www.psqca.com.pk/" },
+    ],
   },
 
   {
@@ -258,6 +272,10 @@ export const MARKETS: (Article & { label: string; country: string })[] = [
       { q: "When should I open the Form M?", a: "Before the goods ship. Your bank processes it, and for regulated products you'll need the SONCAP product certificate first." },
     ],
     related: ["/guides/china-sourcing-agent-cost", "/services/factory-vetting", "/tools/landed-cost-calculator"],
+    sources: [
+      { name: "Standards Organisation of Nigeria (SONCAP)", url: "https://son.gov.ng/" },
+      { name: "Central Bank of Nigeria (Form M)", url: "https://www.cbn.gov.ng/" },
+    ],
   },
 
   {
@@ -318,6 +336,10 @@ export const MARKETS: (Article & { label: string; country: string })[] = [
       { q: "Can you ship to Uganda or Rwanda through Mombasa?", a: "Yes. Partner forwarders can arrange transit through Mombasa to neighbouring countries." },
     ],
     related: ["/tools/landed-cost-calculator", "/services/quality-inspection", "/markets/nigeria"],
+    sources: [
+      { name: "Kenya Bureau of Standards (PVoC)", url: "https://www.kebs.org/" },
+      { name: "Kenya Revenue Authority", url: "https://www.kra.go.ke/" },
+    ],
   },
 ];
 
