@@ -341,6 +341,219 @@ export const MARKETS: (Article & { label: string; country: string })[] = [
       { name: "Kenya Revenue Authority", url: "https://www.kra.go.ke/" },
     ],
   },
+
+  {
+    slug: "ghana",
+    label: "Ghana",
+    country: "Ghana",
+    title: "Import from China to Ghana: Sourcing, Tema Port & Duties",
+    h1: "Importing from China to Ghana",
+    description: "Importing from China to Ghana: finding factories, inspection, shipping to Tema, ICUMS clearance, GSA checks, ECOWAS duty bands and the 2026 VAT changes.",
+    summary: "We help Ghanaian importers and traders buy from Chinese factories and ship to Tema or Takoradi. Sea freight usually takes about 30 to 45 days. Goods clear through the ICUMS single window, duty follows the ECOWAS tariff bands, and from January 2026 VAT and its levies are charged at a combined 20%. Regulated goods such as electricals are checked by the Ghana Standards Authority.",
+    takeaways: [
+      "Sea freight from China to Tema usually takes about 30 to 45 days.",
+      "Customs clearance runs through the ICUMS single window, usually handled by a licensed clearing agent.",
+      "Duty follows the ECOWAS tariff bands, from 0% to 35% depending on the product.",
+      "Since January 2026, VAT, NHIL and GETFund are charged together at 20%, and the COVID-19 levy has been removed.",
+    ],
+    published: "2026-11-06",
+    updated: "2026-11-06",
+    body: [
+      { h2: "Who we work with in Ghana" },
+      { p: "Ghana is one of West Africa's busiest import markets, and Tema serves landlocked neighbours such as Burkina Faso as well as Ghana itself. Our Ghanaian clients include traders supplying Makola and Kantamanto markets in Accra and Kejetia in Kumasi, retailers, distributors, hotels and restaurants, and businesses buying machinery and building materials." },
+      { p: "The problems Ghanaian buyers bring us are the same ones we hear across West Africa: suppliers who take a deposit and stop replying, goods that don't match the sample, and containers held at the port because the paperwork or the declared value is wrong. Checking the supplier, inspecting the goods and getting the documents right before shipping deals with all three." },
+
+      { h2: "Shipping from China to Ghana" },
+      { table: { caption: "Typical times from major Chinese ports. Most services tranship once on the way, so times vary by carrier and season.", head: ["Route", "Typical transit"], rows: [
+        ["Sea freight to Tema", "About 30 to 45 days"],
+        ["Sea freight to Takoradi", "About 35 to 50 days"],
+        ["Air freight to Accra (Kotoka International)", "About 5 to 10 days"],
+      ] } },
+      { p: "Tema is the main container port and the usual choice for Accra and the east. Takoradi suits the Western Region. For orders from several Chinese suppliers, [consolidating them into one container](/services/samples-consolidation) usually costs less than shipping each one separately. Our [CBM calculator](/tools/cbm-calculator) shows whether your order fits a 20-foot or 40-foot container." },
+
+      { h2: "Customs clearance through ICUMS" },
+      { p: "Imports into Ghana are declared and cleared through ICUMS, the Integrated Customs Management System run by the [Ghana Revenue Authority](https://gra.gov.gh). In practice, a licensed customs house agent lodges the declaration, duties and taxes are assessed and paid online, any inspection is completed, and the container is released once ICUMS shows it is cleared for delivery." },
+      { p: "The values and descriptions on your invoice and packing list must match what is found on inspection. Under-declared or vague invoices are one of the most common reasons containers are held at Tema, so we check the shipping documents against the goods before they leave China." },
+      { p: "Commercial importers should have a Ghana Card-linked TIN, and a VAT-registered business can reclaim the import VAT it pays." },
+
+      { h2: "Duties, VAT and levies" },
+      { p: "Ghana applies the ECOWAS common external tariff, which has five duty bands: 0%, 5%, 10%, 20% and 35%. Raw materials and machinery usually sit in the lower bands and finished consumer goods in the higher ones. Duty is charged on the CIF value (the cost of the goods, insurance and freight), and small ECOWAS and African Union levies and processing charges are added on top." },
+      { p: "From 1 January 2026, under the new VAT Act, 2025 (Act 1151), VAT at 15% and the NHIL and GETFund levies at 2.5% each are charged together at a combined 20%, and the 1% COVID-19 levy has been abolished. Registered businesses can again claim input credit for the NHIL and GETFund parts." },
+      { p: "Your product's HS code decides the duty band, so confirm it with your clearing agent before you order. Our [landed cost calculator](/tools/landed-cost-calculator) shows what a unit really costs once freight, duty and VAT are added." },
+
+      { h2: "Ghana Standards Authority checks" },
+      { p: "The [Ghana Standards Authority](https://www.gsa.gov.gh) inspects goods it classes as high-risk when they arrive, including electrical appliances, some food-contact items, toys and building materials. Goods that don't meet Ghanaian standards can be held, sent back or destroyed." },
+      { p: "Ghana runs on 230 V, 50 Hz power, and British-style three-pin plugs are the most common. Electrical goods should be ordered for that supply and carry a rating plate showing voltage, frequency and power. We ask the factory for existing test reports early and check the goods against them in our [pre-shipment inspection](/services/quality-inspection)." },
+
+      { h2: "Documents for importing into Ghana" },
+      { ul: [
+        "Commercial invoice and packing list, with values and descriptions that match the goods.",
+        "Bill of lading or air waybill.",
+        "Certificate of origin.",
+        "Test reports or conformity certificates for regulated products.",
+      ] },
+
+      { h2: "How we help Ghanaian buyers" },
+      { ol: [
+        "We check suppliers before you pay anything, including their business licence and that the bank account name matches the company.",
+        "We collect and check samples, then send them to Accra together so you pay one courier fee.",
+        "We follow production in Chinese and inspect the goods before you pay the balance, with photos and video.",
+        "We arrange freight to Tema or Takoradi with partner forwarders and check the documents before the container sails.",
+      ] },
+      { p: "Our guide to [what sourcing agents cost and the red flags to watch for](/guides/china-sourcing-agent-cost) explains how to spot the most common supplier scams." },
+    ],
+    faqs: [
+      { q: "How long does shipping from China to Ghana take?", a: "By sea, usually about 30 to 45 days to Tema, port to port. By air, about 5 to 10 days to Accra." },
+      { q: "What is the VAT on imports into Ghana in 2026?", a: "From 1 January 2026, VAT and the NHIL and GETFund levies are charged together at 20%, and the COVID-19 levy was removed. Customs duty under the ECOWAS tariff is charged separately, depending on the product." },
+      { q: "Do I need a clearing agent in Ghana?", a: "In practice, yes. Declarations are lodged through ICUMS, and most importers use a licensed customs house agent to classify the goods, pay the duties and arrange release from the port." },
+    ],
+    related: ["/markets/nigeria", "/tools/landed-cost-calculator", "/services/factory-vetting"],
+    sources: [
+      { name: "Ghana Revenue Authority (Customs and VAT)", url: "https://gra.gov.gh/" },
+      { name: "Ghana Standards Authority", url: "https://www.gsa.gov.gh/" },
+    ],
+  },
+
+  {
+    slug: "south-africa",
+    label: "South Africa",
+    country: "South Africa",
+    title: "Import from China to South Africa: Sourcing, SARS & NRCS",
+    h1: "Importing from China to South Africa",
+    description: "Importing from China to South Africa: finding factories, inspection, shipping to Durban and Cape Town, SARS registration, import VAT and NRCS approvals.",
+    summary: "We help South African importers buy from Chinese factories and ship to Durban, Cape Town or Port Elizabeth (Gqeberha). Sea freight usually takes about 25 to 40 days. You need a SARS customs client number to import, import VAT is 15% on a value that includes a 10% uplift, and regulated products such as many electrical goods need an NRCS Letter of Authority before they can be sold.",
+    takeaways: [
+      "Sea freight from China to Durban usually takes about 25 to 35 days.",
+      "Importers must register with SARS for a customs client number before goods arrive.",
+      "Import VAT is 15%, charged on the customs value plus 10%, plus duty.",
+      "Regulated products need approval from the NRCS, and some goods also need an ITAC import permit.",
+    ],
+    published: "2026-11-06",
+    updated: "2026-11-06",
+    body: [
+      { h2: "Who we work with in South Africa" },
+      { p: "China is South Africa's largest trading partner, and Durban is the busiest container port in sub-Saharan Africa. Our South African clients include online sellers, retailers, wholesalers in Johannesburg and Durban, hospitality groups, and businesses buying equipment and packaging." },
+      { p: "South African buyers usually know the market well. What they want from an agent is a supplier that can be trusted, goods that pass inspection, and products that meet South African compulsory standards, so stock isn't stuck at the port or pulled from shelves." },
+
+      { h2: "Shipping from China to South Africa" },
+      { table: { caption: "Typical port-to-port times from Shanghai, Ningbo or Shenzhen. Clearance and delivery inland add time.", head: ["Route", "Typical transit"], rows: [
+        ["Sea freight to Durban", "About 25 to 35 days"],
+        ["Sea freight to Cape Town", "About 28 to 40 days"],
+        ["Sea freight to Port Elizabeth (Gqeberha)", "About 28 to 40 days"],
+        ["Air freight to Johannesburg (OR Tambo)", "About 4 to 8 days"],
+      ] } },
+      { p: "Durban suits Gauteng and KwaZulu-Natal, and most containers for Johannesburg arrive there and travel on by road or rail. Cape Town suits the Western Cape. For smaller orders, a shared container (LCL) or [combining goods from several suppliers](/services/samples-consolidation) keeps freight costs down." },
+
+      { h2: "Registering with SARS" },
+      { p: "To import commercially, you need a customs client number from the [South African Revenue Service](https://www.sars.gov.za). Your clearing agent declares the goods on a customs declaration, using your client number, when or before they arrive. Without registration the goods can't be cleared." },
+
+      { h2: "Customs duty and import VAT" },
+      { p: "Customs duty depends on the product's tariff code. Many goods are duty free, while some finished goods, such as clothing, carry much higher rates. Some products from China also carry anti-dumping duties, so check your tariff code before you order." },
+      { p: "Import VAT is 15%, but it isn't charged on the customs value alone. SARS adds 10% to the customs value, then adds the duty, and charges VAT on the total. For example, on goods with a customs value of R100,000 and R20,000 duty, VAT is charged on R130,000, which comes to R19,500. VAT-registered businesses can usually claim it back; customs duty can't be reclaimed." },
+      { p: "Our [landed cost calculator](/tools/landed-cost-calculator) helps you work out the full cost per unit before you commit to an order." },
+
+      { h2: "NRCS approvals and import permits" },
+      { p: "The [National Regulator for Compulsory Specifications](https://www.nrcs.org.za) (NRCS) controls products covered by compulsory specifications, which include many electrical and electronic goods, as well as some automotive parts and building products. Before these can be sold in South Africa, the importer needs a Letter of Authority (LOA) from the NRCS, usually based on test reports against the relevant SANS standard." },
+      { p: "LOA applications can take time, so start them as soon as you've chosen a supplier, and ask the factory for test reports early. Some other goods, such as certain second-hand items and controlled products, need an import permit from the International Trade Administration Commission (ITAC)." },
+      { p: "South Africa runs on 230 V, 50 Hz power and uses its own plug types, mainly Type M and the newer Type N. Make sure electrical goods are made for the South African market, not adapted afterwards." },
+
+      { h2: "Documents for importing into South Africa" },
+      { ul: [
+        "Commercial invoice and packing list.",
+        "Bill of lading or air waybill.",
+        "Certificate of origin.",
+        "NRCS Letter of Authority or ITAC permit, where your product needs one.",
+      ] },
+
+      { h2: "How we help South African buyers" },
+      { ol: [
+        "We find factories that make your product and check them before you pay a deposit.",
+        "We ask for the test reports you need for the NRCS application and check they match the product.",
+        "We inspect the goods before you pay the balance, against your approved sample.",
+        "We arrange sea or air freight to Durban, Cape Town or Johannesburg with partner forwarders.",
+      ] },
+      { p: "Selling online? Our page on [sourcing for Amazon and e-commerce sellers](/sourcing-for/amazon-sellers) covers labelling, packaging and smaller first orders." },
+    ],
+    faqs: [
+      { q: "How long does shipping from China to South Africa take?", a: "By sea, usually about 25 to 35 days to Durban and a little longer to Cape Town, port to port. By air, about 4 to 8 days to Johannesburg." },
+      { q: "How is import VAT calculated in South Africa?", a: "VAT is 15% of the customs value plus a 10% uplift, plus any customs duty. VAT-registered businesses can usually reclaim it." },
+      { q: "Do I need an NRCS Letter of Authority?", a: "Only for products covered by a compulsory specification, which includes many electrical and electronic goods. Check with the NRCS before you order, because the approval can take time." },
+    ],
+    related: ["/sourcing-for/amazon-sellers", "/tools/landed-cost-calculator", "/services/quality-inspection"],
+    sources: [
+      { name: "South African Revenue Service (Customs)", url: "https://www.sars.gov.za/customs-and-excise/" },
+      { name: "National Regulator for Compulsory Specifications", url: "https://www.nrcs.org.za/" },
+      { name: "International Trade Administration Commission", url: "https://www.itac.org.za/" },
+    ],
+  },
+
+  {
+    slug: "qatar",
+    label: "Qatar",
+    country: "Qatar",
+    title: "China Sourcing Agent for Qatar Buyers: Shipping to Doha",
+    h1: "China sourcing agent for Qatar buyers",
+    description: "Sourcing from China for Qatar buyers: finding factories, inspection, shipping to Hamad Port, the 5% customs duty, Al Nadeeb clearance and approvals.",
+    summary: "We help Qatari importers, contractors and retailers buy from Chinese factories and ship to Hamad Port near Doha. Sea freight usually takes about 20 to 30 days. Most goods pay 5% customs duty on the CIF value under the GCC tariff, and Qatar does not currently charge VAT. Declarations go through Qatar's Al Nadeeb single window.",
+    takeaways: [
+      "Sea freight from China to Hamad Port usually takes about 20 to 30 days.",
+      "Most goods pay 5% customs duty on the CIF value, under the GCC common tariff.",
+      "Qatar does not currently charge VAT, unlike the UAE and Saudi Arabia.",
+      "Your company needs the right activity on its commercial registration and a customs code to import.",
+    ],
+    published: "2026-11-06",
+    updated: "2026-11-06",
+    body: [
+      { h2: "Who we work with in Qatar" },
+      { p: "Qatar imports most of what it uses, and demand from construction, hospitality and retail stays strong. Our Qatari clients include contractors and fit-out companies, hotel and restaurant groups, retailers and traders, and businesses buying furniture, lighting, packaging and equipment." },
+      { p: "Many of these orders are for projects with fixed deadlines. That makes it more important to check the factory before ordering and the goods before shipping, so a container doesn't arrive late or with the wrong finishes." },
+
+      { h2: "Shipping from China to Qatar" },
+      { table: { caption: "Typical times from Shanghai, Ningbo or Shenzhen. Some services tranship in Jebel Ali or another Gulf hub.", head: ["Route", "Typical transit"], rows: [
+        ["Sea freight to Hamad Port (Doha)", "About 20 to 30 days"],
+        ["Air freight to Doha (Hamad International)", "About 3 to 6 days"],
+      ] } },
+      { p: "For project orders from several suppliers, we can [collect everything at one warehouse in China and ship it together](/services/samples-consolidation), so the goods arrive at the same time. Our [CBM calculator](/tools/cbm-calculator) shows how much container space your order needs." },
+
+      { h2: "Customs duty and taxes" },
+      { p: "Qatar applies the GCC common customs tariff. For most goods that means 5% customs duty on the CIF value, the cost of the goods plus insurance and freight. Some goods carry higher rates, and some are exempt, so check your product's tariff code with your customs broker." },
+      { p: "Qatar has not introduced VAT, so imports don't pay it, unlike in the UAE and Saudi Arabia. Qatar has said it plans to introduce VAT eventually, so check the current position before you set your prices. Our [landed cost calculator](/tools/landed-cost-calculator) shows the full cost per unit." },
+
+      { h2: "Registering to import and Al Nadeeb" },
+      { p: "To import commercially, your company needs the right trading activity on its commercial registration with the Ministry of Commerce and Industry, and a customs code from the [General Authority of Customs](https://www.customs.gov.qa). Declarations are submitted and duties paid through Al Nadeeb, Qatar's electronic customs single window, usually by a licensed customs broker." },
+
+      { h2: "Product approvals" },
+      { p: "Some products need approval from the relevant authority before they can be imported or sold. Food and food-contact items go through the Ministry of Public Health, telecom and wireless equipment through the Communications Regulatory Authority, and many other regulated goods have to meet Qatari or GCC standards." },
+      { p: "Ask the supplier for existing test reports and certificates as early as possible. We check that the goods match them during our [pre-shipment inspection](/services/quality-inspection)." },
+
+      { h2: "Documents for importing into Qatar" },
+      { ul: [
+        "Detailed commercial invoice and packing list.",
+        "Bill of lading or air waybill.",
+        "Certificate of origin from the exporting country.",
+        "Approvals or certificates for regulated products.",
+      ] },
+
+      { h2: "How we help Qatari buyers" },
+      { ol: [
+        "We find factories that make your product, visit them and check their registration.",
+        "We collect and check samples and finishes, then send them to Doha together.",
+        "We follow production in Chinese, keep to your project timeline and inspect the goods before you pay the balance.",
+        "We arrange freight to Hamad Port with partner forwarders and check the documents before shipping.",
+      ] },
+      { p: "Supplying a hotel or restaurant project? See how we handle [hotel, restaurant and café procurement](/sourcing-for/hotels-restaurants). Many Qatari buyers also visit suppliers in person, and we can plan [a business trip to China or the Canton Fair](/services/china-business-trips)." },
+    ],
+    faqs: [
+      { q: "How long does shipping from China to Qatar take?", a: "By sea, usually about 20 to 30 days to Hamad Port, port to port. By air, about 3 to 6 days to Doha." },
+      { q: "What is the import duty from China to Qatar?", a: "For most goods it's 5% of the CIF value under the GCC tariff. Some goods carry higher rates or are exempt, so check your product's tariff code." },
+      { q: "Is there VAT on imports into Qatar?", a: "Not currently. Qatar has not introduced VAT, although it has said it plans to, so check the current position before you set prices." },
+    ],
+    related: ["/markets/uae", "/markets/saudi-arabia", "/sourcing-for/hotels-restaurants"],
+    sources: [
+      { name: "Qatar General Authority of Customs", url: "https://www.customs.gov.qa/" },
+      { name: "Qatar Ministry of Commerce and Industry", url: "https://www.moci.gov.qa/en/" },
+    ],
+  },
 ];
 
 export const MARKET_BY_SLUG = Object.fromEntries(MARKETS.map((m) => [m.slug, m]));

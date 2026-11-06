@@ -46,7 +46,7 @@ export const PAGE_UPDATED = {
   about: "2026-10-20",
   quote: "2026-10-23",
   sourcingFor: "2026-10-23",
-  markets: "2026-10-25",
+  markets: "2026-11-06",
   tools: "2026-10-25",
   privacy: "2026-10-16",
   terms: "2026-10-16",
