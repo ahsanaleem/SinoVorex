@@ -33,7 +33,10 @@ const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: "400", st
 // Small uppercase labels use the system monospace font (one less web font to download).
 
 // Google Analytics 4. Set NEXT_PUBLIC_GA_ID to override; set it to "off" to disable.
-const GA_ID = (process.env.NEXT_PUBLIC_GA_ID || "G-TNW1DPPKP5").replace(/^off$/i, "");
+// Only the live site (Vercel production) is tracked: preview deployments (*.vercel.app) and local dev
+// would otherwise count test visits and make GA suggest the preview URLs as cross-domain links.
+const IS_LIVE = process.env.VERCEL_ENV === "production";
+const GA_ID = IS_LIVE ? (process.env.NEXT_PUBLIC_GA_ID || "G-TNW1DPPKP5").replace(/^off$/i, "") : "";
 const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 
 export default function RootLayout({
