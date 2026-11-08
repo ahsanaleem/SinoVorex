@@ -101,4 +101,5 @@ export const FOOTER_COMPANY: [string, string][] = [
   ["Who we help", "/sourcing-for"],
   ["FAQ", "/#faq"],
   ["Request a quote", "/quote"],
+  ["Sino Fabric", "https://fabric.sinovorex.com"],
 ];

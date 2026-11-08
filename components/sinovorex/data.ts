@@ -29,7 +29,12 @@ export const COMPANY = {
   /** Watermarked scan of the business licence in public/, e.g. "/licence-watermarked.jpg". Shown on /about once added. */
   licenceImage: "",
   /** Official profile URLs (LinkedIn company page, Google Business Profile, Made-in-China, Global Sources…). Feeds schema `sameAs` and the About page. */
-  sameAs: [] as string[],
+  sameAs: [
+    "https://www.linkedin.com/company/sinovorex",
+    "https://www.facebook.com/sinovorex",
+    "https://www.instagram.com/sinovorex.global/",
+    "https://www.trustpilot.com/review/sinovorex.com",
+  ] as string[],
 };
 
 /** Named team members for /about. Real people only. TEAM[0] is the author of guides; TEAM[1], if present, is shown as their reviewer. */
