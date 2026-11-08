@@ -116,7 +116,7 @@ export const AUDIENCES: (Article & { label: string })[] = [
       { h2: "Products small businesses often source with us" },
       { ul: [
         "Packaging, such as printed boxes, bags, labels and stickers.",
-        "Textiles, such as uniforms, workwear, tote bags and home textiles.",
+        "Textiles, such as uniforms, workwear, tote bags and home textiles. For fabric and private-label clothing, see our fabric division, [Sino Fabric](https://fabric.sinovorex.com).",
         "Home and kitchen goods, such as cookware, storage and kitchen tools.",
         "Supplies for independent cafés, restaurants and hotels. See our page on [hotel and café supplies](/sourcing-for/hotels-restaurants).",
       ] },

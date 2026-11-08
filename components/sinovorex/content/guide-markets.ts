@@ -115,6 +115,7 @@ export const MARKET_GUIDES: Article[] = [
         "Washing results: shrinkage and colour-fastness.",
       ] },
       { p: "We can check fabric rolls before shipment as part of our [quality inspection service](/services/quality-inspection)." },
+      { p: "Buying fabric or private-label clothing in bulk? Our fabric division, [Sino Fabric](https://fabric.sinovorex.com), sources fabric by the metre or kilo and manages custom production of T-shirts, hoodies, jackets, activewear, bags and uniforms, with swatches, samples and inspection included." },
 
       { h2: "Zhongda or the mills?" },
       { p: "For large quantities of one fabric, going to the mill directly is often cheaper, and many mills are in Zhejiang, around [Keqiao](/guides/keqiao-textile-market). Zhongda is better for variety, small quantities and trend fabrics. Many buyers use both: Zhongda for sampling and small runs, mills for bulk." },
@@ -175,7 +176,7 @@ export const MARKET_GUIDES: Article[] = [
         "Ask about MOQs per colour. Bulk mills often need thousands of metres per colour.",
         "Inspect the fabric before shipping, checking shade, width, weight and defects on a sample of rolls.",
       ] },
-      { p: "We can help you find mills, follow production in Chinese and inspect the fabric before it ships. Start with our [product sourcing service](/services/product-sourcing)." },
+      { p: "We can help you find mills, follow production in Chinese and inspect the fabric before it ships. For fabric and clothing orders, see our fabric division, [Sino Fabric](https://fabric.sinovorex.com), which sources from mills in Keqiao and across China. For other products, start with our [product sourcing service](/services/product-sourcing)." },
     ],
     faqs: [
       { q: "Is Keqiao better than Guangzhou for fabric?", a: "For bulk orders and working directly with mills, Keqiao is usually better. Guangzhou's Zhongda market is better for variety and smaller quantities." },

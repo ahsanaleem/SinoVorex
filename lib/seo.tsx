@@ -54,6 +54,8 @@ export const orgLd = (description: string) => ({
   ...(COMPANY.licenceNo ? { taxID: COMPANY.licenceNo } : {}),
   ...(COMPANY.foundedYear ? { foundingDate: COMPANY.foundedYear } : {}),
   ...(COMPANY.sameAs.length ? { sameAs: COMPANY.sameAs } : {}),
+  // Fabric and private-label clothing division, on its own site.
+  subOrganization: { "@type": "Organization", name: "Sino Fabric", url: "https://fabric.sinovorex.com" },
 });
 
 export const websiteLd = () => ({

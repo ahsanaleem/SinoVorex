@@ -128,10 +128,11 @@ export const PROCESS: { step: string; title: string; desc: string; we: string; y
 ];
 
 /** `photo`: representative AI-generated images (public/products). Replace with photos of real products when available; remove `photo` to fall back to the icon. */
-export const PRODUCTS: { title: string; desc: string; items: string[]; icon: LucideIcon; photo?: string }[] = [
+/** `link`: optional [label, url] shown under the card, e.g. to the Sino Fabric site. */
+export const PRODUCTS: { title: string; desc: string; items: string[]; icon: LucideIcon; photo?: string; link?: [string, string] }[] = [
   { title: "Hotel & Café Supplies", photo: "/products/hotel-cafe.jpg", icon: UtensilsCrossed, desc: "For hotels, restaurants and cafés.",    items: ["Tableware & glassware", "Linens & towels", "Guest amenities", "Café equipment"] },
   { title: "Packaging", photo: "/products/packaging.jpg",             icon: Box,             desc: "Branded and plain packaging at scale.", items: ["Boxes & cartons", "Paper & poly bags", "Labels & stickers", "Printed packaging"] },
-  { title: "Textiles & Apparel", photo: "/products/textiles.jpg",    icon: Shirt,           desc: "Fabrics, garments and home textiles.",  items: ["Fabrics", "Uniforms & workwear", "Garments", "Home textiles"] },
+  { title: "Textiles & Apparel", photo: "/products/textiles.jpg",    icon: Shirt,           desc: "Fabrics, garments and home textiles.",  items: ["Fabrics", "Uniforms & workwear", "Garments", "Home textiles"], link: ["Visit Sino Fabric, our fabric & clothing site", "https://fabric.sinovorex.com"] },
   { title: "Home & Kitchen Goods", photo: "/products/home-kitchen.jpg",  icon: CookingPot,      desc: "Everyday household products.",          items: ["Cookware", "Storage & organisers", "Kitchen tools", "Small household items"] },
 ];
 

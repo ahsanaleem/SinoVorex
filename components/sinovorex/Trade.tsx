@@ -74,6 +74,11 @@ export function Products() {
                       </li>
                     ))}
                   </ul>
+                  {p.link && (
+                    <a href={p.link[1]} target="_blank" rel="noopener" className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[14px] font-medium text-flame underline-offset-4 hover:underline">
+                      {p.link[0]} <ArrowUpRight size={14} />
+                    </a>
+                  )}
                 </div>
               </article>
             );
